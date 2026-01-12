@@ -17,12 +17,13 @@ enum	e_type
 
 typedef enum e_type		t_type;
 
+//riht means right in ye olde English 🧐
 struct	s_ast
 {
 	enum e_type		type;
 	char			*data;
 	struct s_ast	*left;
-	struct s_ast	*right;
+	struct s_ast	*riht;
 };
 
 typedef struct s_ast	t_ast;
