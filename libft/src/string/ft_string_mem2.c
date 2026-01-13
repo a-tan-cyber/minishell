@@ -73,6 +73,7 @@ char	*ft_memappend_front(const char *s1, size_t len1, char *s2, size_t len2)
 // }
 
 // len == size of byte for void pointer str
+// frees s1 and returns a mallocd result
 void	*ft_memappend_back(void *s1, size_t len1, const void *s2, size_t len2)
 {
 	char	*d;

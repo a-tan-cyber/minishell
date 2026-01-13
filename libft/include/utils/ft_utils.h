@@ -16,7 +16,7 @@
 # include <stddef.h>
 
 // ft_utils_free.c
-void	ft_safefree(void *ptr);
+void	ft_sfree(void **ptr);
 
 // ft_utils_hexdump.c
 void	ft_phd_offset(unsigned int value);

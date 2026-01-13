@@ -6,10 +6,42 @@
 /*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 09:57:27 by yunguo            #+#    #+#             */
-/*   Updated: 2026/01/13 09:58:36 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/01/13 10:48:14 by yunguo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// clearall(&astree, NULL, &line, &parsed);
+void	free_ast(t_ast *ast)
+{
+	if (ast->left != NULL)
+		free_ast(ast->left);
+	if (ast->riht != NULL)
+		free_ast(ast->riht);
+	free(ast->data);
+	free(ast);
+}
+
+void	free_null_var(t_ast **ast, char ***env, char **line, char **parsed)
+{
+	if (ast != NULL)
+	{
+		free_ast(*ast);
+		*ast = NULL;
+	}
+	if (env != NULL)
+	{
+		free_arr(*env);
+		*env = NULL;
+	}
+	if (line != NULL)
+	{
+		ft_sfree(line);
+		*line = NULL;
+	}
+	if (parsed != NULL)
+	{
+		ft_sfree(parsed);
+		*parsed = NULL;
+	}
+}
