@@ -40,11 +40,15 @@ int		ft_arr_is_subset(const char **arr, char *set);
 // ft_array_cnt.c
 int		ft_count_cina(const char **arr, char c);
 
+// ft_array_cpy.c
+int		ft_arrcpy(char ***dest, const char **src);
+
 // ft_array_cvt.c
 int		*arr_to_iarr(char **arr, size_t arr_c);
 
 // ft_array_dup.c
 char	**ft_arrdup(const char **arr);
+int		ft_arrdup_mk2(char ***dest, const char **src);
 int		*ft_iarrdup(int *iarr, size_t arr_c);
 
 // ft_array_iss.c

@@ -40,6 +40,35 @@ char	**ft_arrdup(const char **arr)
 	return (res_start);
 }
 
+int	ft_arrdup_mk2(char ***dest, const char **src)
+{
+	char	**dest_start;
+	size_t	len;
+
+	if (!dest || !src)
+		return (1);
+	len = ft_arrlen(src);
+	*dest = ft_calloc(len + 1, sizeof(char *));
+	if (!*dest)
+		return (2);
+	dest_start = *dest;
+	while (*src)
+	{
+		**dest = ft_strdup(*src);
+		if (!(**dest))
+		{
+			*dest = dest_start;
+			free_arr(dest_start);
+			return (3);
+		}
+		(*dest)++;
+		src++;
+	}
+	**dest = NULL;
+	*dest = dest_start;
+	return (0);
+}
+
 int	*ft_iarrdup(int *iarr, size_t arr_c)
 {
 	int		*new_iarr;
