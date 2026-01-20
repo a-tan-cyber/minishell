@@ -6,7 +6,7 @@
 /*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 08:56:58 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 11:42:18 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/01/17 11:18:00 by yunguo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,17 @@ char	*ft_memappend_front(const char *s1, size_t len1, char *s2, size_t len2)
 // }
 
 // len == size of byte for void pointer str
-// frees s1 and returns a mallocd result
 void	*ft_memappend_back(void *s1, size_t len1, const void *s2, size_t len2)
 {
 	char	*d;
 	size_t	i;
 	size_t	j;
 
+	if (!s1)
+		return (NULL);
 	d = malloc(sizeof(char) * (len1 + len2 + 1));
 	if (!d)
-	{
-		free(s1);
-		return (NULL);
-	}
+		return (free(s1), NULL);
 	i = 0;
 	while (i < len1)
 	{

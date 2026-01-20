@@ -6,9 +6,12 @@
 /*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/01/13 08:29:21 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/01/18 15:46:12 by yunguo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef MINISHELL_STRUCT_H
+# define MINISHELL_STRUCT_H
 
 typedef int				t_bool;
 # define TRUE 1
@@ -36,3 +39,15 @@ struct	s_ast
 };
 
 typedef struct s_ast	t_ast;
+
+struct	s_info
+{
+	char	**my_env;
+	char	*line;
+	char	*parsed;
+	int		err;
+};
+
+typedef struct s_info	t_info;
+
+#endif
