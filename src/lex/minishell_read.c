@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_bool	open_has_close(char *line, char open, char close)
 {
@@ -47,7 +47,17 @@ t_bool	line_is_complete(char *line)
 		return (FALSE);
 	if (open_has_close(line, '(', ')') == FALSE)
 		return (FALSE);
+	// handle \ and ;
+	// handle && and ||
 	return (TRUE);
+}
+
+char	*read_multiline_sigint(char *rslt)
+{
+	g_sig = 0;
+	ft_sfree(&rslt);
+	write(1, "\n", 1);
+	return (ft_strdup(""));
 }
 
 // adds '\n' at the end of each line
@@ -61,9 +71,11 @@ char	*read_multiline(char *msg)
 	rslt = ft_strdup("");
 	if (!rslt)
 		return (NULL);
+	line = readline(msg);
 	while (TRUE)
 	{
-		line = readline(msg);
+		if (g_sig == SIGINT)
+			return (read_multiline_sigint(rslt));
 		line = ft_memappend_back(line, ft_strlen(line), "\n", 1);
 		if (!line)
 			return (ft_sfree(&rslt), NULL);
@@ -72,8 +84,10 @@ char	*read_multiline(char *msg)
 		rslt = temp;
 		if (!temp)
 			return (NULL);
+		if (line_is_complete(rslt))
+			return (rslt);
+		line = readline("> ");
 	}
-	return (NULL);
 }
 	// if (line_is_valid(rslt) == FALSE)
 	// 	return ()

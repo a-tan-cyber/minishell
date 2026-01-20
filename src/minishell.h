@@ -6,7 +6,7 @@
 /*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/01/13 11:55:45 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/01/21 05:23:24 by yunguo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "../libft/include/libft.h"
 # include "minishell_struct.h"
+
+volatile sig_atomic_t g_sig = 0;
 
 //minishell_debug.c
 
