@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	free_ast(t_ast *ast)
 {
+	if (ast == NULL)
+		return ;
 	if (ast->left != NULL)
 		free_ast(ast->left);
 	if (ast->riht != NULL)
@@ -43,5 +45,17 @@ void	free_null_var(t_ast **ast, char ***env, char **line, char **parsed)
 	{
 		ft_sfree(parsed);
 		*parsed = NULL;
+	}
+}
+
+void	free_ms_var(t_ast **astree, t_info *i, char *cmd)
+{
+	if (ft_strcmp(cmd, "tmp") == 0)
+	{
+		free_null_var(astree, NULL, &i->line, &i->parsed);
+	}
+	else if (ft_strcmp(cmd, "all") == 0)
+	{
+		free_null_var(astree, &i->my_env, &i->line, &i->parsed);
 	}
 }

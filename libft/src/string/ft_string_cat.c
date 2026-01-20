@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../include/libft.h"
+
 char	*ft_strcat(char *dest, char *src)
 {
 	char	*dest_start;
@@ -39,9 +41,9 @@ char	*ft_strncat(char *dest, char *src, unsigned int nb)
 	return (dest_start);
 }
 
-unsigned int	ft_strlcat(char *dest, const char *src, unsigned int size)
+size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	unsigned int	count;
+	size_t	count;
 
 	count = 0;
 	while (size > 0 && *dest)

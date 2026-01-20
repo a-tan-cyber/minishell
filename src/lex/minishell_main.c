@@ -12,27 +12,28 @@
 
 #include "../minishell.h"
 
-static void	nullise_var(t_ast **ast, char ***my_env, char **line, char **parsed)
-{
-	*ast = NULL;
-	*my_env = NULL;
-	*line = NULL;
-	*parsed = NULL;
-}
 	// 		parse_line(line, &parsed)
 	//		take care of i.parsed == NULL
 	// 		astree = build_ast(parsed);
-	// init_ms_var(&astree, &i);
 	// free NULL
-	// free_ms_var(&astree, i)
-	// line_valid(i.line)
-
-
-void	int_handler(int sig)
+t_bool	line_valid(char **line)
 {
-	g_sig = sig;
-}
+	char	*temp;
 
+	if (!line || !*line)
+		return (FALSE);
+	temp = ft_strtrim(*line, " \t\n\r\v\f");
+	if (!temp)
+		return (FALSE);
+	ft_sfree(line);
+	*line = temp;
+	if (ft_strcmp(*line, "") == 0)
+		return (FALSE);
+	if (line_is_complete(*line) == FALSE)
+		return (FALSE);
+	return (TRUE);
+}
+	
 int	main(int argc, char **argv, char **envp)
 {
 	t_ast	*astree;
@@ -42,23 +43,23 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, int_handler);
 	signal(SIGQUIT, SIG_IGN);
 	if (argc != 1 || ft_arrdup_mk2(&i.my_env, envp) != 0)
-		return (free_ms_var(&astree, i, "all"), 2);
+		return (free_ms_var(&astree, &i, "all"), 2);
 	while (TRUE)
 	{
 		i.line = read_multiline("moonshell> ");
 		if (!i.line || !ft_strcmp(i.line, "exit\n"))
-			return (free_ms_var(&astree, i, "all"), 0);
-		if (line_valid(i.line))
+			return (free_ms_var(&astree, &i, "all"), 0);
+		if (line_valid(&i.line))
 		{
 			add_history(i.line);
-			if (i.line && parse_line(i.line, &i.parsed) == 0)
+			if (parse_line(i.line, &i.parsed) == 0)
 				astree = build_ast(i.parsed);
 			if (astree)
 				run_cmd(astree, i);
 		}
-		free_ms_var(&astree, i, "tmp");
+		free_ms_var(&astree, &i, "tmp");
 	}
-	return (free_ms_var(&astree, i, "all"), 0);
+	return (free_ms_var(&astree, &i, "all"), 0);
 }
 // int	main(int argc, char **argv, char **envp)
 // {

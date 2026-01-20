@@ -35,3 +35,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	else
 		return (ft_strndup(s1 + l, (r - l + 1)));
 }
+
+char	*ft_strtrim_ws(char const *s1)
+{
+	return (ft_strtrim(s1, " \t\n\r\v\f"));
+}

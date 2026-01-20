@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../include/libft.h"
+
 int	ft_count_cins(const char *str, char c)
 {
 	int	count;
@@ -22,6 +24,32 @@ int	ft_count_cins(const char *str, char c)
 		if (*str == c)
 			count += 1;
 		str++;
+	}
+	return (count);
+}
+
+int	num_of_x_ignore_y_substr(const char *line, char x, char y)
+{
+	size_t	i;
+	size_t	count;
+
+	if (!line)
+		return (0);
+	count = 0;
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == y)
+		{
+			i++;
+			while (line[i] && line[i] != y)
+				i++;
+			if (line[i] == '\0')
+				break ;
+		}
+		else if (line[i] == x)
+			count++;
+		i++;
 	}
 	return (count);
 }

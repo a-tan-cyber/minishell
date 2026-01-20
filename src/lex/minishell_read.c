@@ -41,24 +41,26 @@ t_bool	open_has_close(char *line, char open, char close)
 // check for: {'', "", ()}
 t_bool	line_is_complete(char *line)
 {
-	if (ft_count_cins(line, '\'') % 2 != 0)
+	char	*temp;
+	size_t	len;
+	
+	if (num_of_x_ignore_y_substr(line, '\'', '\"') % 2 != 0)
 		return (FALSE);
-	if (ft_count_cins(line, '\"') % 2 != 0)
+	if (num_of_x_ignore_y_substr(line, '\"', '\'') % 2 != 0)
 		return (FALSE);
 	if (open_has_close(line, '(', ')') == FALSE)
 		return (FALSE);
-	// handle \ and ;
-	// handle && and ||
+	temp = ft_strtrim_ws(line);
+	if (!temp)
+		return (FALSE);
+	len = ft_strlen(temp);
+	if (len >= 2 && (!ft_strcmp(temp + len - 2, "&&")
+		|| !ft_strcmp(temp + len - 2, "||")))
+		return (ft_sfree(&temp), FALSE);
+	ft_sfree(&temp);
 	return (TRUE);
 }
 
-char	*read_multiline_sigint(char *rslt)
-{
-	g_sig = 0;
-	ft_sfree(&rslt);
-	write(1, "\n", 1);
-	return (ft_strdup(""));
-}
 
 // adds '\n' at the end of each line
 // returns multiline char* separated by \n
@@ -71,9 +73,9 @@ char	*read_multiline(char *msg)
 	rslt = ft_strdup("");
 	if (!rslt)
 		return (NULL);
-	line = readline(msg);
 	while (TRUE)
 	{
+		line = readline(msg);
 		if (g_sig == SIGINT)
 			return (read_multiline_sigint(rslt));
 		line = ft_memappend_back(line, ft_strlen(line), "\n", 1);
@@ -86,7 +88,7 @@ char	*read_multiline(char *msg)
 			return (NULL);
 		if (line_is_complete(rslt))
 			return (rslt);
-		line = readline("> ");
+		msg = "> ";
 	}
 }
 	// if (line_is_valid(rslt) == FALSE)
