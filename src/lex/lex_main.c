@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_init.c                                   :+:      :+:    :+:   */
+/*   lex_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 09:58:07 by yunguo            #+#    #+#             */
-/*   Updated: 2026/01/13 10:05:30 by yunguo           ###   ########.fr       */
+/*   Created: 2026/01/24 18:40:38 by yunguo            #+#    #+#             */
+/*   Updated: 2026/01/24 18:40:38 by yunguo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	init_ms_var(t_ast **astree, t_info *i)
+size_t	skip_whitespace(const char *line)
 {
-	*astree = NULL;
-	i->err = NULL;
-	i->line = NULL;
-	i->my_env = NULL;
-	i->parsed = NULL;
-}
+	size_t	i;
 
+	i = 0;
+	while (line[i] && ft_is_white_space(line[i]))
+	{
+		i++;
+	}
+	return (i);
+}

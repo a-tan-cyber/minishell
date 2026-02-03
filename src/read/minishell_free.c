@@ -24,7 +24,23 @@ void	free_ast(t_ast *ast)
 	free(ast);
 }
 
-void	free_null_var(t_ast **ast, char ***env, char **line, char **parsed)
+void	free_token_lst(t_token **lst)
+{
+	t_token	*tmp;
+	t_token	*cur;
+
+	cur = *lst;
+	while (cur)
+	{
+		ft_sfree(&cur->text);
+		tmp = cur;
+		cur = cur->next;
+		ft_sfree(&tmp);
+	}
+	*lst = NULL;
+}
+
+void	free_null_var(t_ast **ast, char ***env, char **line, t_token **lexed)
 {
 	if (ast != NULL)
 	{
@@ -41,10 +57,10 @@ void	free_null_var(t_ast **ast, char ***env, char **line, char **parsed)
 		ft_sfree(line);
 		*line = NULL;
 	}
-	if (parsed != NULL)
+	if (lexed != NULL)
 	{
-		ft_sfree(parsed);
-		*parsed = NULL;
+		free_token_lst(*lexed);
+		*lexed = NULL;
 	}
 }
 
@@ -52,10 +68,10 @@ void	free_ms_var(t_ast **astree, t_info *i, char *cmd)
 {
 	if (ft_strcmp(cmd, "tmp") == 0)
 	{
-		free_null_var(astree, NULL, &i->line, &i->parsed);
+		free_null_var(astree, NULL, &i->line, &i->lexed);
 	}
 	else if (ft_strcmp(cmd, "all") == 0)
 	{
-		free_null_var(astree, &i->my_env, &i->line, &i->parsed);
+		free_null_var(astree, &i->my_env, &i->line, &i->lexed);
 	}
 }

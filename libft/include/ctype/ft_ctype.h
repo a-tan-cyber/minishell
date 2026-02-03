@@ -21,6 +21,10 @@ int				ft_isascii(int c);
 int				ft_is_white_space(char base);
 // int	ft_isprint(int c);
 
+// ctype_special.c
+t_bool			is_operator(char c);
+t_bool			is_bracket(char c);
+
 //strtobit.c
 char			*ft_conv_chartobitstr(unsigned char x, char *byte);
 char			*ft_conv_strtobitstr(char *msg, char *bitstr);

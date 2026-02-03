@@ -6,7 +6,7 @@
 /*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/01/18 15:46:12 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/01/25 22:58:26 by yunguo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,42 @@ typedef struct s_ast	t_ast;
 
 struct	s_info
 {
-	char	**my_env;
-	char	*line;
-	char	*parsed;
-	int		err;
+	char			**my_env;
+	char			*line;
+	int				err;
+	struct	s_token	*lexed;
+	struct	s_ast	*ast;
 };
 
 typedef struct s_info	t_info;
+
+// TEXT: "", ''; PIPE: |; REDI_IN: <; REDI_OT: >; APPEND: >>; HEREDOC: <<; 
+// AND: &&; OR: ||; PAREN_L: (; PAREN_R: )
+enum	e_oper
+{
+	SPCE,
+	TEXT,
+	PIPE,
+	REDI_IN,
+	REDI_OT,
+	APPEND,
+	HEREDOC,
+	AND,
+	OR,
+	PAREN_L,
+	PAREN_R
+};
+
+typedef enum e_oper		t_oper;
+
+struct	s_token
+{
+	enum e_oper		type;
+	char			*text;
+	struct	s_token	*prev;
+	struct	s_token	*next;
+};
+
+typedef struct s_token	t_token;
 
 #endif
