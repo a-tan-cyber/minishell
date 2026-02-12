@@ -279,35 +279,127 @@ size_t	tokenise_text(char *line, t_token **lexed, char **env, t_info *info)
 		return (0);
 	if (expand_dollar(&text, env, info) == 0)
 		return (ft_sfree((void **)&text), 0);
+	ft_str_replace_chr(text, '*', 127);
 	if (token_push_back(lexed, TEXT, text) == NULL)
 		return (ft_sfree((void **)&text), 0);
 	return (r);
 }
 
-int	expand_star(char *line, t_token **lexed, char **env, t_info *info)
+t_bool	cmp_wc_rec(const char *wc, const char *thing, size_t i, size_t j)
 {
-	size_t	i;
-
-	i = 0;
-	if (line[i])
+	if (wc[i] == 127 && wc[i + 1] == '\0')
+		return (TRUE);
+	else if (wc[i] == '\0' && thing[j] == '\0')
+		return (TRUE);
+	if (wc[i] == 127)
 	{
-		
+		if (cmp_wc_rec(wc, thing, i + 1, j) == TRUE)
+			return (TRUE);
+		if (thing[j] && cmp_wc_rec(wc, thing, i, j + 1) == TRUE)
+			return (TRUE);
+		return (FALSE);
 	}
+	if (wc[i] == thing[j])
+		return (cmp_wc_rec(wc, thing, i + 1, j + 1));
+	return (FALSE);
 }
 
-// *; success returns 0, failure returns -1;
-int	merge_tokens(t_token **lexed)
+t_bool	cmp_wc(const char *wc, const char *thing, int c)
+{
+	t_bool	res;
+
+	if (c == 127)
+		res = cmp_wc_rec(wc, thing, 0, 0);
+	else
+		res = FALSE;
+	return (res);
+}
+
+//insert a token before the current token
+t_token	*ins_wct(char *text, t_token **cur, t_bool *inserted)
+{
+	char	*new_text;
+	t_token	*new_token;
+
+	new_text = ft_strdup(text);
+	if (!new_text)
+		return (ft_sfree(new_text), NULL);
+	new_token = ins_token_front(cur, TEXT, new_text);
+	if (new_token == NULL)
+		return (NULL);
+	*inserted = TRUE;
+	return (new_token);
+}
+
+// expand all stars (DEL char / 127). 0 if success
+// int	expand_star(char *line, t_token **lexed, char **env, t_info *info)
+int	expand_star(char *line, t_token **lexed)
+{
+	t_bool			ins;
+	DIR				*dir;
+	struct dirent	*f;
+	t_token			*tmp;
+	
+	dir = opendir(".");
+	if (!dir)
+		return (1);
+	ins = FALSE;
+	f = readdir(dir);
+	while (f)
+	{
+		if ((((f->d_name)[0] == '.' && line[0] == '.') || f->d_name[0] != '.')
+			&& cmp_wc(line, f->d_name, 127) && !ins_wct(f->d_name, lexed, &ins))
+			return (closedir(dir), 2);
+		f = readdir(dir);
+	}
+	if (ins == FALSE)
+		return (ft_str_replace_chr((*lexed)->text, 127, '*'), closedir(dir), 0);
+	tmp = *lexed;
+	*lexed = (*lexed)->prev;
+	return (free_token_one(&tmp), closedir(dir), 0);
+}
+
+int	expand_tokens(t_token **lexed)
 {
 	t_token	*cur;
+	t_bool	is_head;
 
 	cur = *lexed;
 	while (cur)
 	{
-		
+		is_head = (cur == *lexed);
+		if (cur->type == TEXT && ft_strchr(cur->text, 127) &&
+			expand_star(cur->text, &cur))
+			return (free_token_lst(lexed), 2);
+		if (is_head)
+			*lexed = cur;
+		cur = cur->next;
 	}
-	
-	// expand_star()
 	return (0);
+}
+
+// *; success returns 0, failure returns -1;
+int	merge_and_expand_tokens(t_token **lexed)
+{
+	t_token	*cur;
+	t_token	*new;
+	int		err;
+
+	cur = *lexed;
+	while (cur)
+	{
+		if (cur->type == TEXT && cur->next && cur->next->type == TEXT)
+		{
+			cur->text = ft_str_append(cur->text, cur->next->text);
+			if (!cur->text)
+				return (free_token_lst(lexed), 1);
+			free_token_one(&cur->next);
+		}
+		else
+			cur = cur->next;
+	}
+	err = expand_tokens(lexed);
+	return (err);
 }
 
 int	lex_line(const char *line, t_token **lexed, const char **env, t_info *info)
@@ -334,9 +426,157 @@ int	lex_line(const char *line, t_token **lexed, const char **env, t_info *info)
 			return (free_token_lst(lexed), -1);
 		i += len;
 	}
-	return (merge_tokens(lexed));
+	return (merge_and_expand_tokens(lexed));
 }
-	
+
+int	is_oper_token(t_oper type)
+{
+	if (type == PIPE || type == REDI_IN || type == REDI_OT || type == APPEND
+		|| type == HEREDOC || type == AND || type == OR)
+		return (1);
+	return (0);
+}
+
+//skip parenthesis reverse
+t_token *skip_token_brkt_rev(t_token *tail)
+{
+	int	r;
+
+	if (!tail || tail->type != PAREN_R)
+		return (NULL);
+	r = 0;
+	while (tail)
+	{
+		if (tail->type == PAREN_R)
+			r++;
+		else if (tail->type == PAREN_L)
+			r--;
+		tail = tail->prev;
+		if (r == 0)
+			return (tail);
+	}
+	return (NULL);
+}
+
+t_token	*find_token_logic_pipe(t_token *head, t_token *tail)
+{
+	t_token	*stor;
+
+	if (!head || !tail)
+		return (NULL);
+	stor = tail;
+	while (tail && tail != head)
+	{
+		if (tail->type == PAREN_R)
+			tail = skip_token_brkt_rev(tail);
+		else if (tail->type == AND || tail->type == OR)
+			return (tail);
+		else
+			tail = tail->prev;
+	}
+	tail = stor;
+	while (tail && tail != head)
+	{
+		if (tail->type == PAREN_R)
+			tail = skip_token_brkt_rev(tail);
+		else if (tail->type == PIPE)
+			return (tail);
+		else
+			tail = tail->prev;
+	}
+	return (NULL);
+}
+
+t_ast	*cre_ast_node(t_type type)
+{
+	t_ast	*new;
+
+	new = malloc(sizeof(t_ast));
+	if (!new)
+		return (NULL);
+	new->type = type;
+	new->data = NULL;
+	new->left = NULL;
+	new->riht = NULL;
+	return (new);
+}
+
+t_ast	*cre_ast_new(t_token *curr)
+{
+	t_ast	*new;
+
+	new = NULL;
+	if (curr->type == AND)
+	{
+		new = cre_ast_node((t_type)AND);
+	}
+	else if (curr->type == OR)
+	{
+		new = cre_ast_node((t_type)OR);
+	}
+	else if (curr->type == PIPE)
+	{
+		new = cre_ast_node((t_type)PIPE);
+	}
+	if (!new)
+		return (NULL);
+	return (new);
+}
+
+// matched_brkt(head, tail)
+t_ast	*cre_ast_cmd(t_token *head, t_token *tail)
+{
+
+}
+
+t_ast	*build_ast_rec(t_token *head, t_token *tail)
+{
+	t_ast	*new;
+	t_token	*curr;
+
+	if (!head || !tail)
+		return (NULL);
+	curr = find_token_logic_pipe(head, tail);
+	if (curr)
+	{
+		new = cre_ast_new(curr);
+		if (!new)
+			return (NULL);
+		new->left = build_ast_rec(head, curr->prev);
+		new->riht = build_ast_rec(curr->next, tail);
+		return (new);
+	}
+	if (head->type == PAREN_L && tail->type == PAREN_R && matched_brkt(head, tail))
+	{
+		new = cre_ast_node((t_type)BRKT);
+		if (!new)
+			return (NULL);
+		new->left = build_ast_rec(head->next, tail->prev);
+		return (new);
+	}
+	return (cre_ast_cmd(head, tail));
+}
+
+t_ast	*parse_ast(t_token *head)
+{
+	t_token	*curr;
+	t_ast	*root;
+
+	curr = split_ast_by_logic(head);
+	while (curr)
+	{
+		ins_ast_left(&root, curr);
+		curr = split_ast_by_logic(head);
+	}
+	curr = split_ast_by_pipe(head);
+	while (curr)
+	{
+		ins_ast_left(&root, curr);
+		curr = split_ast_by_pipe(head);
+	}
+
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_ast	*astree;

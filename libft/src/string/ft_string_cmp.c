@@ -59,3 +59,33 @@ char	*ft_strstr(char *str, char *to_find)
 	}
 	return (NULL);
 }
+
+char	*ft_strchr(const char *str, int to_find)
+{
+	while (*str)
+	{
+		if ((unsigned char)*str == (unsigned char)to_find)
+			return ((char *)str);
+		str++;
+	}
+	if ((unsigned char)*str == (unsigned char)to_find)
+	{
+		return ((char *)str);
+	}
+	return (NULL);
+}
+
+//if found then idx >= 0; if str is null then -1; if not found then -2.
+int	ft_strchr_idx(const char *str, int to_find)
+{
+	int	i;
+
+	if (!str)
+		return (-1);
+	i = 0;
+	while (str[i] && str[i] != to_find)
+		i++;
+	if (str[i] == to_find)
+		return (i);
+	return (-2);
+}

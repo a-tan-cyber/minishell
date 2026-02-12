@@ -74,3 +74,27 @@ t_token	*token_push_back(t_token **begin_list, t_oper type, char *text)
 	}
 	return (last);
 }
+
+t_token	*ins_token_front(t_token **head, t_oper type, char *text)
+{
+	t_token	*needle;
+	t_token	*tempor;
+
+	if (!(*head) || (*head)->prev == NULL)
+	{
+		needle = token_push_front(head, type, text);
+		if (!needle)
+			return (NULL);
+		*head = (*head)->next;
+		return (needle);
+	}
+	needle = token_create_ele(type, text);
+	if (!needle)
+		return (NULL);
+	tempor = (*head)->prev;
+	(*head)->prev = needle;
+	needle->prev = tempor;
+	tempor->next = needle;
+	needle->next = *head;
+	return (needle);
+}

@@ -24,6 +24,21 @@ void	free_ast(t_ast *ast)
 	free(ast);
 }
 
+void	free_token_one(t_token **lst)
+{
+	t_token	*tmp;
+	t_token	*cur;
+
+	cur = *lst;
+	if (cur->prev)
+		cur->prev->next = cur->next;
+	if (cur->next)
+		cur->next->prev = cur->prev;
+	tmp = cur;
+	ft_sfree(&cur->text);
+	ft_sfree(&tmp);
+}
+
 void	free_token_lst(t_token **lst)
 {
 	t_token	*tmp;

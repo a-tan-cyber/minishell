@@ -23,3 +23,13 @@ char	*ft_substr(char const *s, size_t start, size_t len)
 	res = ft_strndup(s + start, len);
 	return (res);
 }
+
+void	ft_str_replace_chr(char *text, int original, int target)
+{
+	while (*text)
+	{
+		if (*text == original)
+			*text = target;
+		text++;
+	}
+}

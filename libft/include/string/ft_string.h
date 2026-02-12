@@ -30,8 +30,9 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strstr(const char *str, char *to_find);
 // char			*ft_strnstr(const char *str, char *to_find, size_t len);
-// char			*ft_strchr(const char *str, int to_find);
+char	*ft_strchr(const char *str, int to_find);
 // char			*ft_strrchr(const char *str, int to_find);
+int		ft_strchr_idx(const char *str, int to_find);
 
 // ft_string_cnt.c
 int		ft_count_cins(const char *str, char c);
@@ -48,6 +49,7 @@ char	*concat_char_insitu(char *string, char c);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+char	*ft_str_append(char *s1, const char *s2);
 
 // ft_string_m.c
 char	*ft_strdup(const char *src);
@@ -105,5 +107,6 @@ char	*ft_strtrim_ws(char const *s1);
 
 // ft_string_substr.c
 char	*ft_substr(char const *s, size_t start, size_t len);
+void	ft_str_replace_chr(char *text, int original, int target);
 
 #endif

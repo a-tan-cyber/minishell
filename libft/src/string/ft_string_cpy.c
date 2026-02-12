@@ -66,3 +66,22 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	}
 	return (src_len);
 }
+
+//free and nulls s1, returns a new str
+char	*ft_str_append(char *s1, const char *s2)
+{
+	char	*res;
+	size_t	len1;
+	size_t	len2;
+
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	res = malloc((len1 + len2 + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
+	ft_memcpy(res, s1, len1);
+	ft_memcpy(res + len1, s2, len2);
+	res[len1 + len2] = '\0';
+	ft_sfree(&s1);
+	return (res);
+}

@@ -6,16 +6,18 @@
 /*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/01/25 21:45:17 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/12 16:02:52 by yunguo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <sys/types.h>
 # include "../libft/include/libft.h"
 # include "minishell_struct.h"
 
@@ -33,12 +35,13 @@ t_token	*token_create_ele(t_oper type, char *text);
 t_token	*token_push_front(t_token **begin_list, t_oper type, char *text);
 t_token	*token_last(t_token *begin_list);
 t_token	*token_push_back(t_token **begin_list, t_oper type, char *text);
-
+t_token	*ins_token_front(t_token **head, t_oper type, char *text);
 
 //minishell_debug.c
 
 //minishell_free.c
 void	free_ast(t_ast *ast);
+void	free_token_one(t_token **lst);
 void	free_token_lst(t_token **lst);
 void	free_null_var(t_ast **ast, char ***env, char **line, t_token **lexed);
 void	free_ms_var(t_ast **astree, t_info *i, char *cmd);
