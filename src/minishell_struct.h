@@ -6,7 +6,7 @@
 /*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/10 22:29:25 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/16 18:39:23 by yunguo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,22 @@ enum	e_type
 
 typedef enum e_type		t_type;
 
+// REDI_IN: <; REDI_OT: >; APPEND: >>; HEREDOC: <<; 
+struct	s_redir
+{
+	enum e_oper		type;
+	char			*file;
+	struct s_redir	*next;
+};
+
+typedef	struct s_redir	t_redir;
+
 //riht means right in ye olde English 🧐
 struct	s_ast
 {
 	enum e_type		type;
-	char			*data;
+	char			**args;
+	t_redir			*rdir;
 	struct s_ast	*left;
 	struct s_ast	*riht;
 };

@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-// astree = parse_ast(i.lexed);
-
 void	set_sizet(size_t *num, size_t val)
 {
 	*num = val;
@@ -495,7 +493,8 @@ t_ast	*cre_ast_node(t_type type)
 	if (!new)
 		return (NULL);
 	new->type = type;
-	new->data = NULL;
+	new->args = NULL;
+	new->rdir = NULL;
 	new->left = NULL;
 	new->riht = NULL;
 	return (new);
@@ -523,10 +522,169 @@ t_ast	*cre_ast_new(t_token *curr)
 	return (new);
 }
 
-// matched_brkt(head, tail)
+int	matched_brkt(t_token *head, t_token *tail)
+{
+	int	left;
+
+	if (head->type != PAREN_L)
+		return (0);
+	left = 0;
+	while (TRUE)
+	{
+		if (head->type == PAREN_L)
+			left++;
+		else if (head->type == PAREN_R)
+			left--;
+		if (left == 0)
+			break ;
+		if (!head || head == tail)
+			break ;
+		head = head->next;
+	}
+	if (head == tail && left == 0)
+		return (1);
+	return (0);	
+}
+
+int	count_ast_arg(t_token *head, t_token *tail)
+{
+	int	i;
+
+	if (!head || !tail)
+		return (0);
+	i = 0;
+	while (TRUE)
+	{
+		if (head->type == TEXT)
+			i++;
+		if (!head || head == tail)
+			break ;
+		head = head->next;
+	}
+	return (i);
+}
+
+void	free_rdir(t_redir **rdir)
+{
+	t_redir	*curr;
+	t_redir	*temp;
+
+	curr = *rdir;
+	while (curr)
+	{
+		ft_sfree(&curr->file);
+		temp = curr;
+		curr = curr->next;
+		ft_sfree(&temp);
+	}
+	curr = NULL;
+}
+
+void	free_ast_one(t_ast **one)
+{
+	t_ast	*cur;
+
+	cur = *one;
+	cur->left = NULL;
+	cur->riht = NULL;
+	cur->type = NULL;
+	free_arr(cur->args);
+	cur->args = NULL;
+	free_rdir(&cur->rdir);
+	cur->rdir = NULL;
+	ft_sfree(one);
+}
+
+t_redir	*crea_rdir_node(t_oper type, char *text)
+{
+	t_redir	*new;
+
+	new = ft_calloc(1, sizeof(t_redir));
+	if (!new)
+		return (NULL);
+	new->next = NULL;
+	new->type = type;
+	new->file = ft_strdup(text);
+	if (!new->file)
+		return (ft_sfree(&new), NULL);
+	return (new);
+}
+
+t_redir	*goto_rdir_last(t_redir *curr)
+{
+	t_redir	*temp;
+
+	temp = curr;
+	while (curr)
+	{
+		temp = curr;
+		curr = curr->next;
+	}
+	return (temp);
+}
+
+t_redir	*crea_rdir_push_back(t_redir **curr, t_oper type, char *text)
+{
+	t_redir	*last;
+
+	if (!curr)
+		return (NULL);
+	if (!*curr)
+	{
+		*curr = crea_rdir_node(type, text);
+		if (!*curr)
+			return (NULL);
+		return (*curr);
+	}
+	last = goto_rdir_last(*curr);
+	last->next = crea_rdir_node(type, text);
+	if (!last->next)
+		return (NULL);
+	return (*curr);
+}
+
+t_ast	*cre_ast_cmd_run(t_ast *cmd, t_token *head, t_token *tail)
+{
+	int	i;
+
+	i = 0;
+	while (head)
+	{
+		if (head->type == TEXT)
+		{
+			cmd->args[i] = ft_strdup(head->text);
+			if (!cmd->args[i])
+				return (free_ast_one(&cmd), NULL);
+			i++;
+		}
+		else
+		{
+			if (head->next &&
+				!crea_rdir_push_back(&cmd->rdir,head->type, head->next->text))
+				return (free_ast_one(&cmd), NULL);
+			head = head->next;
+		}
+		if (head == tail)
+			break ;
+		head = head->next;
+	}
+	return (cmd);
+}
+
 t_ast	*cre_ast_cmd(t_token *head, t_token *tail)
 {
+	t_ast	*cmd;
+	int		i;
 
+	cmd = cre_ast_node(CMD);
+	if (!cmd)
+		return (NULL);
+	i = count_ast_arg(head, tail);
+	cmd->args = ft_calloc(i + 1, sizeof(char *));
+	cmd = cre_ast_cmd_run(cmd, head, tail);
+	if (!cmd)
+		return (NULL);
+	return (cmd);
 }
 
 t_ast	*build_ast_rec(t_token *head, t_token *tail)
@@ -574,8 +732,9 @@ t_ast	*parse_ast(t_token *head)
 		ins_ast_left(&root, curr);
 		curr = split_ast_by_pipe(head);
 	}
-
 }
+
+// print_astree(astree)
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -598,7 +757,8 @@ int	main(int argc, char **argv, char **envp)
 			if (lex_line(i.line, &i.lexed, i.my_env, &i) == 0)
 				astree = parse_ast(i.lexed);
 			if (astree)
-				run_cmd(astree, i);
+				print_astree(astree);
+				// run_cmd(astree, i);
 		}
 		free_ms_var(&astree, &i, "tmp");
 	}

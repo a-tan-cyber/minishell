@@ -6,7 +6,7 @@
 /*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/12 16:02:52 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/16 18:34:45 by yunguo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_token	*ins_token_front(t_token **head, t_oper type, char *text);
 //minishell_debug.c
 
 //minishell_free.c
-void	free_ast(t_ast *ast);
 void	free_token_one(t_token **lst);
 void	free_token_lst(t_token **lst);
 void	free_null_var(t_ast **ast, char ***env, char **line, t_token **lexed);

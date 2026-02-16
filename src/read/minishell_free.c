@@ -12,18 +12,6 @@
 
 #include "../minishell.h"
 
-void	free_ast(t_ast *ast)
-{
-	if (ast == NULL)
-		return ;
-	if (ast->left != NULL)
-		free_ast(ast->left);
-	if (ast->riht != NULL)
-		free_ast(ast->riht);
-	free(ast->data);
-	free(ast);
-}
-
 void	free_token_one(t_token **lst)
 {
 	t_token	*tmp;
