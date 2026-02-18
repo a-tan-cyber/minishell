@@ -6,7 +6,7 @@
 /*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/16 18:34:45 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/18 17:45:06 by yunguo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,18 @@
 
 volatile sig_atomic_t g_sig = 0;
 
+/* 
+██╗     ███████╗██╗  ██╗
+██║     ██╔════╝╚██╗██╔╝
+██║     █████╗   ╚███╔╝ 
+██║     ██╔══╝   ██╔██╗ 
+███████╗███████╗██╔╝ ██╗
+╚══════╝╚══════╝╚═╝  ╚═╝
+*/
+
 //lex_main.c
 size_t	skip_whitespace(const char *line);
-int		lex_line(const char *line, t_token **lexed);
+int		lex_line(const char *line, t_token **lexed, const char **env, t_info *info);
 
 //lex_tokenise.c
 size_t	tokenise_s_quote(const char *line, t_token **lexed);

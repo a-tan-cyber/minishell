@@ -19,6 +19,7 @@
 size_t	ft_strlen(const char *str);
 void	ft_reverse_string(char *string, char *reverse_string, int length);
 char	*ft_reverse_string_malloc(char *string);
+char	*ft_str_replace(char *text, size_t start, size_t len, char *expanded);
 
 // ft_string_cat.c
 char	*ft_strcat(char *dest, char *src);

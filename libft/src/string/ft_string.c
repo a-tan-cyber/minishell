@@ -56,3 +56,20 @@ char	*ft_reverse_string_malloc(char *string)
 	}
 	return (reversed_string);
 }
+
+char	*ft_str_replace(char *text, size_t start, size_t len, char *expanded)
+{
+	size_t	total_len;
+	size_t	expanded_len;
+	char	*res;
+
+	expanded_len = ft_strlen(expanded);
+	total_len = ft_strlen(text) - len + expanded_len;
+	res = malloc((total_len + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
+	ft_memcpy(res, text, start);
+	ft_memcpy(res + start, expanded, expanded_len);
+	ft_strcpy(res + start + expanded_len, text + start + len);
+	return (res);
+}
