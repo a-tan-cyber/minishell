@@ -1,7 +1,7 @@
 NAME = libft.a
 SRCS_NAME =	\
 functions/get_next_line/get_next_line.c							functions/get_next_line/get_next_line_utils.c\
-src/array/ft_array.c			src/array/ft_array_cmp.c		src/array/ft_array_cnt.c	src/array/ft_array_cpy\
+src/array/ft_array.c			src/array/ft_array_cmp.c		src/array/ft_array_cnt.c	src/array/ft_array_cpy.c\
 src/array/ft_array_cvt.c		src/array/ft_array_dup.c		src/array/ft_array_iss.c	src/array/ft_array_v.c\
 src/array_int/ft_iarr_chk.c		src/array_int/ft_iarr_cpy.c		src/array_int/ft_iarr_print.c\
 src/bit/ft_bit_set.c			src/ctype/ctype.c				src/ctype/ctype_special.c	src/ctype/strtobit.c\
