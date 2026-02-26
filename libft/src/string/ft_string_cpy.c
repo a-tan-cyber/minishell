@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_string_cpy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 11:42:20 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 15:56:46 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ char	*ft_str_append(char *s1, const char *s2)
 	ft_memcpy(res, s1, len1);
 	ft_memcpy(res + len1, s2, len2);
 	res[len1 + len2] = '\0';
-	ft_sfree(&s1);
+	free(s1);
 	return (res);
 }
