@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_read.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:13:43 by yunguo            #+#    #+#             */
-/*   Updated: 2026/01/17 11:33:32 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 19:57:34 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_bool	line_is_complete(char *line)
 {
 	char	*temp;
 	size_t	len;
-	
+
 	if (num_of_x_ignore_y_substr(line, '\'', '\"') % 2 != 0)
 		return (FALSE);
 	if (num_of_x_ignore_y_substr(line, '\"', '\'') % 2 != 0)
@@ -55,44 +55,8 @@ t_bool	line_is_complete(char *line)
 		return (FALSE);
 	len = ft_strlen(temp);
 	if (len >= 2 && (!ft_strcmp(temp + len - 2, "&&")
-		|| !ft_strcmp(temp + len - 2, "||")))
-		return (ft_sfree(&temp), FALSE);
-	ft_sfree(&temp);
+			|| !ft_strcmp(temp + len - 2, "||")))
+		return (ft_sfree((void **)&temp), FALSE);
+	ft_sfree((void **)&temp);
 	return (TRUE);
 }
-
-
-// adds '\n' at the end of each line
-// returns multiline char* separated by \n
-char	*read_multiline(char *msg)
-{
-	char	*line;
-	char	*temp;
-	char	*rslt;
-
-	rslt = ft_strdup("");
-	if (!rslt)
-		return (NULL);
-	while (TRUE)
-	{
-		line = readline(msg);
-		if (g_sig == SIGINT)
-			return (read_multiline_sigint(rslt));
-		line = ft_memappend_back(line, ft_strlen(line), "\n", 1);
-		if (!line)
-			return (ft_sfree(&rslt), NULL);
-		temp = ft_memappend_back(rslt, ft_strlen(rslt), line, ft_strlen(line));
-		ft_sfree(&line);
-		rslt = temp;
-		if (!temp)
-			return (NULL);
-		if (line_is_complete(rslt))
-			return (rslt);
-		msg = "> ";
-	}
-}
-	// if (line_is_valid(rslt) == FALSE)
-	// 	return ()
-	// if (line_is_complete(rslt) == TRUE)
-	// 	return (rslt);
-	
