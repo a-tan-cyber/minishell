@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:49:39 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/18 17:49:39 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 19:26:47 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	expand_dollar(char **text, char **env, t_info *info)
+int	expand_dollar(char **text, const char **env, t_info *info)
 {
 	size_t	i;
 
@@ -33,7 +33,8 @@ int	expand_dollar(char **text, char **env, t_info *info)
 	return (1);
 }
 
-size_t	expand_dollar_replace(char **text, size_t i, char **env, t_info *info)
+size_t	expand_dollar_replace(char **text, size_t i, const char **env,
+	t_info *info)
 {
 	char	*snippet;
 	char	*expanded;
@@ -42,17 +43,17 @@ size_t	expand_dollar_replace(char **text, size_t i, char **env, t_info *info)
 
 	snippet = expand_dollar_extract(*text + i, &len);
 	if (!snippet)
-		return (ft_sfree(text), 0);
+		return (ft_sfree((void **)text), 0);
 	if (ft_strcmp(snippet, "$") == 0)
-		return (ft_sfree(&snippet), 1);
+		return (ft_sfree((void **)&snippet), 1);
 	expanded = match_env(snippet, env, info);
-	ft_sfree(&snippet);
+	ft_sfree((void **)&snippet);
 	if (!expanded)
-		return (ft_sfree(text), 0);
+		return (ft_sfree((void **)text), 0);
 	temp = ft_str_replace(*text, i, len, expanded);
 	len = ft_strlen(expanded);
-	ft_sfree(&expanded);
-	ft_sfree(text);
+	ft_sfree((void **)&expanded);
+	ft_sfree((void **)text);
 	if (!temp)
 		return (0);
 	*text = temp;

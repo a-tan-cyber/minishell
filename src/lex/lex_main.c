@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   lex_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 18:40:38 by yunguo            #+#    #+#             */
-/*   Updated: 2026/01/24 18:40:38 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 19:35:12 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 //$
-size_t	tokenise_text(char *line, t_token **lexed, char **env, t_info *info)
+size_t	tokenise_text(const char *line, t_token **lexed, const char **env,
+	t_info *info)
 {
 	size_t	r;
 	char	*text;
-	
+
 	r = 0;
 	while (line[r] && !is_operator(line[r]) && !ft_is_white_space(line[r])
-			&& line[r] != '\'' && line[r] != '\"' && !is_bracket(line[r]))
+		&& line[r] != '\'' && line[r] != '\"' && !is_bracket(line[r]))
 		r++;
 	text = ft_strndup(line, r);
 	if (!text)

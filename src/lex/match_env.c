@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   match_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:52:55 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/18 17:52:55 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 19:28:44 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // return index if present, -1 if not present
-int	ft_envcmp(char *str, char **arr)
+int	ft_envcmp(char *str, const char **arr)
 {
 	int	i;
 
@@ -28,10 +28,10 @@ int	ft_envcmp(char *str, char **arr)
 	return (-1);
 }
 
-char *ft_extract_env(int i, char **arr)
+char	*ft_extract_env(int i, const char **arr)
 {
 	int	j;
-	
+
 	j = 0;
 	while (arr[i][j] && arr[i][j] != '=')
 		j++;
@@ -39,7 +39,7 @@ char *ft_extract_env(int i, char **arr)
 }
 
 // ?; number
-char	*match_env(char *snippet, char **env, t_info *info)
+char	*match_env(char *snippet, const char **env, t_info *info)
 {
 	if (ft_strcmp(snippet, "?") == 0)
 		return (ft_itoa(info->err));

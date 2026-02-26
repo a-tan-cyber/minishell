@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_create.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:26:20 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/12 15:26:20 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 17:53:33 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ t_ast	*cre_ast_new(t_token *curr)
 	new = NULL;
 	if (curr->type == AND)
 	{
-		new = cre_ast_node((t_type)AND);
+		new = cre_ast_node((t_type)AST_AND);
 	}
 	else if (curr->type == OR)
 	{
-		new = cre_ast_node((t_type)OR);
+		new = cre_ast_node((t_type)AST_OR);
 	}
 	else if (curr->type == PIPE)
 	{
-		new = cre_ast_node((t_type)PIPE);
+		new = cre_ast_node((t_type)AST_PIPE);
 	}
 	if (!new)
 		return (NULL);

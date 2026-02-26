@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lex_tokenise.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 21:43:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/01/25 21:43:24 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 21:08:45 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-size_t	tokenise_space(char *line, t_token **lexed)
+size_t	tokenise_space(const char *line, t_token **lexed)
 {
 	size_t	i;
 
@@ -66,7 +66,7 @@ size_t	tokenise_d_quote(const char *line, t_token **lexed, const char **env,
 	return (r + 1);
 }
 
-size_t	tokenise_oper(char *line, t_token **lexed)
+size_t	tokenise_oper(const char *line, t_token **lexed)
 {
 	size_t	res;
 
@@ -88,7 +88,7 @@ size_t	tokenise_oper(char *line, t_token **lexed)
 	return (res);
 }
 
-size_t	tokenise_brkt(char *line, t_token **lexed)
+size_t	tokenise_brkt(const char *line, t_token **lexed)
 {
 	if (line[0] == '(')
 	{

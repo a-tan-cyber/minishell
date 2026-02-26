@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_expand_star.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:13:25 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/18 18:13:25 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 19:35:49 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 // expand all stars (DEL char / 127). 0 if success
 // int	expand_star(char *line, t_token **lexed, char **env, t_info *info)
-int	expand_star(char *line, t_token **lexed)
+int	expand_star(const char *line, t_token **lexed)
 {
 	t_bool			ins;
 	DIR				*dir;
 	struct dirent	*f;
 	t_token			*tmp;
-	
+
 	dir = opendir(".");
 	if (!dir)
 		return (1);
@@ -78,7 +78,7 @@ t_token	*ins_wct(char *text, t_token **cur, t_bool *inserted)
 
 	new_text = ft_strdup(text);
 	if (!new_text)
-		return (ft_sfree(new_text), NULL);
+		return (ft_safefree(new_text), NULL);
 	new_token = ins_token_front(cur, TEXT, new_text);
 	if (new_token == NULL)
 		return (NULL);

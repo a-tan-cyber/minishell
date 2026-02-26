@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_expand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:11:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/18 18:11:24 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 19:31:09 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	expand_tokens(t_token **lexed)
 	while (cur)
 	{
 		is_head = (cur == *lexed);
-		if (cur->type == TEXT && ft_strchr(cur->text, 127) &&
-			expand_star(cur->text, &cur))
+		if (cur->type == TEXT && ft_strchr(cur->text, 127)
+			&& expand_star(cur->text, &cur))
 			return (free_token_lst(lexed), 2);
 		if (is_head)
 			*lexed = cur;
@@ -35,7 +35,6 @@ int	expand_tokens(t_token **lexed)
 int	merge_and_expand_tokens(t_token **lexed)
 {
 	t_token	*cur;
-	t_token	*new;
 	int		err;
 
 	cur = *lexed;
