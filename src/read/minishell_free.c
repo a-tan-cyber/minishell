@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 09:57:27 by yunguo            #+#    #+#             */
-/*   Updated: 2026/01/13 10:48:14 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 19:21:10 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	free_token_one(t_token **lst)
 	if (cur->next)
 		cur->next->prev = cur->prev;
 	tmp = cur;
-	ft_sfree(&cur->text);
-	ft_sfree(&tmp);
+	ft_sfree((void **)&cur->text);
+	ft_sfree((void **)&tmp);
 }
 
 void	free_token_lst(t_token **lst)
@@ -35,10 +35,10 @@ void	free_token_lst(t_token **lst)
 	cur = *lst;
 	while (cur)
 	{
-		ft_sfree(&cur->text);
+		ft_sfree((void **)&cur->text);
 		tmp = cur;
 		cur = cur->next;
-		ft_sfree(&tmp);
+		ft_sfree((void **)&tmp);
 	}
 	*lst = NULL;
 }
@@ -57,12 +57,12 @@ void	free_null_var(t_ast **ast, char ***env, char **line, t_token **lexed)
 	}
 	if (line != NULL)
 	{
-		ft_sfree(line);
+		ft_sfree((void **)line);
 		*line = NULL;
 	}
 	if (lexed != NULL)
 	{
-		free_token_lst(*lexed);
+		free_token_lst(lexed);
 		*lexed = NULL;
 	}
 }

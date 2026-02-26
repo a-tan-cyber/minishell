@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_rdir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:09:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/18 18:09:11 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 18:21:09 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_redir	*crea_rdir_node(t_oper type, char *text)
 	new->type = type;
 	new->file = ft_strdup(text);
 	if (!new->file)
-		return (ft_sfree(&new), NULL);
+		return (ft_sfree((void **)&new), NULL);
 	return (new);
 }
 

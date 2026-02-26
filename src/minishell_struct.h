@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_struct.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/16 18:39:23 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 17:51:59 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,48 +19,15 @@ typedef int				t_bool;
 
 enum	e_type
 {
-	CMD,
-	PIPE,
-	OR,
-	AND,
-	// RDIR,
-	BRKT
+	AST_CMD,
+	AST_PIPE,
+	AST_OR,
+	AST_AND,
+	// AST_RDIR,
+	AST_BRKT
 };
 
 typedef enum e_type		t_type;
-
-// REDI_IN: <; REDI_OT: >; APPEND: >>; HEREDOC: <<; 
-struct	s_redir
-{
-	enum e_oper		type;
-	char			*file;
-	struct s_redir	*next;
-};
-
-typedef	struct s_redir	t_redir;
-
-//riht means right in ye olde English 🧐
-struct	s_ast
-{
-	enum e_type		type;
-	char			**args;
-	t_redir			*rdir;
-	struct s_ast	*left;
-	struct s_ast	*riht;
-};
-
-typedef struct s_ast	t_ast;
-
-struct	s_info
-{
-	char			**my_env;
-	char			*line;
-	int				err;
-	struct	s_token	*lexed;
-	struct	s_ast	*ast;
-};
-
-typedef struct s_info	t_info;
 
 // TEXT: "", ''; PIPE: |; REDI_IN: <; REDI_OT: >; APPEND: >>; HEREDOC: <<; 
 // AND: &&; OR: ||; PAREN_L: (; PAREN_R: )
@@ -81,12 +48,45 @@ enum	e_oper
 
 typedef enum e_oper		t_oper;
 
+// REDI_IN: <; REDI_OT: >; APPEND: >>; HEREDOC: <<; 
+struct	s_redir
+{
+	enum e_oper		type;
+	char			*file;
+	struct s_redir	*next;
+};
+
+typedef struct s_redir	t_redir;
+
+//riht means right in ye olde English 🧐
+struct	s_ast
+{
+	enum e_type		type;
+	char			**args;
+	t_redir			*rdir;
+	struct s_ast	*left;
+	struct s_ast	*riht;
+};
+
+typedef struct s_ast	t_ast;
+
+struct	s_info
+{
+	char			**my_env;
+	char			*line;
+	int				err;
+	struct s_token	*lexed;
+	struct s_ast	*ast;
+};
+
+typedef struct s_info	t_info;
+
 struct	s_token
 {
 	enum e_oper		type;
 	char			*text;
-	struct	s_token	*prev;
-	struct	s_token	*next;
+	struct s_token	*prev;
+	struct s_token	*next;
 };
 
 typedef struct s_token	t_token;

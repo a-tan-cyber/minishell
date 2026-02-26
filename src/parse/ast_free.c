@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:32:35 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/16 18:32:35 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 19:31:53 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	free_rdir(t_redir **rdir)
 	curr = *rdir;
 	while (curr)
 	{
-		ft_sfree(&curr->file);
+		ft_sfree((void **)&curr->file);
 		temp = curr;
 		curr = curr->next;
-		ft_sfree(&temp);
+		ft_sfree((void **)&temp);
 	}
 	curr = NULL;
 }
@@ -48,10 +48,10 @@ void	free_ast_one(t_ast **one)
 	cur = *one;
 	cur->left = NULL;
 	cur->riht = NULL;
-	cur->type = NULL;
+	cur->type = 0;
 	free_arr(cur->args);
 	cur->args = NULL;
 	free_rdir(&cur->rdir);
 	cur->rdir = NULL;
-	ft_sfree(one);
+	ft_sfree((void **)one);
 }

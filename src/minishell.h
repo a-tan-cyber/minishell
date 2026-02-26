@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/19 10:12:13 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 20:54:07 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include "../libft/include/libft.h"
 # include "minishell_struct.h"
 
-volatile sig_atomic_t g_sig = 0;
+extern volatile sig_atomic_t g_sig;
 
 /* 
 ██╗     ███████╗██╗  ██╗
@@ -33,12 +33,13 @@ volatile sig_atomic_t g_sig = 0;
 */
 
 //expand_dollar.c
-int		expand_dollar(char **text, char **env, t_info *info);
-size_t	expand_dollar_replace(char **text, size_t i, char **env, t_info *info);
+int		expand_dollar(char **text, const char **env, t_info *info);
+size_t	expand_dollar_replace(char **text, size_t i, const char **env,
+			t_info *info);
 char	*expand_dollar_extract(char *line, size_t *len);
 
 // lex_expand_star.c
-int		expand_star(char *line, t_token **lexed);
+int		expand_star(const char *line, t_token **lexed);
 t_bool	cmp_wc_rec(const char *wc, const char *thing, size_t i, size_t j);
 t_bool	cmp_wc(const char *wc, const char *thing, int c);
 t_token	*ins_wct(char *text, t_token **cur, t_bool *inserted);
@@ -48,8 +49,10 @@ int		expand_tokens(t_token **lexed);
 int		merge_and_expand_tokens(t_token **lexed);
 
 //lex_main.c
-size_t	tokenise_text(char *line, t_token **lexed, char **env, t_info *info);
-int		lex_line(const char *line, t_token **lexed, const char **env, t_info *info);
+size_t	tokenise_text(const char *line, t_token **lexed, const char **env,
+			t_info *info);
+int		lex_line(const char *line, t_token **lexed, const char **env,
+			t_info *info);
 
 // lex_tokenise_oper_rdir.c
 size_t	tokenise_oper_heredoc(t_token **lexed);
@@ -63,17 +66,17 @@ size_t	tokenise_oper_pipe(t_token **lexed);
 size_t	tokenise_oper_and(t_token **lexed);
 
 //lex_tokenise.c
-size_t	tokenise_space(char *line, t_token **lexed);
+size_t	tokenise_space(const char *line, t_token **lexed);
 size_t	tokenise_s_quote(const char *line, t_token **lexed);
 size_t	tokenise_d_quote(const char *line, t_token **lexed, const char **env,
-		t_info *info);
-size_t	tokenise_oper(char *line, t_token **lexed);
-size_t	tokenise_brkt(char *line, t_token **lexed);
+			t_info *info);
+size_t	tokenise_oper(const char *line, t_token **lexed);
+size_t	tokenise_brkt(const char *line, t_token **lexed);
 
 // match_env.c
-int		ft_envcmp(char *str, char **arr);
-char	*ft_extract_env(int i, char **arr);
-char	*match_env(char *snippet, char **env, t_info *info);
+int		ft_envcmp(char *str, const char **arr);
+char	*ft_extract_env(int i, const char **arr);
+char	*match_env(char *snippet, const char **env, t_info *info);
 
 //token_create.c
 t_token	*token_create_ele(t_oper type, char *text);
@@ -143,7 +146,7 @@ void	free_null_var(t_ast **ast, char ***env, char **line, t_token **lexed);
 void	free_ms_var(t_ast **astree, t_info *i, char *cmd);
 
 //minishell_init.c
-int		init_ms_var(t_ast **astree, t_info *i);
+void	init_ms_var(t_ast **astree, t_info *i);
 
 //minishell_main.c
 int		main(int argc, char **argv, char **envp);
@@ -151,10 +154,13 @@ int		main(int argc, char **argv, char **envp);
 //minishell_read.c
 t_bool	open_has_close(char *line, char open, char close);
 t_bool	line_is_complete(char *line);
-char	*read_multiline(char *msg);
+
+//minishell_muliline.c
+char	*read_multiline(const char *msg);
 
 //ms_signals.c
-void	int_handler(int sig);
+void	set_signals(void);
+int		rl_check_sigint(void);
 char	*read_multiline_sigint(char *rslt);
 
 //ms_valid.c

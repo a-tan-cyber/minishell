@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_debug.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:14:20 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/18 18:14:20 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/02/26 22:41:22 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ void	ft_print_rdir(char *name, t_redir *rdir)
 	printf("%s: {", name);
 	while (rdir)
 	{
-		printf(rdir->type);
+		printf("%d", (int)rdir->type);
 		rdir = rdir->next;
 	}
+	printf("}\n");
 }
 
 void	print_astree(int level, t_ast *ast)
@@ -46,8 +47,10 @@ void	print_astree(int level, t_ast *ast)
 		print_astree(level + 1, ast->left);
 	if (ast->riht != NULL)
 		print_astree(level + 1, ast->riht);
-	ft_strcpy(name, "level ");
-	ft_itoa_fast(level, name + 6);
-	ft_print_arr(name, ast->args);
+	ft_strcpy(name, "args lvl ");
+	ft_itoa_fast(level, name + 9);
+	ft_print_arr(name, (const char **)ast->args);
+	ft_strcpy(name, "rdir lvl ");
+	ft_itoa_fast(level, name + 9);
 	ft_print_rdir(name, ast->rdir);
 }
