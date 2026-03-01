@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 10:38:18 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/01 13:26:12 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,18 @@ struct	s_ast
 
 typedef struct s_ast	t_ast;
 
+struct	s_hist
+{
+	char			*line;
+	struct s_hist	*next;
+};
+
+typedef struct s_hist	t_hist;
+
 struct	s_info
 {
 	t_bool			interactive;
+	t_hist			*hist;
 	char			**my_env;
 	char			*line;
 	int				err;

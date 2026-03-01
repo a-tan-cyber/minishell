@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 10:40:25 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/01 13:27:43 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,10 @@ t_bool	line_is_complete(char *line);
 
 //minishell_muliline.c
 char	*read_multiline(t_info *i, const char *msg);
+
+//ms_history.c
+void	ms_history_add(t_info *i, const char *line);
+void	ms_history_clear(t_info *i);
 
 //ms_quote.c
 char	ms_quote_next(char q, char c);
