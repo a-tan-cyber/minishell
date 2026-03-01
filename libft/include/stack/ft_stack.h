@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stack.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 11:47:01 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 14:21:20 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ typedef struct s_stack
 }			t_stack;
 
 // ft_stack_base.c
-int			initialise_stack(t_stack *new);
-int			push_stack(t_stack *new, void *stuff);
-void		*pop_stack(t_stack *new);
-void		*peek(t_stack *new);
+int			initialise_stack(t_stack *stk);
+int			push_stack(t_stack *stk, void *stuff);
+void		*pop_stack(t_stack *stk);
+void		*peek(t_stack *stk);
 
 // ft_stack_chk.c
-int			is_full(t_stack *new);
-int			is_empty(t_stack *new);
+int			is_full(t_stack *stk);
+int			is_empty(t_stack *stk);
 
 #endif

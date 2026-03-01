@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_iarr_print.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 08:58:24 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/24 08:58:24 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 14:58:43 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+// #include "../../include/libft.h"
 
 // #include <stdio.h>
 // void	ft_print_arr(char *name, char **arr)

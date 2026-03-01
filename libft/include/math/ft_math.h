@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_math.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 11:53:03 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 14:42:44 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MATH_H
 # define FT_MATH_H
 
-# include "../libft.h"
+# include "../bool/ft_bool.h"
 // # define ABS(Value) ((Value) < 0 ? -(Value) : (Value))
 
 // ft_math_c.c

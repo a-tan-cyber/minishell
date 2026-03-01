@@ -3,43 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stack_base.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 12:03:43 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 14:21:46 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-int	initialise_stack(t_stack *new)
+int	initialise_stack(t_stack *stk)
 {
-	new->i = 0;
+	stk->i = 0;
 	return (0);
 }
 
-int	push_stack(t_stack *new, void *stuff)
+int	push_stack(t_stack *stk, void *stuff)
 {
-	if (new->i >= STACKSIZE)
+	if (stk->i >= STACKSIZE)
 	{
 		return (999);
 	}
-	new->stack[new->i] = stuff;
-	new->i++;
+	stk->stack[stk->i] = stuff;
+	stk->i++;
 	return (0);
 }
 
-void	*pop_stack(t_stack *new)
+void	*pop_stack(t_stack *stk)
 {
-	if (new->i == 0)
+	if (stk->i == 0)
 		return (0);
-	new->i--;
-	return (new->stack[new->i]);
+	stk->i--;
+	return (stk->stack[stk->i]);
 }
 
-void	*peek(t_stack *new)
+void	*peek(t_stack *stk)
 {
-	if (new->i == 0)
+	if (stk->i == 0)
 		return (0);
-	return (new->stack[new->i - 1]);
+	return (stk->stack[stk->i - 1]);
 }

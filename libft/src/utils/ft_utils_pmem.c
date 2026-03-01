@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_pmem.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 08:54:51 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 12:19:25 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 15:11:02 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
-#include <stdint.h>
-#include <sys/stat.h>
-#include <unistd.h>
 
 /*
 void	ft_print_in_base(long long n, char *base, int base_size)

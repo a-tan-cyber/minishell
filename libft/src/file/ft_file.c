@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_file.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 11:42:52 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 15:04:40 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/file/ft_file.h"
+#include "../../include/libft.h"
 
 int	read_file(char *filename)
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_s_list.h                                        :+:      :+:    :+:   */
+/*   ft_s_cdlist.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 11:55:53 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 14:22:39 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void		ft_cdlist_each(t_cdlist **head, void (*f)(void *));
 
 //ft_s_cdlist_x.c
 t_cdlist	*ft_cdlist_swap_pos(t_cdlist *a, t_cdlist *b);
-void		ft_cdlist_insf(t_cdlist **head, t_cdlist *new);
+void		ft_cdlist_insf(t_cdlist **head, t_cdlist *node);
 // // ft_s_list.c
 // t_list				*ft_create_elem(void *data);
 // // adds a new element of type t_list to the beginning of the list.

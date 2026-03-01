@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 23:00:03 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 11:48:15 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 14:14:24 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include "../../include/libft.h"
+# include <stdlib.h>
+# include <unistd.h>
 
 # ifndef LIBFT_GNL_BUFFER_SIZE
 #  define LIBFT_GNL_BUFFER_SIZE 420

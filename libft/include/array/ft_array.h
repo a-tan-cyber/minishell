@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_array.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 11:44:25 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 14:40:12 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FT_ARRAY_H
 
 # include <stddef.h>
-# include "../libft.h"
 
 size_t	ft_arrlen(const char **arr);
 void	free_arr(char **arr);
