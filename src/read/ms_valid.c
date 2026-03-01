@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_valid.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 07:40:06 by yunguo            #+#    #+#             */
-/*   Updated: 2026/01/21 07:40:06 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 16:15:49 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,23 @@
 t_bool	line_has_unpaired_char(char *line, char c)
 {
 	size_t	i;
+	char	q;
 
+	if (!line)
+		return (FALSE);
 	i = 0;
+	q = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'')
-		{
-			i++;
-			while (line[i] && line[i++] != '\'');
-		}
-		else if (line[i] == '\"')
-		{
-			i++;
-			while (line[i] && line[i++] != '\"');
-		}
-		else if (line[i] == c)
+		q = ms_quote_next(q, line[i]);
+		if (q == 0 && line[i] == c)
 		{
 			if (line[i + 1] != c)
 				return (TRUE);
 			i += 2;
+			continue ;
 		}
-		else
-			i++;
+		i++;
 	}
 	return (FALSE);
 }
