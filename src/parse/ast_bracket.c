@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_bracket.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:07:56 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/18 18:07:56 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 16:10:16 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int	matched_brkt(t_token *head, t_token *tail)
 	}
 	if (head == tail && left == 0)
 		return (1);
-	return (0);	
+	return (0);
 }
 
 //skip parenthesis reverse
-t_token *skip_token_brkt_rev(t_token *tail)
+t_token	*skip_token_brkt_rev(t_token *tail)
 {
 	int	r;
 

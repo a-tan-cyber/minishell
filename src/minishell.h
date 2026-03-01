@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 13:27:43 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/01 16:04:35 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include "../libft/include/libft.h"
 # include "minishell_struct.h"
 
-extern volatile sig_atomic_t g_sig;
+extern volatile sig_atomic_t	g_sig;
 
 /* 
 ██╗     ███████╗██╗  ██╗
@@ -99,7 +99,7 @@ t_token	*ins_token_front(t_token **head, t_oper type, char *text);
 
 // ast_bracket.c
 int		matched_brkt(t_token *head, t_token *tail);
-t_token *skip_token_brkt_rev(t_token *tail);
+t_token	*skip_token_brkt_rev(t_token *tail);
 
 // ast_create.c
 t_ast	*cre_ast_node(t_type type);
