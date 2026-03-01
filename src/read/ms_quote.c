@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_init.c                                   :+:      :+:    :+:   */
+/*   ms_quote.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 09:58:07 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 13:26:37 by amtan            ###   ########.fr       */
+/*   Created: 2026/02/28 10:40:44 by amtan             #+#    #+#             */
+/*   Updated: 2026/02/28 10:40:48 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	init_ms_var(t_ast **astree, t_info *i)
+char	ms_quote_next(char q, char c)
 {
-	*astree = NULL;
-	i->err = 0;
-	i->interactive = FALSE;
-	i->hist = NULL;
-	i->line = NULL;
-	i->my_env = NULL;
-	i->lexed = NULL;
-	i->ast = *astree;
+	if (c == '\'' && q != '"')
+	{
+		if (q == '\'')
+			return (0);
+		return ('\'');
+	}
+	if (c == '"' && q != '\'')
+	{
+		if (q == '"')
+			return (0);
+		return ('"');
+	}
+	return (q);
 }

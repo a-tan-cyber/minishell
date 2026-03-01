@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 20:54:07 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/01 13:27:43 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <sys/types.h>
+# include <unistd.h>
 # include "../libft/include/libft.h"
 # include "minishell_struct.h"
 
@@ -156,7 +157,14 @@ t_bool	open_has_close(char *line, char open, char close);
 t_bool	line_is_complete(char *line);
 
 //minishell_muliline.c
-char	*read_multiline(const char *msg);
+char	*read_multiline(t_info *i, const char *msg);
+
+//ms_history.c
+void	ms_history_add(t_info *i, const char *line);
+void	ms_history_clear(t_info *i);
+
+//ms_quote.c
+char	ms_quote_next(char q, char c);
 
 //ms_signals.c
 void	set_signals(void);
