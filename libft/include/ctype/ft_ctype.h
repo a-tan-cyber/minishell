@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ctype.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 12:05:51 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 14:41:22 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_CTYPE_H
 # define FT_CTYPE_H
+
+# include "../bool/ft_bool.h"
 
 // ctype.c
 int				ft_isalpha(int c);

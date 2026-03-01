@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_string.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 11:52:05 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 14:44:49 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_STRING_H
 # define FT_STRING_H
 
-# include "../libft.h"
+# include <stddef.h>
 
 // ft_string.c
 size_t	ft_strlen(const char *str);
