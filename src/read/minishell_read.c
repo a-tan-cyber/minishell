@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:13:43 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 19:57:34 by amtan            ###   ########.fr       */
+/*   Updated: 2026/02/28 10:40:27 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,21 @@
 
 t_bool	open_has_close(char *line, char open, char close)
 {
-	int	i;
-	int	l;
+	int		i;
+	int		l;
+	char	q;
 
 	if (!line)
 		return (FALSE);
-	l = 0;
 	i = 0;
+	l = 0;
+	q = 0;
 	while (line[i])
 	{
-		if (line[i] == open)
-		{
+		q = ms_quote_next(q, line[i]);
+		if (q == 0 && line[i] == open)
 			l++;
-		}
-		if (line[i] == close)
+		else if (q == 0 && line[i] == close)
 		{
 			if (l == 0)
 				return (FALSE);
@@ -41,12 +42,18 @@ t_bool	open_has_close(char *line, char open, char close)
 // check for: {'', "", ()}
 t_bool	line_is_complete(char *line)
 {
+	char	q;
 	char	*temp;
 	size_t	len;
+	size_t	i;
 
-	if (num_of_x_ignore_y_substr(line, '\'', '\"') % 2 != 0)
+	if (!line)
 		return (FALSE);
-	if (num_of_x_ignore_y_substr(line, '\"', '\'') % 2 != 0)
+	q = 0;
+	i = 0;
+	while (line[i])
+		q = ms_quote_next(q, line[i++]);
+	if (q != 0)
 		return (FALSE);
 	if (open_has_close(line, '(', ')') == FALSE)
 		return (FALSE);
