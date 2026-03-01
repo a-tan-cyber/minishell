@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 17:51:59 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/01 10:38:18 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_ast	t_ast;
 
 struct	s_info
 {
+	t_bool			interactive;
 	char			**my_env;
 	char			*line;
 	int				err;

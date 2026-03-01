@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 19:34:18 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/01 10:42:51 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@ static int	ms_setup(t_ast **ast, t_info *i, int argc, char **envp)
 		return (2);
 	if (ft_arrdup_mk2(&i->my_env, (const char **)envp) != 0)
 		return (2);
+	i->interactive = isatty(STDIN_FILENO);
 	g_sig = 0;
-	rl_catch_signals = 0;
-	rl_event_hook = rl_check_sigint;
-	set_signals();
+	if (i->interactive)
+	{
+		rl_catch_signals = 0;
+		rl_event_hook = rl_check_sigint;
+		set_signals();
+	}
 	return (0);
 }
 
@@ -39,9 +43,16 @@ static int	ms_handle_sigint(t_ast **ast, t_info *i)
 static int	ms_should_exit(t_info *i)
 {
 	if (!i->line)
+	{
+		if (i->interactive)
+			write(1, "exit\n", 5);
 		return (1);
+	}
 	if (!ft_strcmp(i->line, "exit\n"))
+	{
+		i->err = 0;
 		return (1);
+	}
 	return (0);
 }
 
@@ -49,7 +60,7 @@ static void	ms_process_line(t_ast **ast, t_info *i)
 {
 	if (!line_valid(&i->line))
 		return ;
-	if (i->line && i->line[0] != '\0' && i->line[0] != '\n')
+	if (i->interactive && i->line && i->line[0] != '\0' && i->line[0] != '\n')
 		add_history(i->line);
 	if (lex_line(i->line, &i->lexed, (const char **)i->my_env, i) == 0)
 		*ast = build_ast_rec(i->lexed, token_last(i->lexed));
@@ -69,11 +80,11 @@ int	main(int argc, char **argv, char **envp)
 		return (free_ms_var(&astree, &i, "all"), ret);
 	while (TRUE)
 	{
-		i.line = read_multiline("moonshell> ");
+		i.line = read_multiline(&i, "moonshell> ");
 		if (ms_handle_sigint(&astree, &i))
 			continue ;
 		if (ms_should_exit(&i))
-			return (free_ms_var(&astree, &i, "all"), 0);
+			return (free_ms_var(&astree, &i, "all"), i.err);
 		ms_process_line(&astree, &i);
 		free_ms_var(&astree, &i, "tmp");
 	}
