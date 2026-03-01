@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_s_dlist_x.c                                     :+:      :+:    :+:   */
+/*   ft_s_cdlist_x.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 22:37:59 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/12 22:37:59 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 14:23:19 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@ t_cdlist	*ft_cdlist_swap_pos(t_cdlist *a, t_cdlist *b)
 	return (b);
 }
 
-void	ft_cdlist_insf(t_cdlist **head, t_cdlist *new)
+void	ft_cdlist_insf(t_cdlist **head, t_cdlist *node)
 {
 	t_cdlist	*top;
 
 	if (!head || !*head)
 	{
-		*head = new;
+		*head = node;
 		return ;
 	}
-	if (!new)
+	if (!node)
 		return ;
 	top = *head;
-	top->prev->next = new;
-	new->next = top;
-	new->prev = top->prev;
-	top->prev = new;
-	*head = new;
+	top->prev->next = node;
+	node->next = top;
+	node->prev = top->prev;
+	top->prev = node;
+	*head = node;
 }

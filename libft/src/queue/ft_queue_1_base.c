@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_queue_1_base.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 12:17:35 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/01 14:19:11 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/queue/ft_queue.h"
 
-int	initialise_queue_1(t_cir_buf_1 *new)
+int	initialise_queue_1(t_cir_buf_1 *q)
 {
-	new->size = 0;
-	new->front = 0;
-	new->back = 0;
+	q->size = 0;
+	q->front = 0;
+	q->back = 0;
 	return (0);
 }
 
-int	enqueue_1(t_cir_buf_1 *queue, void *new)
+int	enqueue_1(t_cir_buf_1 *queue, void *elem)
 {
 	if (queue->size == QUEUESIZE)
 		return (FTQ_EFULL);
-	queue->buf[queue->back] = new;
+	queue->buf[queue->back] = elem;
 	queue->back = (queue->back + 1) % QUEUESIZE;
 	queue->size++;
 	return (0);
