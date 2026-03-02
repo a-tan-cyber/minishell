@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 16:04:35 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/02 13:05:09 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	ms_history_clear(t_info *i);
 char	ms_quote_next(char q, char c);
 
 //ms_signals.c
-void	set_signals(void);
+int		set_signals(void);
 int		rl_check_sigint(void);
 char	*read_multiline_sigint(char *rslt);
 

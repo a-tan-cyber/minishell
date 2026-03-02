@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/02 11:25:44 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/02 13:05:48 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static int	ms_setup(t_ast **ast, t_info *i, int argc, char **envp)
 	{
 		rl_catch_signals = 0;
 		rl_event_hook = rl_check_sigint;
-		set_signals();
+		if (set_signals() != 0)
+			return (2);
 	}
 	return (0);
 }
