@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 05:56:54 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/27 23:10:56 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/02 10:59:14 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	set_signals(void)
 
 char	*read_multiline_sigint(char *rslt)
 {
-	g_sig = 0;
 	ft_sfree((void **)&rslt);
 	return (ft_strdup(""));
 }

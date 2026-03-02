@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 13:29:11 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/02 11:25:44 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ static int	ms_handle_sigint(t_ast **ast, t_info *i)
 	if (g_sig != SIGINT)
 		return (0);
 	g_sig = 0;
+	i->err = 130;
 	ft_sfree((void **)&i->line);
 	free_ms_var(ast, i, "tmp");
+	if (!i->interactive)
+		return (0);
 	return (1);
 }
 

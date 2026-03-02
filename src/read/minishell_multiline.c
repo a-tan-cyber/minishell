@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 19:56:29 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/01 10:45:11 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/02 11:24:51 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,16 @@ static char	*ml_handle_eof(t_info *i, const char *first,
 	if (prompt == first)
 		return (ft_sfree((void **)&rslt), NULL);
 	q = ml_unclosed_quote(rslt);
-	if (i->interactive)
-		write(1, "\n", 1);
 	if (q != 0)
 	{
 		ft_puterr("moonshell: unexpected EOF while looking for matching `");
 		write(2, &q, 1);
 		ft_puterr("'\n");
 	}
-	if (!i->interactive)
+	else
 		ft_puterr("moonshell: syntax error: unexpected end of file\n");
 	i->err = 2;
 	ft_sfree((void **)&rslt);
-	if (i->interactive)
-		return (ft_strdup(""));
 	return (NULL);
 }
 
