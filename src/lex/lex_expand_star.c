@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:13:25 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 19:35:49 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/03 23:56:52 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_token	*ins_wct(char *text, t_token **cur, t_bool *inserted)
 
 	new_text = ft_strdup(text);
 	if (!new_text)
-		return (ft_safefree(new_text), NULL);
+		return (free(new_text), NULL);
 	new_token = ins_token_front(cur, TEXT, new_text);
 	if (new_token == NULL)
 		return (NULL);

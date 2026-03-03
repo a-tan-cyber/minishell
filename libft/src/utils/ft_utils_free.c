@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 08:45:15 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 16:02:34 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/03 23:57:14 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,4 @@ void	ft_sfree(void **ptr)
 		return ;
 	free(*ptr);
 	*ptr = NULL;
-}
-
-void	ft_safefree(void *ptr)
-{
-	if (!ptr)
-		return ;
-	free(ptr);
 }
