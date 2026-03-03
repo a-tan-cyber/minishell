@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/02 13:05:09 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/03 16:17:35 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,10 @@ void	init_ms_var(t_ast **astree, t_info *i);
 int		main(int argc, char **argv, char **envp);
 
 //minishell_read.c
-t_bool	open_has_close(char *line, char open, char close);
+int		open_has_close(char *line, char open, char close);
 t_bool	line_is_complete(char *line);
 
-//minishell_muliline.c
+//minishell_multiline.c
 char	*read_multiline(t_info *i, const char *msg);
 
 //ms_history.c
@@ -173,6 +173,6 @@ char	*read_multiline_sigint(char *rslt);
 
 //ms_valid.c
 t_bool	line_has_unpaired_char(char *line, char c);
-t_bool	line_valid(char **line);
+t_bool	line_valid(t_info *i, char **line);
 
 #endif

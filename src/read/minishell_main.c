@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/02 13:05:48 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/03 16:16:44 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	ms_should_exit(t_info *i)
 
 static void	ms_process_line(t_ast **ast, t_info *i)
 {
-	if (!line_valid(&i->line))
+	if (!line_valid(i, &i->line))
 		return ;
 	if (i->interactive && i->line && i->line[0] != '\0' && i->line[0] != '\n')
 		ms_history_add(i, i->line);
