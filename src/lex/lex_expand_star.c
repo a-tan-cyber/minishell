@@ -6,82 +6,108 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:13:25 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/03 23:56:52 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/04 15:51:04 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// expand all stars (DEL char / 127). 0 if success
-// int	expand_star(char *line, t_token **lexed, char **env, t_info *info)
+static void	wc_free(char **m, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+		free(m[i++]);
+	free(m);
+}
+
+static int	wc_add_sorted(char ***m, size_t *n, size_t *cap, const char *name)
+{
+	char	**new_m;
+	char	*s;
+	size_t	pos;
+
+	if (*n == *cap)
+	{
+		new_m = (char **)malloc(sizeof(char *) * ((*cap * 2) + 1));
+		if (!new_m)
+			return (1);
+		ft_memcpy(new_m, *m, sizeof(char *) * (*n));
+		free(*m);
+		*m = new_m;
+		*cap *= 2;
+	}
+	s = ft_strdup(name);
+	if (!s)
+		return (1);
+	pos = (*n)++;
+	while (pos > 0 && ft_strcmp((*m)[pos - 1], s) > 0)
+	{
+		(*m)[pos] = (*m)[pos - 1];
+		pos--;
+	}
+	(*m)[pos] = s;
+	return (0);
+}
+
+static char	**wc_collect(const char *line, DIR *dir, size_t *n)
+{
+	struct dirent	*f;
+	char			**m;
+	size_t			cap;
+
+	*n = 0;
+	cap = 16;
+	m = (char **)malloc(sizeof(char *) * (cap + 1));
+	if (!m)
+		return (NULL);
+	f = readdir(dir);
+	while (f)
+	{
+		if (((f->d_name[0] == '.' && line[0] == '.') || f->d_name[0] != '.')
+			&& cmp_wc(line, f->d_name, 127)
+			&& wc_add_sorted(&m, n, &cap, f->d_name))
+			return (wc_free(m, *n), NULL);
+		f = readdir(dir);
+	}
+	m[*n] = NULL;
+	return (m);
+}
+
+static int	wc_insert_tokens(char **m, size_t n, t_token **lexed)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		if (!ins_token_front(lexed, TEXT, m[i]))
+			return (free(m[i]), 1);
+		m[i++] = NULL;
+	}
+	return (0);
+}
+
 int	expand_star(const char *line, t_token **lexed)
 {
-	t_bool			ins;
-	DIR				*dir;
-	struct dirent	*f;
-	t_token			*tmp;
+	DIR		*dir;
+	char	**m;
+	size_t	n;
+	t_token	*tmp;
 
 	dir = opendir(".");
 	if (!dir)
 		return (1);
-	ins = FALSE;
-	f = readdir(dir);
-	while (f)
-	{
-		if ((((f->d_name)[0] == '.' && line[0] == '.') || f->d_name[0] != '.')
-			&& cmp_wc(line, f->d_name, 127) && !ins_wct(f->d_name, lexed, &ins))
-			return (closedir(dir), 2);
-		f = readdir(dir);
-	}
-	if (ins == FALSE)
-		return (ft_str_replace_chr((*lexed)->text, 127, '*'), closedir(dir), 0);
+	m = wc_collect(line, dir, &n);
+	if (!m)
+		return (closedir(dir), 2);
+	if (n == 0)
+		return (ft_str_replace_chr((*lexed)->text, 127, '*'),
+			wc_free(m, n), closedir(dir), 0);
+	if (wc_insert_tokens(m, n, lexed))
+		return (wc_free(m, n), closedir(dir), 2);
 	tmp = *lexed;
-	*lexed = (*lexed)->prev;
-	return (free_token_one(&tmp), closedir(dir), 0);
-}
-
-t_bool	cmp_wc_rec(const char *wc, const char *thing, size_t i, size_t j)
-{
-	if (wc[i] == 127 && wc[i + 1] == '\0')
-		return (TRUE);
-	else if (wc[i] == '\0' && thing[j] == '\0')
-		return (TRUE);
-	if (wc[i] == 127)
-	{
-		if (cmp_wc_rec(wc, thing, i + 1, j) == TRUE)
-			return (TRUE);
-		if (thing[j] && cmp_wc_rec(wc, thing, i, j + 1) == TRUE)
-			return (TRUE);
-		return (FALSE);
-	}
-	if (wc[i] == thing[j])
-		return (cmp_wc_rec(wc, thing, i + 1, j + 1));
-	return (FALSE);
-}
-
-t_bool	cmp_wc(const char *wc, const char *thing, int c)
-{
-	t_bool	res;
-
-	if (c == 127)
-		res = cmp_wc_rec(wc, thing, 0, 0);
-	else
-		res = FALSE;
-	return (res);
-}
-
-//insert a token before the current token
-t_token	*ins_wct(char *text, t_token **cur, t_bool *inserted)
-{
-	char	*new_text;
-	t_token	*new_token;
-
-	new_text = ft_strdup(text);
-	if (!new_text)
-		return (free(new_text), NULL);
-	new_token = ins_token_front(cur, TEXT, new_text);
-	if (new_token == NULL)
-		return (NULL);
-	*inserted = TRUE;
-	return (new_token);
+	return (wc_free(m, n), *lexed = (*lexed)->prev,
+		free_token_one(&tmp), closedir(dir), 0);
 }
