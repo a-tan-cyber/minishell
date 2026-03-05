@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/05 18:26:08 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 23:43:51 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,36 @@
 # define MINISHELL_H
 
 # include <dirent.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <string.h>
+# include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 # include "../libft/include/libft.h"
 # include "minishell_struct.h"
 
 extern volatile sig_atomic_t	g_sig;
+
+/* 
+'########:::##....##:::########:::.######.:
+ ##......:::.##..##.:::##......:::##....##:
+ ##......:::..####..:::##......:::##......:
+ ######..:::...##...:::######..:::##......:
+ ##......:::..####..:::##......:::##......:
+ ##......:::.##..##.:::##......:::##....##:
+ ########:::##....##:::########:::.######.:
+.........:::........:::........:::::.....::
+*/
+
+//ms_exec.c
+void	ms_exec_ast(t_info *i, t_ast *ast);
+
+//ms_exec_utils.c
+void	ms_exec_child_fail(const char *cmd);
 
 /* 
 ██╗     ███████╗██╗  ██╗

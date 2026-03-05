@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/03 16:16:44 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 23:26:16 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ static void	ms_process_line(t_ast **ast, t_info *i)
 	if (lex_line(i->line, &i->lexed, (const char **)i->my_env, i) == 0)
 		*ast = build_ast_rec(i->lexed, token_last(i->lexed));
 	if (*ast)
+	{
 		print_astree(0, *ast);
+		ms_exec_ast(i, *ast);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
