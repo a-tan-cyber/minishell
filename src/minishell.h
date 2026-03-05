@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 01:05:33 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 01:27:50 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ int		ms_env_set(char ***envp, const char *key, const char *val);
 
 //ms_builtin_cd.c
 int		ms_builtin_cd(t_info *i, char **argv);
+
+//ms_builtin_exit.c
+int		ms_builtin_exit(t_info *i, char **argv);
 
 //ms_exec_utils.c
 void	ms_exec_child_fail(const char *name, const char *path);

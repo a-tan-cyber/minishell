@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/05 23:26:16 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 01:27:22 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,6 @@ static int	ms_should_exit(t_info *i)
 			write(1, "exit\n", 5);
 		return (1);
 	}
-	if (!ft_strcmp(i->line, "exit\n"))
-	{
-		i->err = 0;
-		return (1);
-	}
 	return (0);
 }
 
@@ -93,6 +88,8 @@ int	main(int argc, char **argv, char **envp)
 		if (ms_should_exit(&i))
 			return (free_ms_var(&astree, &i, "all"), i.err);
 		ms_process_line(&astree, &i);
+		if (i.exit_req)
+			return (free_ms_var(&astree, &i, "all"), i.err);
 		free_ms_var(&astree, &i, "tmp");
 	}
 	return (free_ms_var(&astree, &i, "all"), 0);

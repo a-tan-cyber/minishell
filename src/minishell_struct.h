@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 00:32:43 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 01:29:47 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ struct	s_info
 	int				err;
 	struct s_token	*lexed;
 	struct s_ast	*ast;
+	t_bool			exit_req;
 };
 
 typedef struct s_info	t_info;
@@ -117,5 +118,14 @@ typedef struct s_pathctx
 	const char	*cmd;
 	char		*fallback;
 }	t_pathctx;
+
+typedef struct s_exitnum
+{
+	const char			*s;
+	size_t				i;
+	int					sign;
+	unsigned long long	acc;
+	unsigned long long	lim;
+}	t_exitnum;
 
 #endif
