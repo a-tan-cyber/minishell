@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 00:23:44 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 00:24:03 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 00:58:17 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	ms_try_builtin(t_info *i, t_ast *cmd)
 		return (i->err = ms_builtin_echo(cmd->args), 1);
 	if (!ft_strcmp(cmd->args[0], "pwd"))
 		return (i->err = ms_builtin_pwd(), 1);
+	if (!ft_strcmp(cmd->args[0], "cd"))
+		return (i->err = ms_builtin_cd(i, cmd->args), 1);
 	if (!ft_strcmp(cmd->args[0], "env"))
 		return (i->err = ms_builtin_env(i), 1);
 	return (0);
