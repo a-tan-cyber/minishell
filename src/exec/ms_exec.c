@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:30:41 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/05 23:43:26 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 00:07:07 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static int	ms_wait_exit_status(pid_t pid)
 	return (1);
 }
 
-static int	ms_exec_cmd_path(t_info *i, t_ast *cmd)
+static int	ms_exec_cmd_path(t_info *i, t_ast *cmd, const char *name,
+			const char *path)
 {
 	pid_t	pid;
 
@@ -36,19 +37,32 @@ static int	ms_exec_cmd_path(t_info *i, t_ast *cmd)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		execve(cmd->args[0], cmd->args, i->my_env);
-		ms_exec_child_fail(cmd->args[0]);
+		execve(path, cmd->args, i->my_env);
+		ms_exec_child_fail(name, path);
 	}
 	return (ms_wait_exit_status(pid));
 }
 
 void	ms_exec_ast(t_info *i, t_ast *ast)
 {
+	char	*path;
+
 	if (!i || !ast)
 		return ;
 	if (ast->type != AST_CMD || !ast->args || !ast->args[0])
 		return ;
-	if (!ft_strchr(ast->args[0], '/'))
+	if (ft_strchr(ast->args[0], '/'))
+	{
+		i->err = ms_exec_cmd_path(i, ast, ast->args[0], ast->args[0]);
 		return ;
-	i->err = ms_exec_cmd_path(i, ast);
+	}
+	path = ms_resolve_path(i, ast->args[0]);
+	if (!path)
+	{
+		ms_cmd_not_found(ast->args[0]);
+		i->err = 127;
+		return ;
+	}
+	i->err = ms_exec_cmd_path(i, ast, ast->args[0], path);
+	ft_sfree((void **)&path);
 }
