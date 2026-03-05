@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:07:56 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 16:10:16 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 11:39:20 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,19 @@ int	matched_brkt(t_token *head, t_token *tail)
 {
 	int	left;
 
-	if (head->type != PAREN_L)
+	if (!head || !tail || head->type != PAREN_L)
 		return (0);
 	left = 0;
-	while (TRUE)
+	while (head && head != tail->next)
 	{
 		if (head->type == PAREN_L)
 			left++;
 		else if (head->type == PAREN_R)
 			left--;
 		if (left == 0)
-			break ;
-		if (!head || head == tail)
-			break ;
+			return (head == tail);
 		head = head->next;
 	}
-	if (head == tail && left == 0)
-		return (1);
 	return (0);
 }
 
