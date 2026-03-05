@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 07:40:06 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 16:15:49 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/03 16:29:25 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,27 @@ t_bool	line_has_unpaired_char(char *line, char c)
 	return (FALSE);
 }
 
-t_bool	line_valid(char **line)
+t_bool	line_valid(t_info *i, char **line)
 {
 	char	*temp;
+	int		par;
 
-	if (!line || !*line)
+	if (!i || !line || !*line)
 		return (FALSE);
-	temp = ft_strtrim(*line, " \t\n\r\v\f");
+	temp = ft_strtrim_ws(*line);
 	if (!temp)
 		return (FALSE);
 	ft_sfree((void **)line);
 	*line = temp;
 	if (ft_strcmp(*line, "") == 0)
 		return (FALSE);
+	par = open_has_close(*line, '(', ')');
+	if (par == -1)
+	{
+		ft_puterr("moonshell: syntax error near unexpected token `)'\n");
+		i->err = 2;
+		return (FALSE);
+	}
 	if (line_is_complete(*line) == FALSE)
 		return (FALSE);
 	if (line_has_unpaired_char(*line, '&') == TRUE)

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 19:14:52 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/04 00:04:55 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 // ft_utils_free.c
 void	ft_sfree(void **ptr);
-void	ft_safefree(void *ptr);
 
 // ft_utils_hexdump.c
 void	ft_phd_offset(unsigned int value);

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:11:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 19:31:09 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/04 11:10:07 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	expand_tokens(t_token **lexed)
 int	merge_and_expand_tokens(t_token **lexed)
 {
 	t_token	*cur;
+	char	*new_text;
 	int		err;
 
 	cur = *lexed;
@@ -42,9 +43,10 @@ int	merge_and_expand_tokens(t_token **lexed)
 	{
 		if (cur->type == TEXT && cur->next && cur->next->type == TEXT)
 		{
-			cur->text = ft_str_append(cur->text, cur->next->text);
-			if (!cur->text)
+			new_text = ft_str_append(cur->text, cur->next->text);
+			if (!new_text)
 				return (free_token_lst(lexed), 1);
+			cur->text = new_text;
 			free_token_one(&cur->next);
 		}
 		else

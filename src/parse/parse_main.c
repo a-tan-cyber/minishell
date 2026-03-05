@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:58:50 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 22:20:23 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 12:39:48 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	cmd_step(t_ast *cmd, t_token **head, t_token *end, int *i)
 			return (1);
 		return ((*head = file->next), 0);
 	}
-	return ((*head = (*head)->next), 0);
+	return (1);
 }
 
 t_ast	*cre_ast_cmd_run(t_ast *cmd, t_token *head, t_token *tail)
@@ -111,22 +111,20 @@ t_ast	*build_ast_rec(t_token *head, t_token *tail)
 		return (NULL);
 	curr = find_token_logic_pipe(head, tail);
 	if (curr)
-	{
-		new = cre_ast_new(curr);
-		if (!new)
-			return (NULL);
-		new->left = build_ast_rec(head, curr->prev);
-		new->riht = build_ast_rec(curr->next, tail);
-		return (new);
-	}
-	if (head->type == PAREN_L && tail->type == PAREN_R
-		&& matched_brkt(head, tail))
-	{
-		new = cre_ast_node((t_type)AST_BRKT);
-		if (!new)
-			return (NULL);
-		new->left = build_ast_rec(head->next, tail->prev);
-		return (new);
-	}
-	return (cre_ast_cmd(head, tail));
+		return (cre_ast_logic(curr, head, tail));
+	if (head->type != PAREN_L || tail->type != PAREN_R
+		|| !matched_brkt(head, tail))
+		return (cre_ast_cmd(head, tail));
+	curr = head->next;
+	while (curr && curr != tail && curr->type == SPCE)
+		curr = curr->next;
+	if (!curr || curr == tail)
+		return (NULL);
+	new = cre_ast_node((t_type)AST_BRKT);
+	if (!new)
+		return (NULL);
+	new->left = build_ast_rec(head->next, tail->prev);
+	if (!new->left)
+		return (free_ast(new), NULL);
+	return (new);
 }

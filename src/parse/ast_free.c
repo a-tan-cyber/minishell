@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:32:35 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 19:31:53 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 11:40:44 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,19 @@
 void	free_rdir(t_redir **rdir)
 {
 	t_redir	*curr;
-	t_redir	*temp;
+	t_redir	*next;
 
+	if (!rdir || !*rdir)
+		return ;
 	curr = *rdir;
 	while (curr)
 	{
+		next = curr->next;
 		ft_sfree((void **)&curr->file);
-		temp = curr;
-		curr = curr->next;
-		ft_sfree((void **)&temp);
+		ft_sfree((void **)&curr);
+		curr = next;
 	}
-	curr = NULL;
+	*rdir = NULL;
 }
 
 void	free_ast(t_ast *ast)
@@ -43,15 +45,8 @@ void	free_ast(t_ast *ast)
 
 void	free_ast_one(t_ast **one)
 {
-	t_ast	*cur;
-
-	cur = *one;
-	cur->left = NULL;
-	cur->riht = NULL;
-	cur->type = 0;
-	free_arr(cur->args);
-	cur->args = NULL;
-	free_rdir(&cur->rdir);
-	cur->rdir = NULL;
-	ft_sfree((void **)one);
+	if (!one || !*one)
+		return ;
+	free_ast(*one);
+	*one = NULL;
 }

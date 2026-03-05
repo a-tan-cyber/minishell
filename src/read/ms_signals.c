@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 05:56:54 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/27 23:10:56 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/02 13:05:26 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,33 @@ static void	handle_sigint(int sig)
 	write(1, "^C", 2);
 }
 
-void	set_signals(void)
+static int	ms_sigaction(int sig, void (*handler)(int))
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = handle_sigint;
+	sa.sa_handler = handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = SIG_IGN;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGQUIT, &sa, NULL);
+	return (sigaction(sig, &sa, NULL));
+}
+
+int	set_signals(void)
+{
+	if (ms_sigaction(SIGINT, handle_sigint) == -1)
+	{
+		perror("sigaction(SIGINT)");
+		return (1);
+	}
+	if (ms_sigaction(SIGQUIT, SIG_IGN) == -1)
+	{
+		perror("sigaction(SIGQUIT)");
+		return (1);
+	}
+	return (0);
 }
 
 char	*read_multiline_sigint(char *rslt)
 {
-	g_sig = 0;
 	ft_sfree((void **)&rslt);
 	return (ft_strdup(""));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_lis_cir.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:24:01 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/29 18:24:01 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/04 00:03:19 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ static size_t	iarr_lis_cir_unique_fun(const int *iarr, size_t iarr_c,
 	cir_arr = ft_calloc(iarr_c * 2, sizeof(int));
 	max_idx = ft_calloc(iarr_c, sizeof(int));
 	if (!cir_arr || !max_idx)
-		return (ft_safefree(cir_arr), ft_safefree(max_idx), 0);
+		return (free(cir_arr), free(max_idx), 0);
 	ft_iarr_cpy_mul(cir_arr, 2, iarr, iarr_c);
 	vars[0] = 0;
 	vars[2] = 0;
@@ -267,7 +267,7 @@ static size_t	iarr_lis_cir_unique_fun(const int *iarr, size_t iarr_c,
 	}
 	ft_iarr_cpy(idx, max_idx, vars[2]);
 	fetch_res_from_idx(res, idx, iarr, vars[2]);
-	return (ft_safefree(cir_arr), ft_safefree(max_idx), vars[2]);
+	return (free(cir_arr), free(max_idx), vars[2]);
 }
 
 // static size_t	iarr_lis_cir_unique_fun(const int *iarr, size_t iarr_c,

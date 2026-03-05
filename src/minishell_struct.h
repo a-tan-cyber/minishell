@@ -6,12 +6,14 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 13:26:12 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/04 15:51:36 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_STRUCT_H
 # define MINISHELL_STRUCT_H
+
+# include <stddef.h>
 
 typedef int				t_bool;
 # define TRUE 1
@@ -100,5 +102,13 @@ struct	s_token
 };
 
 typedef struct s_token	t_token;
+
+typedef struct s_wc_ctx
+{
+	const char	*wc;
+	const char	*th;
+	signed char	*memo;
+	size_t		lt;
+}	t_wc_ctx;
 
 #endif

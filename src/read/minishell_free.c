@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 09:57:27 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 13:29:41 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/04 11:05:46 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,26 @@
 
 void	free_token_one(t_token **lst)
 {
-	t_token	*tmp;
-	t_token	*cur;
+	t_token	*node;
+	t_token	*next;
 
-	cur = *lst;
-	if (cur->prev)
-		cur->prev->next = cur->next;
-	if (cur->next)
-		cur->next->prev = cur->prev;
-	tmp = cur;
-	ft_sfree((void **)&cur->text);
-	ft_sfree((void **)&tmp);
+	if (!lst || !*lst)
+		return ;
+	node = *lst;
+	next = node->next;
+	if (node->prev)
+		node->prev->next = node->next;
+	if (node->next)
+		node->next->prev = node->prev;
+	*lst = next;
+	ft_sfree((void **)&node->text);
+	ft_sfree((void **)&node);
 }
 
 void	free_token_lst(t_token **lst)
 {
-	t_token	*tmp;
-	t_token	*cur;
-
-	cur = *lst;
-	while (cur)
-	{
-		ft_sfree((void **)&cur->text);
-		tmp = cur;
-		cur = cur->next;
-		ft_sfree((void **)&tmp);
-	}
-	*lst = NULL;
+	while (lst && *lst)
+		free_token_one(lst);
 }
 
 void	free_null_var(t_ast **ast, char ***env, char **line, t_token **lexed)
