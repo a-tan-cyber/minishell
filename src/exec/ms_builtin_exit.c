@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 01:24:04 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 01:30:34 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 01:40:29 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	ms_builtin_exit(t_info *i, char **argv)
 		ft_putstr_fd("moonshell: exit: ", STDERR_FILENO);
 		ft_putstr_fd(argv[1], STDERR_FILENO);
 		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-		return (i->err = 255, i->exit_req = TRUE, 0);
+		return (i->err = 2, i->exit_req = TRUE, 0);
 	}
 	i->err = (unsigned char)n;
 	i->exit_req = TRUE;
