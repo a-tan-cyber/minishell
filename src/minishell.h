@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/03 16:17:35 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 12:24:58 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ t_token	*skip_token_brkt_rev(t_token *tail);
 t_ast	*cre_ast_node(t_type type);
 t_ast	*cre_ast_new(t_token *curr);
 t_redir	*crea_rdir_push_back(t_redir **curr, t_oper type, char *text);
+t_ast	*cre_ast_logic(t_token *curr, t_token *head, t_token *tail);
 
 // ast_free.c
 void	free_rdir(t_redir **rdir);

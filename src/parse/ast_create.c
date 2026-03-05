@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:26:20 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 17:53:33 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 12:25:20 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,18 @@ t_redir	*crea_rdir_push_back(t_redir **curr, t_oper type, char *text)
 	if (!last->next)
 		return (NULL);
 	return (*curr);
+}
+
+t_ast	*cre_ast_logic(t_token *curr, t_token *head, t_token *tail)
+{
+	t_ast	*new;
+
+	new = cre_ast_new(curr);
+	if (!new)
+		return (NULL);
+	new->left = build_ast_rec(head, curr->prev);
+	new->riht = build_ast_rec(curr->next, tail);
+	if (!new->left || !new->riht)
+		return (free_ast(new), NULL);
+	return (new);
 }
