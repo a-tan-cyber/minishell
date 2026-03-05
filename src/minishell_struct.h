@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/04 15:51:36 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 00:32:43 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,12 @@ typedef struct s_wc_ctx
 	signed char	*memo;
 	size_t		lt;
 }	t_wc_ctx;
+
+typedef struct s_pathctx
+{
+	const char	*path;
+	const char	*cmd;
+	char		*fallback;
+}	t_pathctx;
 
 #endif

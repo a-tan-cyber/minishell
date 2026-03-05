@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 00:05:19 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 00:13:01 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 00:36:15 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,48 +51,53 @@ static char	*ms_join_dir_cmd(const char *dir, const char *cmd)
 	return (out);
 }
 
-static int	ms_make_try(const char *path, const char *cmd,
-				size_t i, size_t j, char **try, char **fallback)
+static int	ms_make_try(t_pathctx *ctx, size_t i, size_t j, char **try)
 {
 	char	*dir;
 
-	dir = ft_substr(path, i, j - i);
+	dir = ft_substr(ctx->path, i, j - i);
 	if (!dir)
-		return (ft_sfree((void **)fallback), 1);
-	*try = ms_join_dir_cmd(dir, cmd);
+	{
+		ft_sfree((void **)&ctx->fallback);
+		return (1);
+	}
+	*try = ms_join_dir_cmd(dir, ctx->cmd);
 	ft_sfree((void **)&dir);
 	if (!*try)
-		return (ft_sfree((void **)fallback), 1);
+	{
+		ft_sfree((void **)&ctx->fallback);
+		return (1);
+	}
 	return (0);
 }
 
 static char	*ms_pick_from_path(const char *path, const char *cmd)
 {
-	size_t	i;
-	size_t	j;
-	char	*try;
-	char	*fallback;
+	t_pathctx	ctx;
+	size_t		i;
+	size_t		j;
+	char		*try;
 
+	ctx.path = path;
+	ctx.cmd = cmd;
+	ctx.fallback = NULL;
 	i = 0;
-	fallback = NULL;
 	while (path[i])
 	{
 		j = i;
 		while (path[j] && path[j] != ':')
 			j++;
-		if (ms_make_try(path, cmd, i, j, &try, &fallback))
+		if (ms_make_try(&ctx, i, j, &try))
 			return (NULL);
 		if (access(try, X_OK) == 0)
-			return (ft_sfree((void **)&fallback), try);
-		if (!fallback && access(try, F_OK) == 0)
-			fallback = try;
+			return (ft_sfree((void **)&ctx.fallback), try);
+		if (!ctx.fallback && access(try, F_OK) == 0)
+			ctx.fallback = try;
 		else
 			ft_sfree((void **)&try);
-		if (!path[j])
-			break ;
-		i = j + 1;
+		i = j + (path[j] == ':');
 	}
-	return (fallback);
+	return (ctx.fallback);
 }
 
 char	*ms_resolve_path(t_info *i, const char *cmd)
