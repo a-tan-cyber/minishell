@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:58:50 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/05 12:39:48 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 18:31:52 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ t_ast	*build_ast_rec(t_token *head, t_token *tail)
 	t_ast	*new;
 	t_token	*curr;
 
-	if (!head || !tail)
+	trim_ast_range(&head, &tail);
+	if (!head || !tail || (head == tail && head->type == SPCE))
 		return (NULL);
 	curr = find_token_logic_pipe(head, tail);
 	if (curr)

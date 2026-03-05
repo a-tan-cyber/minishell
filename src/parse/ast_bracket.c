@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:07:56 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/05 11:39:20 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 18:06:41 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ t_token	*skip_token_brkt_rev(t_token *tail)
 			r++;
 		else if (tail->type == PAREN_L)
 			r--;
-		tail = tail->prev;
 		if (r == 0)
 			return (tail);
+		tail = tail->prev;
 	}
 	return (NULL);
 }
