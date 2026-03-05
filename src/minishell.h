@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/05 12:24:58 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 18:26:08 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ t_redir	*goto_rdir_last(t_redir *curr);
 
 // ast_util.c
 int		count_ast_arg(t_token *head, t_token *tail);
+void	trim_ast_range(t_token **head, t_token **tail);
 
 // parse_main.c
 t_token	*find_token_logic_pipe(t_token *head, t_token *tail);
