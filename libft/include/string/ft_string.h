@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 14:44:49 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 23:09:43 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ void	ft_putstr(const char *str);
 void	ft_puterr(char *str);
 void	ft_putnstr(char *str, int n);
 void	ft_putnbr(int nb);
+
+// ft_put.c
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putendl_fd(char *s, int fd);
 
 // ft_string_s.c
 // int		ft_strjoin_total_len(int size, char **strs, char *sep);
