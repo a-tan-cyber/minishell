@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:58:50 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/05 12:24:34 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/05 12:39:48 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,11 @@ t_ast	*build_ast_rec(t_token *head, t_token *tail)
 	if (head->type != PAREN_L || tail->type != PAREN_R
 		|| !matched_brkt(head, tail))
 		return (cre_ast_cmd(head, tail));
+	curr = head->next;
+	while (curr && curr != tail && curr->type == SPCE)
+		curr = curr->next;
+	if (!curr || curr == tail)
+		return (NULL);
 	new = cre_ast_node((t_type)AST_BRKT);
 	if (!new)
 		return (NULL);
