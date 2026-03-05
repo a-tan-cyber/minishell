@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:30:41 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 00:07:07 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 00:25:27 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	ms_exec_ast(t_info *i, t_ast *ast)
 	if (!i || !ast)
 		return ;
 	if (ast->type != AST_CMD || !ast->args || !ast->args[0])
+		return ;
+	if (ms_try_builtin(i, ast))
 		return ;
 	if (ft_strchr(ast->args[0], '/'))
 	{

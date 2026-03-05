@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 00:04:24 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 00:23:08 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ void	ms_exec_ast(t_info *i, t_ast *ast);
 
 //ms_path.c
 char	*ms_resolve_path(t_info *i, const char *cmd);
+
+//ms_builtin.c
+int		ms_try_builtin(t_info *i, t_ast *cmd);
 
 //ms_exec_utils.c
 void	ms_exec_child_fail(const char *name, const char *path);
