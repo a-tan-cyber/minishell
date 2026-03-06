@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:26:56 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 12:03:07 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 13:41:58 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static int	ms_hd_one(t_info *i, t_redir *r, int *idx)
 	ft_sfree((void **)&r->file);
 	r->file = path;
 	r->type = REDI_IN;
+	r->is_hd_tmp = TRUE;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 01:29:47 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 13:40:36 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ struct	s_redir
 {
 	enum e_oper		type;
 	char			*file;
+	t_bool			is_hd_tmp;
 	struct s_redir	*next;
 };
 

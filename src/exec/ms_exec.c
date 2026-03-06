@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:30:41 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 13:28:22 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 13:43:47 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	ms_exec_ast(t_info *i, t_ast *ast)
 	if (!i || !ast)
 		return ;
 	if (ms_heredoc_prepare_ast(i, ast))
-		return ;
+		return (ms_heredoc_cleanup_ast(ast));
 	ms_exec_node(i, ast);
+	ms_heredoc_cleanup_ast(ast);
 }
