@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 12:54:01 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 12:54:14 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 13:57:02 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,6 @@ static int	ms_export_ident(const char *arg, size_t *eq)
 	return (1);
 }
 
-static void	ms_export_print_one(const char *s)
-{
-	size_t	i;
-
-	if (!s)
-		return ;
-	i = 0;
-	while (s[i] && s[i] != '=')
-		i++;
-	ft_putstr_fd("declare -x ", STDOUT_FILENO);
-	write(STDOUT_FILENO, s, i);
-	if (!s[i])
-		return (write(STDOUT_FILENO, "\n", 1), (void)0);
-	ft_putstr_fd("=\"", STDOUT_FILENO);
-	ft_putstr_fd((char *)(s + i + 1), STDOUT_FILENO);
-	ft_putendl_fd("\"", STDOUT_FILENO);
-}
-
 static int	ms_export_apply(t_info *i, const char *arg)
 {
 	size_t	eq;
@@ -83,12 +65,7 @@ int	ms_builtin_export(t_info *i, char **argv)
 	if (!i || !argv)
 		return (1);
 	if (!argv[1])
-	{
-		j = 0;
-		while (i->my_env && i->my_env[j])
-			ms_export_print_one(i->my_env[j++]);
-		return (0);
-	}
+		return (ms_export_print_all(i->my_env), 0);
 	status = 0;
 	j = 1;
 	while (argv[j])
