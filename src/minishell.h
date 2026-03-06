@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 15:25:57 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 15:38:37 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,8 @@ int		ms_var_sync_env(t_info *i);
 */
 
 //expand_dollar.c
-int		expand_dollar(char **text, const char **env, t_info *info);
-size_t	expand_dollar_replace(char **text, size_t i, const char **env,
-			t_info *info);
+int		expand_dollar(char **text, t_info *info);
+size_t	expand_dollar_replace(char **text, size_t i, t_info *info);
 char	*expand_dollar_extract(char *line, size_t *len);
 
 // lex_expand_star.c
@@ -147,10 +146,8 @@ int		expand_tokens(t_token **lexed);
 int		merge_and_expand_tokens(t_token **lexed);
 
 //lex_main.c
-size_t	tokenise_text(const char *line, t_token **lexed, const char **env,
-			t_info *info);
-int		lex_line(const char *line, t_token **lexed, const char **env,
-			t_info *info);
+size_t	tokenise_text(const char *line, t_token **lexed, t_info *info);
+int		lex_line(const char *line, t_token **lexed, t_info *info);
 
 // lex_tokenise_oper_rdir.c
 size_t	tokenise_oper_heredoc(t_token **lexed);
@@ -166,15 +163,12 @@ size_t	tokenise_oper_and(t_token **lexed);
 //lex_tokenise.c
 size_t	tokenise_space(const char *line, t_token **lexed);
 size_t	tokenise_s_quote(const char *line, t_token **lexed);
-size_t	tokenise_d_quote(const char *line, t_token **lexed, const char **env,
-			t_info *info);
+size_t	tokenise_d_quote(const char *line, t_token **lexed, t_info *info);
 size_t	tokenise_oper(const char *line, t_token **lexed);
 size_t	tokenise_brkt(const char *line, t_token **lexed);
 
 // match_env.c
-int		ft_envcmp(char *str, const char **arr);
-char	*ft_extract_env(int i, const char **arr);
-char	*match_env(char *snippet, const char **env, t_info *info);
+char	*match_env(char *snippet, t_info *info);
 
 //token_create.c
 t_token	*token_create_ele(t_oper type, char *text);

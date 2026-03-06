@@ -6,24 +6,24 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:49:39 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 19:26:47 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 15:40:49 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	expand_dollar(char **text, const char **env, t_info *info)
+int	expand_dollar(char **text, t_info *info)
 {
 	size_t	i;
 
-	if (!text ||!*text)
+	if (!text || !*text)
 		return (0);
 	i = 0;
 	while ((*text)[i])
 	{
 		if ((*text)[i] == '$')
 		{
-			i += expand_dollar_replace(text, i, env, info);
+			i += expand_dollar_replace(text, i, info);
 			if (!*text)
 				return (0);
 		}
@@ -33,8 +33,7 @@ int	expand_dollar(char **text, const char **env, t_info *info)
 	return (1);
 }
 
-size_t	expand_dollar_replace(char **text, size_t i, const char **env,
-	t_info *info)
+size_t	expand_dollar_replace(char **text, size_t i, t_info *info)
 {
 	char	*snippet;
 	char	*expanded;
@@ -46,7 +45,7 @@ size_t	expand_dollar_replace(char **text, size_t i, const char **env,
 		return (ft_sfree((void **)text), 0);
 	if (ft_strcmp(snippet, "$") == 0)
 		return (ft_sfree((void **)&snippet), 1);
-	expanded = match_env(snippet, env, info);
+	expanded = match_env(snippet, info);
 	ft_sfree((void **)&snippet);
 	if (!expanded)
 		return (ft_sfree((void **)text), 0);

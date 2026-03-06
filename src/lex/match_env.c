@@ -6,49 +6,22 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:52:55 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/03 22:27:21 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 15:39:04 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// return index if present, -1 if not present
-int	ft_envcmp(char *str, const char **arr)
+char	*match_env(char *snippet, t_info *info)
 {
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		if (ft_strncmp(str, arr[i], ft_strlen(str)) == 0
-			&& arr[i][ft_strlen(str)] == '=')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-char	*ft_extract_env(int i, const char **arr)
-{
-	int	j;
-
-	j = 0;
-	while (arr[i][j] && arr[i][j] != '=')
-		j++;
-	return (ft_strdup(arr[i] + j + 1));
-}
-
-// ?; number
-char	*match_env(char *snippet, const char **env, t_info *info)
-{
-	int	i;
+	char	*value;
 
 	if (ft_strcmp(snippet, "?") == 0)
 		return (ft_itoa(info->err));
-	else if (ft_str_is_num(snippet) == 1)
+	if (ft_str_is_num(snippet) == 1)
 		return (ft_strdup(""));
-	i = ft_envcmp(snippet, env);
-	if (i != -1)
-		return (ft_extract_env(i, env));
+	value = ms_var_get(info->vars, snippet);
+	if (value)
+		return (ft_strdup(value));
 	return (ft_strdup(""));
 }
