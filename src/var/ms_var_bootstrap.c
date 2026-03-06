@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:41:13 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 14:43:18 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 20:12:11 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*ms_var_make_envline(t_var *var)
 	return (line);
 }
 
-t_var	*ms_var_from_envp(char **envp)
+static t_var	*ms_var_from_envp(char **envp)
 {
 	t_var	*vars;
 	t_var	*new;

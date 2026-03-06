@@ -6,13 +6,13 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 07:40:06 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/03 16:29:25 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 19:22:08 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_bool	line_has_unpaired_char(char *line, char c)
+static t_bool	line_has_unpaired_char(char *line, char c)
 {
 	size_t	i;
 	char	q;

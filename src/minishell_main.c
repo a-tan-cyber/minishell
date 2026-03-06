@@ -6,11 +6,11 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 15:42:24 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 21:15:21 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 static int	ms_setup(t_ast **ast, t_info *i, int argc, char **envp)
 {
@@ -53,6 +53,7 @@ static int	ms_should_exit(t_info *i)
 	return (0);
 }
 
+// debug ast by inserting print_astree(0, *ast); in the last if block of this fn
 static void	ms_process_line(t_ast **ast, t_info *i)
 {
 	if (!line_valid(i, &i->line))
@@ -63,7 +64,6 @@ static void	ms_process_line(t_ast **ast, t_info *i)
 		*ast = build_ast_rec(i->lexed, token_last(i->lexed));
 	if (*ast)
 	{
-		print_astree(0, *ast);
 		ms_exec_ast(i, *ast);
 	}
 }
@@ -92,31 +92,3 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (free_ms_var(&astree, &i, "all"), 0);
 }
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_ast	*astree;
-// 	char	**my_env;
-// 	char	*line;
-// 	char	*lexed;
-
-// 	nullise_var(&astree, &my_env, &line, &lexed);
-// 	if (argc != 1 || ft_arrdup_mk2(&my_env, envp) != 0)
-// 		return (free_null_var(NULL, &my_env, NULL, NULL), 2);
-// 	while (TRUE)
-// 	{
-// 		line = read_multiline("moonshell> ");
-// 		//if line has error then freenullvar then exit.
-// 		if (!line || ft_strcmp(line, "exit") == 0)
-// 			return (free_null_var(&astree, &my_env, &line, &lexed), 0);
-// 		if (line != NULL)
-// 			add_history(line);
-// 		if (line && lex_line(line, &lexed) == 0)
-// 		{
-// 			astree = build_ast(lexed);
-// 			if (astree)
-// 				run_cmd(astree);
-// 		}
-// 		free_null_var(&astree, NULL, &line, &lexed);
-// 	}
-// 	return (free_null_var(&astree, &my_env, NULL, NULL), 0);
-// }

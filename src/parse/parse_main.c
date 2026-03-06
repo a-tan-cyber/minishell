@@ -6,13 +6,13 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:58:50 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/05 18:31:52 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 20:16:10 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	*find_token_logic_pipe(t_token *head, t_token *tail)
+static t_token	*find_token_logic_pipe(t_token *head, t_token *tail)
 {
 	t_token	*stor;
 
@@ -69,7 +69,7 @@ static int	cmd_step(t_ast *cmd, t_token **head, t_token *end, int *i)
 	return (1);
 }
 
-t_ast	*cre_ast_cmd_run(t_ast *cmd, t_token *head, t_token *tail)
+static t_ast	*cre_ast_cmd_run(t_ast *cmd, t_token *head, t_token *tail)
 {
 	int		i;
 	t_token	*end;
@@ -84,7 +84,7 @@ t_ast	*cre_ast_cmd_run(t_ast *cmd, t_token *head, t_token *tail)
 	return (cmd);
 }
 
-t_ast	*cre_ast_cmd(t_token *head, t_token *tail)
+static t_ast	*cre_ast_cmd(t_token *head, t_token *tail)
 {
 	t_ast	*cmd;
 	int		i;

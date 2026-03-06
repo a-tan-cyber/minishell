@@ -6,14 +6,14 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 18:40:38 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 15:41:29 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 19:17:25 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 //$
-size_t	tokenise_text(const char *line, t_token **lexed, t_info *info)
+static size_t	tokenise_text(const char *line, t_token **lexed, t_info *info)
 {
 	size_t	r;
 	char	*text;

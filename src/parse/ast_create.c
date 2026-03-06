@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:26:20 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/05 12:55:05 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 20:15:07 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_ast	*cre_ast_node(t_type type)
 	return (new);
 }
 
-t_ast	*cre_ast_new(t_token *curr)
+static t_ast	*cre_ast_new(t_token *curr)
 {
 	t_ast	*new;
 
