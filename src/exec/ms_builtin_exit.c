@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 01:24:04 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 01:40:29 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 23:14:13 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ int	ms_builtin_exit(t_info *i, char **argv)
 
 	if (!i || !argv || !argv[0])
 		return (1);
+	ms_exit_print(i);
 	if (argv[1] && argv[2])
 		return (ft_putendl_fd("moonshell: exit: too many arguments",
 				STDERR_FILENO), i->err = 1, 0);
-	ms_exit_print(i);
 	if (!argv[1])
 		return (i->exit_req = TRUE, 0);
 	if (ms_exit_parse_ll(argv[1], &n))
