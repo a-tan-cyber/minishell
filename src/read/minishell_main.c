@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 01:27:22 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 14:56:38 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 static int	ms_setup(t_ast **ast, t_info *i, int argc, char **envp)
 {
 	init_ms_var(ast, i);
-	if (argc != 1)
-		return (2);
-	if (ft_arrdup_mk2(&i->my_env, (const char **)envp) != 0)
+	if (argc != 1 || ms_var_bootstrap(i, envp) != 0)
 		return (2);
 	i->interactive = isatty(STDIN_FILENO);
 	g_sig = 0;

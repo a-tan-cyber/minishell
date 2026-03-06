@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 13:54:23 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 14:50:41 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,27 @@ void	ms_export_print_all(char **env);
 //ms_exec_utils.c
 void	ms_exec_child_fail(const char *name, const char *path);
 void	ms_cmd_not_found(const char *cmd);
+
+/* 
+'##::::'##::::'###::::'########::
+ ##::::'##:::'## ##::: ##.... ##:
+ ##::::'##::'##:. ##:: ##:::: ##:
+ ##::::'##:'##:::. ##: ########::
+. ##::'##:: #########: ##.. ##:::
+:. ##'##::: ##.... ##: ##::. ##::
+::. ###:::: ##:::: ##: ##:::. ##:
+:::...:::::..:::::..::..:::::..::
+*/
+
+//ms_var_list.c
+t_var	*ms_var_new(const char *name, const char *value, t_bool exported);
+void	ms_var_add_back(t_var **lst, t_var *node);
+void	ms_var_clear(t_var **lst);
+
+//ms_var_bootstrap.c 
+t_var	*ms_var_from_envp(char **envp);
+char	**ms_var_build_env(t_var *vars);
+int		ms_var_bootstrap(t_info *i, char **envp);
 
 /* 
 ██╗     ███████╗██╗  ██╗

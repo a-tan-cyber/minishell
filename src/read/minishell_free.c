@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 09:57:27 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/04 11:05:46 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 14:45:08 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ void	free_ms_var(t_ast **astree, t_info *i, char *cmd)
 	else if (ft_strcmp(cmd, "all") == 0)
 	{
 		free_null_var(astree, &i->my_env, &i->line, &i->lexed);
+		ms_var_clear(&i->vars);
+		free_arr(i->exp_only);
+		i->exp_only = NULL;
 		ms_history_clear(i);
 	}
 }
