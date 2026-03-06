@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 00:57:11 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 01:10:39 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 15:15:30 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static const char	*ms_cd_target(t_info *i, char **argv, int *print_pwd)
 	*print_pwd = 0;
 	if (!argv[1])
 	{
-		target = ms_env_get(i->my_env, "HOME");
+		target = ms_var_get(i->vars, "HOME");
 		if (!target)
 			ft_putendl_fd("moonshell: cd: HOME not set", STDERR_FILENO);
 		return (target);
 	}
 	if (!ft_strcmp(argv[1], "-"))
 	{
-		target = ms_env_get(i->my_env, "OLDPWD");
+		target = ms_var_get(i->vars, "OLDPWD");
 		if (!target)
 			ft_putendl_fd("moonshell: cd: OLDPWD not set", STDERR_FILENO);
 		*print_pwd = 1;
@@ -48,9 +48,10 @@ static int	ms_cd_fail(const char *target, char **oldpwd)
 static void	ms_cd_update_env(t_info *i, char *oldpwd, char *newpwd)
 {
 	if (oldpwd)
-		ms_env_set(&i->my_env, "OLDPWD", oldpwd);
+		ms_var_set(&i->vars, "OLDPWD", oldpwd, TRUE);
 	if (newpwd)
-		ms_env_set(&i->my_env, "PWD", newpwd);
+		ms_var_set(&i->vars, "PWD", newpwd, TRUE);
+	ms_var_sync_env(i);
 }
 
 static int	ms_cd_apply(t_info *i, const char *target, int print_pwd)
