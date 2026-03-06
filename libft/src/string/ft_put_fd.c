@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   match_env.c                                        :+:      :+:    :+:   */
+/*   ft_put_fd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/18 17:52:55 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 15:39:04 by amtan            ###   ########.fr       */
+/*   Created: 2026/03/05 23:07:09 by amtan             #+#    #+#             */
+/*   Updated: 2026/03/05 23:14:49 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../include/libft.h"
 
-char	*match_env(char *snippet, t_info *info)
+void	ft_putchar_fd(char c, int fd)
 {
-	char	*value;
+	write(fd, &c, 1);
+}
 
-	if (ft_strcmp(snippet, "?") == 0)
-		return (ft_itoa(info->err));
-	if (ft_str_is_num(snippet) == 1)
-		return (ft_strdup(""));
-	value = ms_var_get(info->vars, snippet);
-	if (value)
-		return (ft_strdup(value));
-	return (ft_strdup(""));
+void	ft_putstr_fd(char *s, int fd)
+{
+	write(fd, s, ft_strlen(s));
+}
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }

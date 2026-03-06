@@ -6,13 +6,13 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 08:26:27 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 16:07:39 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 20:14:33 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	*token_create_ele(t_oper type, char *text)
+static t_token	*token_create_ele(t_oper type, char *text)
 {
 	t_token	*new;
 
@@ -26,7 +26,7 @@ t_token	*token_create_ele(t_oper type, char *text)
 	return (new);
 }
 
-t_token	*token_push_front(t_token **begin_list, t_oper type, char *text)
+static t_token	*token_push_front(t_token **begin_list, t_oper type, char *text)
 {
 	t_token	*first;
 

@@ -6,18 +6,16 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/03 16:16:44 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 21:15:21 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 static int	ms_setup(t_ast **ast, t_info *i, int argc, char **envp)
 {
 	init_ms_var(ast, i);
-	if (argc != 1)
-		return (2);
-	if (ft_arrdup_mk2(&i->my_env, (const char **)envp) != 0)
+	if (argc != 1 || ms_var_bootstrap(i, envp) != 0)
 		return (2);
 	i->interactive = isatty(STDIN_FILENO);
 	g_sig = 0;
@@ -52,24 +50,22 @@ static int	ms_should_exit(t_info *i)
 			write(1, "exit\n", 5);
 		return (1);
 	}
-	if (!ft_strcmp(i->line, "exit\n"))
-	{
-		i->err = 0;
-		return (1);
-	}
 	return (0);
 }
 
+// debug ast by inserting print_astree(0, *ast); in the last if block of this fn
 static void	ms_process_line(t_ast **ast, t_info *i)
 {
 	if (!line_valid(i, &i->line))
 		return ;
 	if (i->interactive && i->line && i->line[0] != '\0' && i->line[0] != '\n')
 		ms_history_add(i, i->line);
-	if (lex_line(i->line, &i->lexed, (const char **)i->my_env, i) == 0)
+	if (lex_line(i->line, &i->lexed, i) == 0)
 		*ast = build_ast_rec(i->lexed, token_last(i->lexed));
 	if (*ast)
-		print_astree(0, *ast);
+	{
+		ms_exec_ast(i, *ast);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -90,35 +86,9 @@ int	main(int argc, char **argv, char **envp)
 		if (ms_should_exit(&i))
 			return (free_ms_var(&astree, &i, "all"), i.err);
 		ms_process_line(&astree, &i);
+		if (i.exit_req)
+			return (free_ms_var(&astree, &i, "all"), i.err);
 		free_ms_var(&astree, &i, "tmp");
 	}
 	return (free_ms_var(&astree, &i, "all"), 0);
 }
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_ast	*astree;
-// 	char	**my_env;
-// 	char	*line;
-// 	char	*lexed;
-
-// 	nullise_var(&astree, &my_env, &line, &lexed);
-// 	if (argc != 1 || ft_arrdup_mk2(&my_env, envp) != 0)
-// 		return (free_null_var(NULL, &my_env, NULL, NULL), 2);
-// 	while (TRUE)
-// 	{
-// 		line = read_multiline("moonshell> ");
-// 		//if line has error then freenullvar then exit.
-// 		if (!line || ft_strcmp(line, "exit") == 0)
-// 			return (free_null_var(&astree, &my_env, &line, &lexed), 0);
-// 		if (line != NULL)
-// 			add_history(line);
-// 		if (line && lex_line(line, &lexed) == 0)
-// 		{
-// 			astree = build_ast(lexed);
-// 			if (astree)
-// 				run_cmd(astree);
-// 		}
-// 		free_null_var(&astree, NULL, &line, &lexed);
-// 	}
-// 	return (free_null_var(&astree, &my_env, NULL, NULL), 0);
-// }

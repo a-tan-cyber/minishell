@@ -6,13 +6,13 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:32:35 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/05 11:40:44 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 19:17:56 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_rdir(t_redir **rdir)
+static void	free_rdir(t_redir **rdir)
 {
 	t_redir	*curr;
 	t_redir	*next;

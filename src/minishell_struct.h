@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/04 15:51:36 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 15:22:56 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ struct	s_redir
 {
 	enum e_oper		type;
 	char			*file;
+	t_bool			is_hd_tmp;
 	struct s_redir	*next;
 };
 
@@ -80,15 +81,25 @@ struct	s_hist
 
 typedef struct s_hist	t_hist;
 
+typedef struct s_var
+{
+	char			*name;
+	char			*value;
+	t_bool			exported;
+	struct s_var	*next;
+}	t_var;
+
 struct	s_info
 {
 	t_bool			interactive;
 	t_hist			*hist;
 	char			**my_env;
+	t_var			*vars;
 	char			*line;
 	int				err;
 	struct s_token	*lexed;
 	struct s_ast	*ast;
+	t_bool			exit_req;
 };
 
 typedef struct s_info	t_info;
@@ -110,5 +121,21 @@ typedef struct s_wc_ctx
 	signed char	*memo;
 	size_t		lt;
 }	t_wc_ctx;
+
+typedef struct s_pathctx
+{
+	const char	*path;
+	const char	*cmd;
+	char		*fallback;
+}	t_pathctx;
+
+typedef struct s_exitnum
+{
+	const char			*s;
+	size_t				i;
+	int					sign;
+	unsigned long long	acc;
+	unsigned long long	lim;
+}	t_exitnum;
 
 #endif

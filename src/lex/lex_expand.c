@@ -6,13 +6,13 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:11:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/04 11:10:07 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 19:17:01 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	expand_tokens(t_token **lexed)
+static int	expand_tokens(t_token **lexed)
 {
 	t_token	*cur;
 	t_bool	is_head;

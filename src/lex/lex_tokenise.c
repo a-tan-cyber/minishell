@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 21:43:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 21:08:45 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 15:41:55 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ size_t	tokenise_s_quote(const char *line, t_token **lexed)
 	return (r + 1);
 }
 
-size_t	tokenise_d_quote(const char *line, t_token **lexed, const char **env,
-	t_info *info)
+size_t	tokenise_d_quote(const char *line, t_token **lexed, t_info *info)
 {
 	size_t	l;
 	size_t	r;
@@ -58,7 +57,7 @@ size_t	tokenise_d_quote(const char *line, t_token **lexed, const char **env,
 	if (line[r] == '\0')
 		return (0);
 	text = ft_strndup(line + l, r - l);
-	expand_dollar(&text, env, info);
+	expand_dollar(&text, info);
 	if (!text)
 		return (0);
 	if (token_push_back(lexed, TEXT, text) == NULL)

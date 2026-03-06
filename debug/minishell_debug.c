@@ -6,14 +6,14 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:14:20 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 16:58:50 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 19:25:59 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../src/minishell.h"
 #include <stdio.h>
 
-void	ft_print_arr(char *name, const char **arr)
+static void	ft_print_arr(char *name, const char **arr)
 {
 	size_t	i;
 
@@ -59,7 +59,7 @@ static const char	*ms_oper_str(t_oper op)
 	return ("?");
 }
 
-void	ft_print_rdir(char *name, t_redir *rdir)
+static void	ft_print_rdir(char *name, t_redir *rdir)
 {
 	int	first;
 

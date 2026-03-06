@@ -6,15 +6,14 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 18:40:38 by yunguo            #+#    #+#             */
-/*   Updated: 2026/02/26 19:35:12 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 19:17:25 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 //$
-size_t	tokenise_text(const char *line, t_token **lexed, const char **env,
-	t_info *info)
+static size_t	tokenise_text(const char *line, t_token **lexed, t_info *info)
 {
 	size_t	r;
 	char	*text;
@@ -26,7 +25,7 @@ size_t	tokenise_text(const char *line, t_token **lexed, const char **env,
 	text = ft_strndup(line, r);
 	if (!text)
 		return (0);
-	if (expand_dollar(&text, env, info) == 0)
+	if (expand_dollar(&text, info) == 0)
 		return (ft_sfree((void **)&text), 0);
 	ft_str_replace_chr(text, '*', 127);
 	if (token_push_back(lexed, TEXT, text) == NULL)
@@ -34,7 +33,7 @@ size_t	tokenise_text(const char *line, t_token **lexed, const char **env,
 	return (r);
 }
 
-int	lex_line(const char *line, t_token **lexed, const char **env, t_info *info)
+int	lex_line(const char *line, t_token **lexed, t_info *info)
 {
 	size_t	i;
 	size_t	len;
@@ -47,13 +46,13 @@ int	lex_line(const char *line, t_token **lexed, const char **env, t_info *info)
 		else if (line[i] == '\'')
 			len = tokenise_s_quote(line + i, lexed);
 		else if (line[i] == '\"')
-			len = tokenise_d_quote(line + i, lexed, env, info);
+			len = tokenise_d_quote(line + i, lexed, info);
 		else if (is_operator(line[i]))
 			len = tokenise_oper(line + i, lexed);
 		else if (is_bracket(line[i]))
 			len = tokenise_brkt(line + i, lexed);
 		else
-			len = tokenise_text(line + i, lexed, env, info);
+			len = tokenise_text(line + i, lexed, info);
 		if (len == 0)
 			return (free_token_lst(lexed), -1);
 		i += len;

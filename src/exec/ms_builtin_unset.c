@@ -1,42 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_rdir.c                                         :+:      :+:    :+:   */
+/*   ms_builtin_unset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/18 18:09:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 13:41:01 by amtan            ###   ########.fr       */
+/*   Created: 2026/03/06 12:17:53 by amtan             #+#    #+#             */
+/*   Updated: 2026/03/06 15:12:32 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_redir	*crea_rdir_node(t_oper type, char *text)
+int	ms_builtin_unset(t_info *i, char **argv)
 {
-	t_redir	*new;
+	int	j;
 
-	new = ft_calloc(1, sizeof(t_redir));
-	if (!new)
-		return (NULL);
-	new->next = NULL;
-	new->type = type;
-	new->is_hd_tmp = FALSE;
-	new->file = ft_strdup(text);
-	if (!new->file)
-		return (ft_sfree((void **)&new), NULL);
-	return (new);
-}
-
-t_redir	*goto_rdir_last(t_redir *curr)
-{
-	t_redir	*temp;
-
-	temp = curr;
-	while (curr)
+	if (!i || !argv)
+		return (1);
+	j = 1;
+	while (argv[j])
 	{
-		temp = curr;
-		curr = curr->next;
+		ms_var_unset(&i->vars, argv[j]);
+		j++;
 	}
-	return (temp);
+	if (ms_var_sync_env(i))
+		return (1);
+	return (0);
 }
