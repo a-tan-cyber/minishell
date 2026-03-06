@@ -1,0 +1,97 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_heredoc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 11:26:56 by amtan             #+#    #+#             */
+/*   Updated: 2026/03/06 12:03:07 by amtan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+static int	ms_hd_read_to_fd(t_info *i, const char *delim, int fd)
+{
+	char		*line;
+	const char	*prompt;
+
+	prompt = "";
+	if (i && i->interactive)
+		prompt = "> ";
+	while (TRUE)
+	{
+		rl_done = 0;
+		line = readline(prompt);
+		if (g_sig == SIGINT)
+			return (free(line), 1);
+		if (!line)
+			return (0);
+		if (!ft_strcmp(line, delim))
+			return (free(line), 0);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+}
+
+static int	ms_hd_one(t_info *i, t_redir *r, int *idx)
+{
+	int		fd;
+	char	*path;
+
+	path = ms_hd_path((*idx)++);
+	if (!path)
+		return (i->err = 1, 1);
+	unlink(path);
+	fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	if (fd < 0)
+	{
+		ft_putstr_fd("moonshell: heredoc: ", STDERR_FILENO);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+		return (ft_sfree((void **)&path), i->err = 1, 1);
+	}
+	if (ms_hd_read_to_fd(i, r->file, fd))
+		return (close(fd), unlink(path), ft_sfree((void **)&path),
+			g_sig = 0, i->err = 130, 1);
+	close(fd);
+	ft_sfree((void **)&r->file);
+	r->file = path;
+	r->type = REDI_IN;
+	return (0);
+}
+
+static int	ms_hd_prepare_list(t_info *i, t_redir *r, int *idx)
+{
+	while (r)
+	{
+		if (r->type == HEREDOC && ms_hd_one(i, r, idx))
+			return (1);
+		r = r->next;
+	}
+	return (0);
+}
+
+static int	ms_hd_prepare_ast_rec(t_info *i, t_ast *ast, int *idx)
+{
+	if (!ast)
+		return (0);
+	if (ast->left && ms_hd_prepare_ast_rec(i, ast->left, idx))
+		return (1);
+	if (ast->riht && ms_hd_prepare_ast_rec(i, ast->riht, idx))
+		return (1);
+	if (ast->type == AST_CMD && ast->rdir)
+		return (ms_hd_prepare_list(i, ast->rdir, idx));
+	return (0);
+}
+
+int	ms_heredoc_prepare_ast(t_info *i, t_ast *ast)
+{
+	int	idx;
+
+	if (!i || !ast)
+		return (0);
+	idx = 0;
+	return (ms_hd_prepare_ast_rec(i, ast, &idx));
+}
