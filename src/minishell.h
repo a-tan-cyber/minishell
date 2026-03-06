@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 12:16:33 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 12:53:41 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ int		ms_builtin_cd(t_info *i, char **argv);
 
 //ms_builtin_exit.c
 int		ms_builtin_exit(t_info *i, char **argv);
+
+//ms_builtin_export.c
+int		ms_builtin_export(t_info *i, char **argv);
 
 //ms_redir.c
 int		ms_redir_apply(t_redir *rdir);

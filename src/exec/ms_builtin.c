@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 00:23:44 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 12:18:27 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 12:55:05 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ static int	ms_builtin_id(const char *s)
 		return (4);
 	if (!ft_strcmp(s, "unset"))
 		return (5);
-	if (!ft_strcmp(s, "exit"))
+	if (!ft_strcmp(s, "export"))
 		return (6);
+	if (!ft_strcmp(s, "exit"))
+		return (7);
 	return (0);
 }
 
@@ -41,6 +43,8 @@ static void	ms_run_builtin(t_info *i, t_ast *cmd, int id)
 		i->err = ms_builtin_env(i);
 	else if (id == 5)
 		i->err = ms_builtin_unset(i, cmd->args);
+	else if (id == 6)
+		i->err = ms_builtin_export(i, cmd->args);
 	else
 		ms_builtin_exit(i, cmd->args);
 }
