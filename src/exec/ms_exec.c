@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:30:41 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 00:25:27 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 10:33:53 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static int	ms_exec_cmd_path(t_info *i, t_ast *cmd, const char *name,
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		if (cmd->rdir && ms_redir_apply(cmd->rdir))
+			exit(1);
 		execve(path, cmd->args, i->my_env);
 		ms_exec_child_fail(name, path);
 	}

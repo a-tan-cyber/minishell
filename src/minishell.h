@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 01:27:50 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 10:30:03 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ int		ms_builtin_cd(t_info *i, char **argv);
 
 //ms_builtin_exit.c
 int		ms_builtin_exit(t_info *i, char **argv);
+
+// ms_redir.c
+int		ms_redir_apply(t_redir *rdir);
+int		ms_redir_parent_begin(t_redir *rdir, int *save_in, int *save_out);
+void	ms_redir_parent_end(int save_in, int save_out);
 
 //ms_exec_utils.c
 void	ms_exec_child_fail(const char *name, const char *path);

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 00:23:44 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 01:26:16 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 10:34:17 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,27 @@ static int	ms_builtin_env(t_info *i)
 
 int	ms_try_builtin(t_info *i, t_ast *cmd)
 {
+	int	save_in;
+	int	save_out;
+
 	if (!i || !cmd || !cmd->args || !cmd->args[0])
 		return (0);
+	if (ft_strcmp(cmd->args[0], "echo") && ft_strcmp(cmd->args[0], "pwd")
+		&& ft_strcmp(cmd->args[0], "cd") && ft_strcmp(cmd->args[0], "env")
+		&& ft_strcmp(cmd->args[0], "exit"))
+		return (0);
+	if (ms_redir_parent_begin(cmd->rdir, &save_in, &save_out))
+		return (i->err = 1, 1);
 	if (!ft_strcmp(cmd->args[0], "echo"))
-		return (i->err = ms_builtin_echo(cmd->args), 1);
-	if (!ft_strcmp(cmd->args[0], "pwd"))
-		return (i->err = ms_builtin_pwd(), 1);
-	if (!ft_strcmp(cmd->args[0], "cd"))
-		return (i->err = ms_builtin_cd(i, cmd->args), 1);
-	if (!ft_strcmp(cmd->args[0], "env"))
-		return (i->err = ms_builtin_env(i), 1);
-	if (!ft_strcmp(cmd->args[0], "exit"))
-		return (ms_builtin_exit(i, cmd->args), 1);
-	return (0);
+		i->err = ms_builtin_echo(cmd->args);
+	else if (!ft_strcmp(cmd->args[0], "pwd"))
+		i->err = ms_builtin_pwd();
+	else if (!ft_strcmp(cmd->args[0], "cd"))
+		i->err = ms_builtin_cd(i, cmd->args);
+	else if (!ft_strcmp(cmd->args[0], "env"))
+		i->err = ms_builtin_env(i);
+	else
+		ms_builtin_exit(i, cmd->args);
+	ms_redir_parent_end(save_in, save_out);
+	return (1);
 }
