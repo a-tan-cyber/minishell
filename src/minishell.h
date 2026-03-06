@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 17:19:21 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 19:08:04 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ int		ms_try_assign_builtin(t_info *i, t_ast *cmd);
 
 //ms_assign_cd.c
 int		ms_try_assign_cd(t_info *i, t_ast *cmd);
+
+//ms_assign_export.c
+int		ms_try_assign_export(t_info *i, t_ast *cmd);
 
 //ms_brkt.c
 int		ms_exec_brkt(t_info *i, t_ast *ast);
