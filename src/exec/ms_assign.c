@@ -6,13 +6,13 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 15:52:59 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 15:53:14 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 16:55:49 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ms_assign_ident(const char *arg, size_t *eq)
+int	ms_assign_ident(const char *arg, size_t *eq)
 {
 	size_t	i;
 
@@ -32,7 +32,7 @@ static int	ms_assign_ident(const char *arg, size_t *eq)
 	return (1);
 }
 
-static int	ms_assign_one(t_info *i, const char *arg)
+static int	ms_assign_set_one(t_var **vars, const char *arg, t_bool exported)
 {
 	size_t	eq;
 	char	*name;
@@ -43,38 +43,46 @@ static int	ms_assign_one(t_info *i, const char *arg)
 	name = ft_substr(arg, 0, eq);
 	if (!name)
 		return (1);
-	ret = ms_var_set(&i->vars, name, arg + eq + 1, FALSE);
+	ret = ms_var_set(vars, name, arg + eq + 1, exported);
 	ft_sfree((void **)&name);
 	return (ret);
 }
 
-static int	ms_assign_all(t_info *i, char **argv)
+int	ms_assign_apply_n(t_var **vars, char **argv, int n, t_bool exported)
 {
 	int	j;
 
 	j = 0;
-	while (argv[j])
+	while (j < n)
 	{
-		if (ms_assign_one(i, argv[j]))
+		if (ms_assign_set_one(vars, argv[j], exported))
 			return (1);
 		j++;
 	}
-	return (ms_var_sync_env(i));
+	return (0);
+}
+
+int	ms_assign_prefix_len(char **argv)
+{
+	int	j;
+
+	j = 0;
+	while (argv && argv[j] && ms_assign_ident(argv[j], NULL))
+		j++;
+	return (j);
 }
 
 int	ms_try_assign_only(t_info *i, t_ast *cmd)
 {
-	int	j;
+	int	n;
 
 	if (!i || !cmd || !cmd->args || !cmd->args[0] || cmd->rdir)
 		return (0);
-	j = 0;
-	while (cmd->args[j])
-	{
-		if (!ms_assign_ident(cmd->args[j], NULL))
-			return (0);
-		j++;
-	}
-	i->err = ms_assign_all(i, cmd->args);
+	n = ms_assign_prefix_len(cmd->args);
+	if (n == 0 || cmd->args[n])
+		return (0);
+	i->err = ms_assign_apply_n(&i->vars, cmd->args, n, FALSE);
+	if (!i->err)
+		i->err = ms_var_sync_env(i);
 	return (1);
 }

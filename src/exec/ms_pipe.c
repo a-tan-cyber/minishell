@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:01:34 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 13:21:05 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 16:40:30 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	ms_exec_cmd_child(t_info *i, t_ast *cmd)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	if (ms_try_assign_exec(i, cmd))
+		exit(i->err);
 	if (ms_try_builtin(i, cmd))
 		exit(i->err);
 	if (cmd->rdir && ms_redir_apply(cmd->rdir))

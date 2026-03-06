@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 15:52:41 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 16:54:55 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,13 @@ int		ms_builtin_exit(t_info *i, char **argv);
 int		ms_builtin_export(t_info *i, char **argv);
 
 //ms_assign.c
+int		ms_assign_ident(const char *arg, size_t *eq);
+int		ms_assign_apply_n(t_var **vars, char **argv, int n, t_bool exported);
+int		ms_assign_prefix_len(char **argv);
 int		ms_try_assign_only(t_info *i, t_ast *cmd);
+
+//ms_assign_exec.c
+int		ms_try_assign_exec(t_info *i, t_ast *cmd);
 
 //ms_brkt.c
 int		ms_exec_brkt(t_info *i, t_ast *ast);
@@ -113,6 +119,7 @@ void	ms_cmd_not_found(const char *cmd);
 t_var	*ms_var_new(const char *name, const char *value, t_bool exported);
 void	ms_var_add_back(t_var **lst, t_var *node);
 void	ms_var_clear(t_var **lst);
+t_var	*ms_var_dup(t_var *vars);
 
 //ms_var_bootstrap.c 
 t_var	*ms_var_from_envp(char **envp);

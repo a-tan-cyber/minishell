@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:19 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 14:40:51 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 16:18:18 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,21 @@ void	ms_var_clear(t_var **lst)
 		cur = next;
 	}
 	*lst = NULL;
+}
+
+t_var	*ms_var_dup(t_var *vars)
+{
+	t_var	*dup;
+	t_var	*node;
+
+	dup = NULL;
+	while (vars)
+	{
+		node = ms_var_new(vars->name, vars->value, vars->exported);
+		if (!node)
+			return (ms_var_clear(&dup), NULL);
+		ms_var_add_back(&dup, node);
+		vars = vars->next;
+	}
+	return (dup);
 }
