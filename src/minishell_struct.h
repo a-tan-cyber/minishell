@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 14:33:38 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 15:22:56 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ struct	s_info
 	t_hist			*hist;
 	char			**my_env;
 	t_var			*vars;
-	char			**exp_only;
 	char			*line;
 	int				err;
 	struct s_token	*lexed;

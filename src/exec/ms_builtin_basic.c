@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 12:17:09 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 12:17:18 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 15:24:19 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,20 @@ int	ms_builtin_pwd(void)
 
 int	ms_builtin_env(t_info *i)
 {
-	int	j;
+	t_var	*cur;
 
-	if (!i || !i->my_env)
+	if (!i)
 		return (0);
-	j = 0;
-	while (i->my_env[j])
+	cur = i->vars;
+	while (cur)
 	{
-		if (ft_strchr(i->my_env[j], '='))
-			ft_putendl_fd(i->my_env[j], STDOUT_FILENO);
-		j++;
+		if (cur->exported && cur->value)
+		{
+			ft_putstr_fd(cur->name, STDOUT_FILENO);
+			ft_putstr_fd("=", STDOUT_FILENO);
+			ft_putendl_fd(cur->value, STDOUT_FILENO);
+		}
+		cur = cur->next;
 	}
 	return (0);
 }

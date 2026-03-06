@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 15:11:03 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 15:25:57 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,6 @@ int		ms_builtin_echo(char **argv);
 int		ms_builtin_pwd(void);
 int		ms_builtin_env(t_info *i);
 int		ms_builtin_unset(t_info *i, char **argv);
-
-//ms_env.c
-char	*ms_env_get(char **env, const char *key);
-int		ms_env_set(char ***envp, const char *key, const char *val);
 
 //ms_builtin_cd.c
 int		ms_builtin_cd(t_info *i, char **argv);

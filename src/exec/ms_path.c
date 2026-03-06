@@ -6,29 +6,11 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 00:05:19 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 00:36:15 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 15:24:58 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static char	*ms_env_value(char **env, const char *key)
-{
-	size_t	klen;
-	int		i;
-
-	if (!env || !key)
-		return (NULL);
-	klen = ft_strlen(key);
-	i = 0;
-	while (env[i])
-	{
-		if (!ft_strncmp(env[i], key, klen) && env[i][klen] == '=')
-			return (env[i] + klen + 1);
-		i++;
-	}
-	return (NULL);
-}
 
 static char	*ms_join_dir_cmd(const char *dir, const char *cmd)
 {
@@ -106,7 +88,7 @@ char	*ms_resolve_path(t_info *i, const char *cmd)
 
 	if (!i || !cmd || cmd[0] == '\0' || ft_strchr(cmd, '/'))
 		return (NULL);
-	path = ms_env_value(i->my_env, "PATH");
+	path = ms_var_get(i->vars, "PATH");
 	if (!path || path[0] == '\0')
 		return (NULL);
 	return (ms_pick_from_path(path, cmd));
