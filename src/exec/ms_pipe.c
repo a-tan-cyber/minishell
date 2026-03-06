@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:01:34 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 11:06:19 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 13:21:05 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ static void	ms_exec_ast_child(t_info *i, t_ast *ast)
 {
 	if (!ast)
 		exit(1);
-	if (ast->type == AST_PIPE)
-		exit(ms_exec_pipe(i, ast));
 	if (ast->type == AST_CMD && ast->args && ast->args[0])
 		ms_exec_cmd_child(i, ast);
-	exit(1);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	ms_exec_ast(i, ast);
+	exit(i->err);
 }
 
 static pid_t	ms_pipe_fork_side(t_info *i, t_ast *sub, int fd[2], int is_left)

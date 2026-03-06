@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:30:41 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 13:09:00 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 13:28:22 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ static int	ms_wait_exit_status(pid_t pid)
 	return (1);
 }
 
-static int	ms_exec_cmd_path(t_info *i, t_ast *cmd, const char *name,
-			const char *path)
+int	ms_exec_cmd_path(t_info *i, t_ast *cmd, const char *name, const char *path)
 {
 	pid_t	pid;
 
@@ -45,44 +44,26 @@ static int	ms_exec_cmd_path(t_info *i, t_ast *cmd, const char *name,
 	return (ms_wait_exit_status(pid));
 }
 
-static void	ms_exec_cmd(t_info *i, t_ast *ast)
-{
-	char	*path;
+static void	ms_exec_node(t_info *i, t_ast *ast);
 
-	if (ms_try_builtin(i, ast))
-		return ;
-	if (ft_strchr(ast->args[0], '/'))
-	{
-		i->err = ms_exec_cmd_path(i, ast, ast->args[0], ast->args[0]);
-		return ;
-	}
-	path = ms_resolve_path(i, ast->args[0]);
-	if (!path)
-	{
-		ms_cmd_not_found(ast->args[0]);
-		i->err = 127;
-		return ;
-	}
-	i->err = ms_exec_cmd_path(i, ast, ast->args[0], path);
-	ft_sfree((void **)&path);
+static void	ms_exec_logic(t_info *i, t_ast *ast)
+{
+	ms_exec_node(i, ast->left);
+	if (ast->type == AST_AND && i->err == 0)
+		ms_exec_node(i, ast->riht);
+	if (ast->type == AST_OR && i->err != 0)
+		ms_exec_node(i, ast->riht);
 }
 
 static void	ms_exec_node(t_info *i, t_ast *ast)
 {
 	if (!i || !ast)
 		return ;
-	if (ast->type == AST_AND)
+	if (ast->type == AST_AND || ast->type == AST_OR)
+		return (ms_exec_logic(i, ast));
+	if (ast->type == AST_BRKT)
 	{
-		ms_exec_node(i, ast->left);
-		if (i->err == 0)
-			ms_exec_node(i, ast->riht);
-		return ;
-	}
-	if (ast->type == AST_OR)
-	{
-		ms_exec_node(i, ast->left);
-		if (i->err != 0)
-			ms_exec_node(i, ast->riht);
+		i->err = ms_exec_brkt(i, ast);
 		return ;
 	}
 	if (ast->type == AST_PIPE)
