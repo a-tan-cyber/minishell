@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:24:08 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 13:24:16 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 15:53:54 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ms_exec_cmd(t_info *i, t_ast *ast)
 {
 	char	*path;
 
+	if (ms_try_assign_only(i, ast))
+		return ;
 	if (ms_try_builtin(i, ast))
 		return ;
 	if (ft_strchr(ast->args[0], '/'))
