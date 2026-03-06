@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:24:08 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 16:23:34 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 17:06:40 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ms_exec_cmd(t_info *i, t_ast *ast)
 	if (ms_try_assign_only(i, ast))
 		return ;
 	if (ms_try_assign_exec(i, ast))
+		return ;
+	if (ms_try_assign_builtin(i, ast))
 		return ;
 	if (ms_try_builtin(i, ast))
 		return ;
