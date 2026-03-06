@@ -6,105 +6,59 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 00:23:44 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 10:34:17 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 12:18:27 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ms_echo_is_n(const char *s)
+static int	ms_builtin_id(const char *s)
 {
-	int	i;
-
-	if (!s || s[0] != '-')
-		return (0);
-	i = 1;
-	if (s[i] != 'n')
-		return (0);
-	while (s[i] == 'n')
-		i++;
-	return (s[i] == '\0');
-}
-
-static int	ms_builtin_echo(char **argv)
-{
-	int	nl;
-	int	i;
-
-	nl = 1;
-	i = 1;
-	while (argv[i] && ms_echo_is_n(argv[i]))
-	{
-		nl = 0;
-		i++;
-	}
-	while (argv[i])
-	{
-		write(STDOUT_FILENO, argv[i], ft_strlen(argv[i]));
-		if (argv[i + 1])
-			write(STDOUT_FILENO, " ", 1);
-		i++;
-	}
-	if (nl)
-		write(STDOUT_FILENO, "\n", 1);
-	return (0);
-}
-
-static int	ms_builtin_pwd(void)
-{
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		ft_putstr_fd("moonshell: pwd: ", STDERR_FILENO);
-		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+	if (!ft_strcmp(s, "echo"))
 		return (1);
-	}
-	ft_putendl_fd(cwd, STDOUT_FILENO);
-	free(cwd);
+	if (!ft_strcmp(s, "pwd"))
+		return (2);
+	if (!ft_strcmp(s, "cd"))
+		return (3);
+	if (!ft_strcmp(s, "env"))
+		return (4);
+	if (!ft_strcmp(s, "unset"))
+		return (5);
+	if (!ft_strcmp(s, "exit"))
+		return (6);
 	return (0);
 }
 
-static int	ms_builtin_env(t_info *i)
+static void	ms_run_builtin(t_info *i, t_ast *cmd, int id)
 {
-	int	j;
-
-	if (!i || !i->my_env)
-		return (0);
-	j = 0;
-	while (i->my_env[j])
-	{
-		if (ft_strchr(i->my_env[j], '='))
-			ft_putendl_fd(i->my_env[j], STDOUT_FILENO);
-		j++;
-	}
-	return (0);
+	if (id == 1)
+		i->err = ms_builtin_echo(cmd->args);
+	else if (id == 2)
+		i->err = ms_builtin_pwd();
+	else if (id == 3)
+		i->err = ms_builtin_cd(i, cmd->args);
+	else if (id == 4)
+		i->err = ms_builtin_env(i);
+	else if (id == 5)
+		i->err = ms_builtin_unset(i, cmd->args);
+	else
+		ms_builtin_exit(i, cmd->args);
 }
 
 int	ms_try_builtin(t_info *i, t_ast *cmd)
 {
+	int	id;
 	int	save_in;
 	int	save_out;
 
 	if (!i || !cmd || !cmd->args || !cmd->args[0])
 		return (0);
-	if (ft_strcmp(cmd->args[0], "echo") && ft_strcmp(cmd->args[0], "pwd")
-		&& ft_strcmp(cmd->args[0], "cd") && ft_strcmp(cmd->args[0], "env")
-		&& ft_strcmp(cmd->args[0], "exit"))
+	id = ms_builtin_id(cmd->args[0]);
+	if (!id)
 		return (0);
 	if (ms_redir_parent_begin(cmd->rdir, &save_in, &save_out))
 		return (i->err = 1, 1);
-	if (!ft_strcmp(cmd->args[0], "echo"))
-		i->err = ms_builtin_echo(cmd->args);
-	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		i->err = ms_builtin_pwd();
-	else if (!ft_strcmp(cmd->args[0], "cd"))
-		i->err = ms_builtin_cd(i, cmd->args);
-	else if (!ft_strcmp(cmd->args[0], "env"))
-		i->err = ms_builtin_env(i);
-	else
-		ms_builtin_exit(i, cmd->args);
+	ms_run_builtin(i, cmd, id);
 	ms_redir_parent_end(save_in, save_out);
 	return (1);
 }

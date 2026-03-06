@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 11:47:48 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/06 12:16:33 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ char	*ms_resolve_path(t_info *i, const char *cmd);
 
 //ms_builtin.c
 int		ms_try_builtin(t_info *i, t_ast *cmd);
+
+//ms_builtin_basic.c
+int		ms_builtin_echo(char **argv);
+int		ms_builtin_pwd(void);
+int		ms_builtin_env(t_info *i);
+int		ms_builtin_unset(t_info *i, char **argv);
 
 //ms_env.c
 char	*ms_env_get(char **env, const char *key);
