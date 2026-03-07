@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 09:58:07 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 15:23:23 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 17:03:03 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	init_ms_var(t_ast **astree, t_info *i)
 	i->interactive = FALSE;
 	i->hist = NULL;
 	i->line = NULL;
+	i->line_no = 1;
+	i->cmd_line_no = 1;
 	i->my_env = NULL;
 	i->vars = NULL;
 	i->lexed = NULL;

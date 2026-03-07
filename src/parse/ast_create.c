@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:26:20 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 13:32:51 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 17:18:04 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static t_ast	*cre_ast_new(t_token *curr)
 	return (new);
 }
 
-t_redir	*crea_rdir_push_back(t_redir **curr, t_oper type, t_token *file)
+t_redir	*crea_rdir_push_back(t_redir **curr, t_token *oper, t_token *file)
 {
 	t_redir	*last;
 
@@ -57,13 +57,13 @@ t_redir	*crea_rdir_push_back(t_redir **curr, t_oper type, t_token *file)
 		return (NULL);
 	if (!*curr)
 	{
-		*curr = crea_rdir_node(type, file);
+		*curr = crea_rdir_node(oper, file);
 		if (!*curr)
 			return (NULL);
 		return (*curr);
 	}
 	last = goto_rdir_last(*curr);
-	last->next = crea_rdir_node(type, file);
+	last->next = crea_rdir_node(oper, file);
 	if (!last->next)
 		return (NULL);
 	return (*curr);

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:26:56 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/07 14:52:32 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 17:25:00 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static int	ms_hd_read_to_fd(t_info *i, t_redir *r, int fd)
 		if (g_sig == SIGINT)
 			return (free(line), 1);
 		if (!line)
-			return (0);
+			return (ms_hd_warn_eof(r), 0);
+		i->line_no++;
 		if (ms_hd_is_delim(line, r->file))
 			return (free(line), 0);
 		if (!ms_hd_write_line(i, fd, line, r->hd_expand))

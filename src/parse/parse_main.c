@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:58:50 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 13:37:02 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 17:19:19 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	cmd_step(t_ast *cmd, t_token **head, t_token *end, int *i)
 			file = file->next;
 		if (!file || file == end || file->type != TEXT)
 			return (1);
-		if (!crea_rdir_push_back(&cmd->rdir, (*head)->type, file))
+		if (!crea_rdir_push_back(&cmd->rdir, *head, file))
 			return (1);
 		return ((*head = file->next), 0);
 	}

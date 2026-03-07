@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 15:20:54 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 17:17:16 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int		ms_hd_write_line(t_info *i, int fd, char *line, t_bool expand);
 int		ms_hd_fail_one(t_info *i, char **path, int fd);
 
 //ms_hd_cleanup.c
+void	ms_hd_warn_eof(t_redir *r);
 void	ms_heredoc_cleanup_ast(t_ast *ast);
 
 //ms_pipe.c
@@ -218,7 +219,7 @@ t_token	*skip_token_brkt_rev(t_token *tail);
 
 // ast_create.c
 t_ast	*cre_ast_node(t_type type);
-t_redir	*crea_rdir_push_back(t_redir **curr, t_oper type, t_token *file);
+t_redir	*crea_rdir_push_back(t_redir **curr, t_token *oper, t_token *file);
 t_ast	*cre_ast_logic(t_token *curr, t_token *head, t_token *tail);
 
 // ast_free.c
@@ -226,7 +227,7 @@ void	free_ast(t_ast *ast);
 void	free_ast_one(t_ast **one);
 
 // ast_rdir.c
-t_redir	*crea_rdir_node(t_oper type, t_token *file);
+t_redir	*crea_rdir_node(t_token *oper, t_token *file);
 t_redir	*goto_rdir_last(t_redir *curr);
 
 // ast_util.c

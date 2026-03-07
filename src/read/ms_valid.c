@@ -6,11 +6,20 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 07:40:06 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 12:28:38 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 16:23:39 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	line_syntax_error(t_info *i, char *token)
+{
+	ft_putstr_fd("moonshell: syntax error near unexpected token `",
+		STDERR_FILENO);
+	ft_putstr_fd(token, STDERR_FILENO);
+	ft_putendl_fd("'", STDERR_FILENO);
+	i->err = 2;
+}
 
 static t_bool	line_has_unpaired_char(char *line, char c)
 {
@@ -39,21 +48,13 @@ static t_bool	line_has_unpaired_char(char *line, char c)
 static t_bool	line_has_bad_prefix(t_info *i, char *line)
 {
 	if (!ft_strncmp(line, "||", 2))
-		return (ft_putendl_fd(
-				"moonshell: syntax error near unexpected token `||'",
-				STDERR_FILENO), i->err = 2, TRUE);
+		return (line_syntax_error(i, "||"), TRUE);
 	if (!ft_strncmp(line, "&&", 2))
-		return (ft_putendl_fd(
-				"moonshell: syntax error near unexpected token `&&'",
-				STDERR_FILENO), i->err = 2, TRUE);
+		return (line_syntax_error(i, "&&"), TRUE);
 	if (line[0] == '|')
-		return (ft_putendl_fd(
-				"moonshell: syntax error near unexpected token `|'",
-				STDERR_FILENO), i->err = 2, TRUE);
+		return (line_syntax_error(i, "|"), TRUE);
 	if (line[0] == ')')
-		return (ft_putendl_fd(
-				"moonshell: syntax error near unexpected token `)'",
-				STDERR_FILENO), i->err = 2, TRUE);
+		return (line_syntax_error(i, ")"), TRUE);
 	return (FALSE);
 }
 
@@ -75,12 +76,10 @@ t_bool	line_valid(t_info *i, char **line)
 		return (FALSE);
 	par = open_has_close(*line, '(', ')');
 	if (par == -1)
-		return (ft_putendl_fd(
-				"moonshell: syntax error near unexpected token `)'",
-				STDERR_FILENO), i->err = 2, FALSE);
+		return (line_syntax_error(i, ")"), FALSE);
 	if (line_is_complete(*line) == FALSE)
 		return (FALSE);
 	if (line_has_unpaired_char(*line, '&') == TRUE)
-		return (FALSE);
+		return (line_syntax_error(i, "&"), FALSE);
 	return (TRUE);
 }

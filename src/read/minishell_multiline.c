@@ -6,13 +6,11 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 19:56:29 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/07 12:39:52 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 17:47:19 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
-#include <unistd.h>
 
 static char	ml_unclosed_quote(const char *s)
 {
@@ -88,16 +86,16 @@ char	*read_multiline(t_info *i, const char *msg)
 	const char	*prompt;
 
 	prompt = msg;
+	i->cmd_line_no = i->line_no;
 	rslt = ft_strdup("");
-	if (!rslt)
-		return (NULL);
-	while (TRUE)
+	while (rslt)
 	{
 		line = ml_read_line(i, prompt);
 		if (i->interactive && g_sig == SIGINT)
 			return (free(line), read_multiline_sigint(rslt));
 		if (!line)
 			return (ml_handle_eof(i, msg, prompt, rslt));
+		i->line_no++;
 		rslt = ml_append_line(i, rslt, line);
 		if (!rslt)
 			return (NULL);
@@ -107,4 +105,5 @@ char	*read_multiline(t_info *i, const char *msg)
 			return (ft_sfree((void **)&rslt), ft_strdup(""));
 		prompt = "> ";
 	}
+	return (NULL);
 }

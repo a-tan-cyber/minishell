@@ -6,11 +6,33 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:07:09 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/05 23:14:49 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 17:22:58 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
+
+static void	recur_putdigits_fd(unsigned int num, int fd)
+{
+	if (num > 9)
+		recur_putdigits_fd(num / 10, fd);
+	ft_putchar_fd(num % 10 + '0', fd);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	int				is_neg;
+	unsigned int	num;
+
+	is_neg = (n < 0);
+	num = (unsigned int)n;
+	if (is_neg)
+	{
+		num = -num;
+		ft_putchar_fd('-', fd);
+	}
+	recur_putdigits_fd(num, fd);
+}
 
 void	ft_putchar_fd(char c, int fd)
 {

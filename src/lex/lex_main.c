@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 18:40:38 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 15:53:27 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 17:27:02 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ static t_bool	is_hd_delim_word(t_token *lexed)
 	if (last && last->type == HEREDOC)
 		return (TRUE);
 	return (FALSE);
+}
+
+static size_t	count_newlines(const char *line, size_t len)
+{
+	size_t	i;
+	size_t	n;
+
+	i = 0;
+	n = 0;
+	while (i < len)
+	{
+		if (line[i] == '\n')
+			n++;
+		i++;
+	}
+	return (n);
 }
 
 static size_t	tokenise_text(const char *line, t_token **lexed, t_info *info,
@@ -77,13 +93,22 @@ int	lex_line(const char *line, t_token **lexed, t_info *info)
 {
 	size_t	i;
 	size_t	len;
+	int		line_no;
+	t_token	*prev;
+	t_token	*last;
 
 	i = 0;
+	line_no = info->cmd_line_no;
 	while (line[i])
 	{
+		prev = token_last(*lexed);
 		len = tokenise_piece(line + i, lexed, info);
 		if (len == 0)
 			return (free_token_lst(lexed), -1);
+		last = token_last(*lexed);
+		if (last && last != prev)
+			last->line_no = line_no;
+		line_no += count_newlines(line + i, len);
 		i += len;
 	}
 	return (merge_and_expand_tokens(lexed));
