@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:26:56 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 13:41:58 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 12:48:23 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,18 @@
 
 static int	ms_hd_read_to_fd(t_info *i, const char *delim, int fd)
 {
-	char		*line;
-	const char	*prompt;
+	char	*line;
 
-	prompt = "";
-	if (i && i->interactive)
-		prompt = "> ";
 	while (TRUE)
 	{
-		rl_done = 0;
-		line = readline(prompt);
+		line = ms_hd_next_line(i);
 		if (g_sig == SIGINT)
 			return (free(line), 1);
 		if (!line)
 			return (0);
-		if (!ft_strcmp(line, delim))
+		if (ms_hd_is_delim(line, delim))
 			return (free(line), 0);
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		ms_hd_write_line(i, fd, line);
 		free(line);
 	}
 }

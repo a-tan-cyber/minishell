@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 10:40:56 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 12:47:23 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ int		ms_heredoc_prepare_ast(t_info *i, t_ast *ast);
 
 //ms_hd_path.c
 char	*ms_hd_path(int idx);
+char	*ms_hd_next_line(t_info *i);
+t_bool	ms_hd_is_delim(char *line, const char *delim);
+void	ms_hd_write_line(t_info *i, int fd, char *line);
 
 //ms_hd_cleanup.c
 void	ms_heredoc_cleanup_ast(t_ast *ast);
