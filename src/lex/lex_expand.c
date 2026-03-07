@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:11:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 19:17:01 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 15:41:37 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static int	expand_tokens(t_token **lexed)
 	while (cur)
 	{
 		is_head = (cur == *lexed);
-		if (cur->type == TEXT && ft_strchr(cur->text, 127)
+		if (cur->type == TEXT && cur->hd_delim == FALSE
+			&& ft_strchr(cur->text, 127)
 			&& expand_star(cur->text, &cur))
 			return (free_token_lst(lexed), 2);
 		if (is_head)
@@ -47,6 +48,8 @@ int	merge_and_expand_tokens(t_token **lexed)
 			if (!new_text)
 				return (free_token_lst(lexed), 1);
 			cur->text = new_text;
+			cur->quoted = (cur->quoted || cur->next->quoted);
+			cur->hd_delim = (cur->hd_delim || cur->next->hd_delim);
 			free_token_one(&cur->next);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:47:11 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/07 12:48:00 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 14:51:40 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,31 @@ t_bool	ms_hd_is_delim(char *line, const char *delim)
 	return (!ft_strncmp(line, delim, len));
 }
 
-void	ms_hd_write_line(t_info *i, int fd, char *line)
+int	ms_hd_write_line(t_info *i, int fd, char *line, t_bool expand)
 {
-	write(fd, line, ft_strlen(line));
+	char	*out;
+
+	out = line;
+	if (expand)
+	{
+		out = ft_strdup(line);
+		if (!out || !expand_dollar(&out, i))
+			return (0);
+	}
+	write(fd, out, ft_strlen(out));
 	if (i && i->interactive)
 		write(fd, "\n", 1);
+	if (expand)
+		free(out);
+	return (1);
+}
+
+int	ms_hd_fail_one(t_info *i, char **path, int fd)
+{
+	close(fd);
+	unlink(*path);
+	ft_sfree((void **)path);
+	if (g_sig == SIGINT)
+		return (g_sig = 0, i->err = 130, 1);
+	return (1);
 }

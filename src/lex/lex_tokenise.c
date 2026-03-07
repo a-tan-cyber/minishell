@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 21:43:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 15:41:55 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 15:32:46 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ size_t	tokenise_space(const char *line, t_token **lexed)
 	return (i);
 }
 
-size_t	tokenise_s_quote(const char *line, t_token **lexed)
+size_t	tokenise_s_quote(const char *line, t_token **lexed, t_bool hd_delim)
 {
 	size_t	l;
 	size_t	r;
 	char	*text;
+	t_token	*tok;
 
 	l = 1;
 	r = l;
@@ -39,16 +40,23 @@ size_t	tokenise_s_quote(const char *line, t_token **lexed)
 	if (line[r] == '\0')
 		return (0);
 	text = ft_strndup(line + l, r - l);
-	if (!text || token_push_back(lexed, TEXT, text) == NULL)
+	if (!text)
+		return (0);
+	tok = token_push_back(lexed, TEXT, text);
+	if (!tok)
 		return (ft_sfree((void **)&text), 0);
+	tok->quoted = TRUE;
+	tok->hd_delim = hd_delim;
 	return (r + 1);
 }
 
-size_t	tokenise_d_quote(const char *line, t_token **lexed, t_info *info)
+size_t	tokenise_d_quote(const char *line, t_token **lexed, t_info *info,
+		t_bool hd_delim)
 {
 	size_t	l;
 	size_t	r;
 	char	*text;
+	t_token	*tok;
 
 	l = 1;
 	r = l;
@@ -57,11 +65,15 @@ size_t	tokenise_d_quote(const char *line, t_token **lexed, t_info *info)
 	if (line[r] == '\0')
 		return (0);
 	text = ft_strndup(line + l, r - l);
-	expand_dollar(&text, info);
+	if (!hd_delim)
+		expand_dollar(&text, info);
 	if (!text)
 		return (0);
-	if (token_push_back(lexed, TEXT, text) == NULL)
+	tok = token_push_back(lexed, TEXT, text);
+	if (!tok)
 		return (ft_sfree((void **)&text), 0);
+	tok->quoted = TRUE;
+	tok->hd_delim = hd_delim;
 	return (r + 1);
 }
 

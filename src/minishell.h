@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 12:47:23 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 15:20:54 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int		ms_heredoc_prepare_ast(t_info *i, t_ast *ast);
 char	*ms_hd_path(int idx);
 char	*ms_hd_next_line(t_info *i);
 t_bool	ms_hd_is_delim(char *line, const char *delim);
-void	ms_hd_write_line(t_info *i, int fd, char *line);
+int		ms_hd_write_line(t_info *i, int fd, char *line, t_bool expand);
+int		ms_hd_fail_one(t_info *i, char **path, int fd);
 
 //ms_hd_cleanup.c
 void	ms_heredoc_cleanup_ast(t_ast *ast);
@@ -186,8 +187,9 @@ size_t	tokenise_oper_and(t_token **lexed);
 
 //lex_tokenise.c
 size_t	tokenise_space(const char *line, t_token **lexed);
-size_t	tokenise_s_quote(const char *line, t_token **lexed);
-size_t	tokenise_d_quote(const char *line, t_token **lexed, t_info *info);
+size_t	tokenise_s_quote(const char *line, t_token **lexed, t_bool hd_delim);
+size_t	tokenise_d_quote(const char *line, t_token **lexed, t_info *info,
+			t_bool hd_delim);
 size_t	tokenise_oper(const char *line, t_token **lexed);
 size_t	tokenise_brkt(const char *line, t_token **lexed);
 
@@ -216,7 +218,7 @@ t_token	*skip_token_brkt_rev(t_token *tail);
 
 // ast_create.c
 t_ast	*cre_ast_node(t_type type);
-t_redir	*crea_rdir_push_back(t_redir **curr, t_oper type, char *text);
+t_redir	*crea_rdir_push_back(t_redir **curr, t_oper type, t_token *file);
 t_ast	*cre_ast_logic(t_token *curr, t_token *head, t_token *tail);
 
 // ast_free.c
@@ -224,7 +226,7 @@ void	free_ast(t_ast *ast);
 void	free_ast_one(t_ast **one);
 
 // ast_rdir.c
-t_redir	*crea_rdir_node(t_oper type, char *text);
+t_redir	*crea_rdir_node(t_oper type, t_token *file);
 t_redir	*goto_rdir_last(t_redir *curr);
 
 // ast_util.c

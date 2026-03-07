@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 08:26:27 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 20:14:33 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 15:11:37 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static t_token	*token_create_ele(t_oper type, char *text)
 		return (NULL);
 	new->type = type;
 	new->text = text;
+	new->quoted = FALSE;
+	new->hd_delim = FALSE;
 	new->prev = NULL;
 	new->next = NULL;
 	return (new);

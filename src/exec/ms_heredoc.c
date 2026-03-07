@@ -6,13 +6,13 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:26:56 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/07 12:48:23 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 14:52:32 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ms_hd_read_to_fd(t_info *i, const char *delim, int fd)
+static int	ms_hd_read_to_fd(t_info *i, t_redir *r, int fd)
 {
 	char	*line;
 
@@ -23,9 +23,10 @@ static int	ms_hd_read_to_fd(t_info *i, const char *delim, int fd)
 			return (free(line), 1);
 		if (!line)
 			return (0);
-		if (ms_hd_is_delim(line, delim))
+		if (ms_hd_is_delim(line, r->file))
 			return (free(line), 0);
-		ms_hd_write_line(i, fd, line);
+		if (!ms_hd_write_line(i, fd, line, r->hd_expand))
+			return (free(line), i->err = 1, 1);
 		free(line);
 	}
 }
@@ -46,9 +47,8 @@ static int	ms_hd_one(t_info *i, t_redir *r, int *idx)
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (ft_sfree((void **)&path), i->err = 1, 1);
 	}
-	if (ms_hd_read_to_fd(i, r->file, fd))
-		return (close(fd), unlink(path), ft_sfree((void **)&path),
-			g_sig = 0, i->err = 130, 1);
+	if (ms_hd_read_to_fd(i, r, fd))
+		return (ms_hd_fail_one(i, &path, fd));
 	close(fd);
 	ft_sfree((void **)&r->file);
 	r->file = path;
