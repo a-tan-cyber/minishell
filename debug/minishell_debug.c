@@ -6,12 +6,11 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:14:20 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 19:25:59 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 18:37:00 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/minishell.h"
-#include <stdio.h>
 
 static void	ft_print_arr(char *name, const char **arr)
 {

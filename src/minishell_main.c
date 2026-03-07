@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 11:58:44 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 18:46:10 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static int	ms_should_exit(t_info *i)
 	return (0);
 }
 
-// debug ast by inserting print_astree(0, *ast); in the last if block of this fn
+// debug ast by inserting print_astree(0, *ast); as the last line of this fn
+// don't forget to uncomment the prototype in minishell.h
 static void	ms_process_line(t_ast **ast, t_info *i)
 {
 	if (!line_valid(i, &i->line))

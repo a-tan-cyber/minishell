@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 09:21:25 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 11:43:59 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/07 18:32:05 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,7 @@
 # include "string/ft_string.h"
 # include "utils/ft_utils.h"
 # include <fcntl.h>
-# include <limits.h>
-# include <stddef.h>
 # include <stdint.h>
-# include <stdlib.h>
-# include <unistd.h>
 
 // functions
 # include "../functions/get_next_line/get_next_line.h"

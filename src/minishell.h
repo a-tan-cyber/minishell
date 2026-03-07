@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 17:17:16 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 18:47:00 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <dirent.h>
 # include <errno.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
@@ -289,10 +290,11 @@ t_bool	line_valid(t_info *i, char **line);
  .......::::........:::........:::::.......::::::........::
 debug ast by: 
 - uncommenting print_astree prototype below 
-- inserting print_astree(0, *ast);
-	in the last if block of ms_process_line in minishell_main.c
+- inserting:
+		print_astree(0, *ast); 
+	as the last line of ms_process_line in minishell_main.c
 - make debug version of the shell with `make debug`
-- and running, then entering a command to see the ast printed in the terminal
+- run ./minishell then enter a command to see the ast printed in the terminal
 */
 
 //minishell_debug.c
