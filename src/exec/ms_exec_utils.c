@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:39:35 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 00:06:22 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 10:41:26 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,11 @@ void	ms_exec_child_fail(const char *name, const char *path)
 	if (errno == ENOENT)
 		exit(127);
 	exit(126);
+}
+
+int	ms_restore_signals_ret(t_info *i, int ret)
+{
+	if (i && i->interactive)
+		set_signals();
+	return (ret);
 }

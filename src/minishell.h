@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 20:23:37 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 10:40:56 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,16 @@ int		ms_exec_pipe(t_info *i, t_ast *ast);
 //ms_export_print.c
 void	ms_export_print_all(t_var *vars);
 
+//ms_wait.c
+int		set_wait_signals(void);
+void	set_child_signals(void);
+int		ms_wait_pid(pid_t pid, int *status, int options);
+int		ms_wait_status(int status, t_bool interactive, t_bool print_msg);
+
 //ms_exec_utils.c
 void	ms_exec_child_fail(const char *name, const char *path);
 void	ms_cmd_not_found(const char *cmd);
+int		ms_restore_signals_ret(t_info *i, int ret);
 
 /* 
 '##::::'##::::'###::::'########::

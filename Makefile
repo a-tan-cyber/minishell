@@ -42,6 +42,7 @@ SRC = \
 	src/exec/ms_path.c \
 	src/exec/ms_pipe.c \
 	src/exec/ms_redir.c \
+	src/exec/ms_wait.c \
 	src/lex/expand_dollar.c \
 	src/lex/lex_expand.c \
 	src/lex/lex_expand_star.c \
