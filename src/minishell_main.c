@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 21:15:21 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 11:58:44 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,17 @@ static void	ms_process_line(t_ast **ast, t_info *i)
 		return ;
 	if (i->interactive && i->line && i->line[0] != '\0' && i->line[0] != '\n')
 		ms_history_add(i, i->line);
-	if (lex_line(i->line, &i->lexed, i) == 0)
-		*ast = build_ast_rec(i->lexed, token_last(i->lexed));
-	if (*ast)
+	if (lex_line(i->line, &i->lexed, i) != 0)
+		return ;
+	*ast = build_ast_rec(i->lexed, token_last(i->lexed));
+	if (!*ast)
 	{
-		ms_exec_ast(i, *ast);
+		ft_putendl_fd("moonshell: syntax error near unexpected token `newline'",
+			STDERR_FILENO);
+		i->err = 2;
+		return ;
 	}
+	ms_exec_ast(i, *ast);
 }
 
 int	main(int argc, char **argv, char **envp)

@@ -6,11 +6,13 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 19:56:29 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/02 11:24:51 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/07 12:39:52 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
+#include <unistd.h>
 
 static char	ml_unclosed_quote(const char *s)
 {
@@ -35,12 +37,14 @@ static char	*ml_handle_eof(t_info *i, const char *first,
 	q = ml_unclosed_quote(rslt);
 	if (q != 0)
 	{
-		ft_puterr("moonshell: unexpected EOF while looking for matching `");
-		write(2, &q, 1);
-		ft_puterr("'\n");
+		ft_putstr_fd("moonshell: unexpected EOF while looking for matching `",
+			STDERR_FILENO);
+		ft_putchar_fd(q, STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
 	}
 	else
-		ft_puterr("moonshell: syntax error: unexpected end of file\n");
+		ft_putendl_fd("moonshell: syntax error: unexpected end of file",
+			STDERR_FILENO);
 	i->err = 2;
 	ft_sfree((void **)&rslt);
 	return (NULL);
