@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 18:40:38 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 17:27:02 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 11:24:17 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static size_t	tokenise_text(const char *line, t_token **lexed, t_info *info,
 			return (ft_sfree((void **)&text), 0);
 		ft_str_replace_chr(text, '*', 127);
 	}
+	if (!text[0])
+		return (ft_sfree((void **)&text), r);
 	tok = token_push_back(lexed, TEXT, text);
 	if (!tok)
 		return (ft_sfree((void **)&text), 0);

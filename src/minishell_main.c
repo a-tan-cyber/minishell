@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 18:46:10 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 11:24:52 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static void	ms_process_line(t_ast **ast, t_info *i)
 		ms_history_add(i, i->line);
 	if (lex_line(i->line, &i->lexed, i) != 0)
 		return ;
+	if (!i->lexed)
+		return ((void)(i->err = 0));
 	*ast = build_ast_rec(i->lexed, token_last(i->lexed));
 	if (!*ast)
 	{
