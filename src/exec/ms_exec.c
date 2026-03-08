@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:30:41 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/07 10:33:07 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 22:03:32 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,10 @@ static void	ms_exec_node(t_info *i, t_ast *ast)
 		i->err = ms_exec_pipe(i, ast);
 		return ;
 	}
-	if (ast->type != AST_CMD || !ast->args || !ast->args[0])
+	if (ast->type != AST_CMD)
 		return ;
+	if (!ast->args || !ast->args[0])
+		return ((void)(i->err = ms_exec_redir_only(ast)));
 	ms_exec_cmd(i, ast);
 }
 

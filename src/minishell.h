@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/08 13:05:40 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 22:01:52 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int		ms_wait_status(int status, t_bool interactive, t_bool print_msg);
 void	ms_exec_child_fail(const char *name, const char *path);
 void	ms_cmd_not_found(const char *cmd);
 int		ms_restore_signals_ret(t_info *i, int ret);
+int		ms_exec_redir_only(t_ast *ast);
 
 /* 
 '##::::'##::::'###::::'########::

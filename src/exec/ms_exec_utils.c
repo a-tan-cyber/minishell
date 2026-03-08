@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:39:35 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/07 10:41:26 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 22:00:45 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,17 @@ int	ms_restore_signals_ret(t_info *i, int ret)
 	if (i && i->interactive)
 		set_signals();
 	return (ret);
+}
+
+int	ms_exec_redir_only(t_ast *ast)
+{
+	int	save_in;
+	int	save_out;
+
+	if (!ast || !ast->rdir)
+		return (0);
+	if (ms_redir_parent_begin(ast->rdir, &save_in, &save_out))
+		return (1);
+	ms_redir_parent_end(save_in, save_out);
+	return (0);
 }
