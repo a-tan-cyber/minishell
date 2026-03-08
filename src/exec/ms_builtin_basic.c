@@ -6,11 +6,21 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 12:17:09 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 15:24:19 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 15:07:58 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	ms_echo_write(const char *s, size_t len)
+{
+	if (write(STDOUT_FILENO, s, len) < 0)
+	{
+		perror("echo");
+		return (1);
+	}
+	return (0);
+}
 
 static int	ms_echo_is_n(const char *s)
 {
@@ -40,13 +50,14 @@ int	ms_builtin_echo(char **argv)
 	}
 	while (argv[i])
 	{
-		write(STDOUT_FILENO, argv[i], ft_strlen(argv[i]));
-		if (argv[i + 1])
-			write(STDOUT_FILENO, " ", 1);
+		if (ms_echo_write(argv[i], ft_strlen(argv[i])))
+			return (1);
+		if (argv[i + 1] && ms_echo_write(" ", 1))
+			return (1);
 		i++;
 	}
-	if (nl)
-		write(STDOUT_FILENO, "\n", 1);
+	if (nl && ms_echo_write("\n", 1))
+		return (1);
 	return (0);
 }
 
