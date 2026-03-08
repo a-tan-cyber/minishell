@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 19:56:29 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/08 12:27:00 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 13:57:39 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,30 @@ static char	*ml_append_line(t_info *i, char *rslt, char *line)
 	return (tmp);
 }
 
-static char	*ml_read_line(t_info *i, const char *prompt)
+static const char	*ml_curr_prompt(const char *msg, char *rslt)
 {
-	return (ms_input_next_line(i, prompt));
+	if (*rslt)
+		return ("> ");
+	return (msg);
 }
 
 char	*read_multiline(t_info *i, const char *msg)
 {
 	char		*rslt;
 	char		*line;
-	const char	*prompt;
 
-	prompt = msg;
 	i->cmd_line_no = i->line_no;
 	rslt = ft_strdup("");
-	while (rslt)
+	if (!rslt)
+		return (NULL);
+	while (TRUE)
 	{
-		line = ml_read_line(i, prompt);
+		line = ms_input_next_line(i, ml_curr_prompt(msg, rslt));
 		if (i->interactive && g_sig == SIGINT)
-			return (free(line), read_multiline_sigint(rslt));
+			return (ft_sfree((void **)&i->input_buf), free(line),
+				read_multiline_sigint(rslt));
 		if (!line)
-			return (ml_handle_eof(i, msg, prompt, rslt));
+			return (ml_handle_eof(i, msg, ml_curr_prompt(msg, rslt), rslt));
 		i->line_no++;
 		rslt = ml_append_line(i, rslt, line);
 		if (!rslt)
@@ -94,7 +97,5 @@ char	*read_multiline(t_info *i, const char *msg)
 			return (rslt);
 		if (!i->interactive && !*rslt)
 			return (ft_sfree((void **)&rslt), ft_strdup(""));
-		prompt = "> ";
 	}
-	return (NULL);
 }

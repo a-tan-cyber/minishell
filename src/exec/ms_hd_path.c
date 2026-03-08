@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:47:11 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/08 12:28:44 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 13:14:13 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ char	*ms_hd_path(int idx)
 	path = ft_strjoin2("/tmp/moonshell_hd_", num);
 	ft_sfree((void **)&num);
 	return (path);
-}
-
-char	*ms_hd_next_line(t_info *i)
-{
-	return (ms_input_next_line(i, "> "));
 }
 
 t_bool	ms_hd_is_delim(char *line, const char *delim)

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:26:56 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/07 17:25:00 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 13:15:39 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int	ms_hd_read_to_fd(t_info *i, t_redir *r, int fd)
 
 	while (TRUE)
 	{
-		line = ms_hd_next_line(i);
+		line = ms_input_next_line(i, "> ");
 		if (g_sig == SIGINT)
-			return (free(line), 1);
+			return (ft_sfree((void **)&i->input_buf), free(line), 1);
 		if (!line)
 			return (ms_hd_warn_eof(r), 0);
 		i->line_no++;
