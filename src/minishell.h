@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 18:47:00 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 12:20:55 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,7 @@ void	ms_history_add(t_info *i, const char *line);
 void	ms_history_clear(t_info *i);
 
 //ms_quote.c
+char	*ms_input_next_line(t_info *i, const char *prompt);
 char	ms_quote_next(char q, char c);
 
 //ms_signals.c

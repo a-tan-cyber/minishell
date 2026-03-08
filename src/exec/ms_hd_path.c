@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:47:11 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/07 14:51:40 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 12:28:44 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,7 @@ char	*ms_hd_path(int idx)
 
 char	*ms_hd_next_line(t_info *i)
 {
-	if (i && i->interactive)
-	{
-		rl_done = 0;
-		return (readline("> "));
-	}
-	return (get_next_line(STDIN_FILENO));
+	return (ms_input_next_line(i, "> "));
 }
 
 t_bool	ms_hd_is_delim(char *line, const char *delim)

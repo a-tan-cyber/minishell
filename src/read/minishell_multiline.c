@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 19:56:29 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/07 17:47:19 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 12:27:00 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,7 @@ static char	*ml_append_line(t_info *i, char *rslt, char *line)
 
 static char	*ml_read_line(t_info *i, const char *prompt)
 {
-	char	*line;
-
-	if (i->interactive)
-	{
-		rl_done = 0;
-		line = readline(prompt);
-		return (line);
-	}
-	line = get_next_line(STDIN_FILENO);
-	return (line);
+	return (ms_input_next_line(i, prompt));
 }
 
 char	*read_multiline(t_info *i, const char *msg)
