@@ -135,6 +135,35 @@ moonshell> exit
 exit
 ```
 
+## Tester Compatibility Note
+
+If you plan to validate this project with the LucasKuhn minishell tester ([https://github.com/LucasKuhn/minishell_tester/tree/main](https://github.com/LucasKuhn/minishell_tester/tree/main)), apply the following minimal patch to the tester script first:
+
+```diff
+--- a/tester
++++ b/tester
+@@
+ REMOVE_COLORS="sed s/\x1B\[[0-9;]\{1,\}[A-Za-z]//g"
+ REMOVE_EXIT="grep -v ^exit$"
++
++strip_prompt()
++{
++	if [[ -n "$PROMPT" ]]; then
++		grep -vF -- "$PROMPT"
++	else
++		cat
++	fi
++}
+@@
+-		MINI_OUTPUT=$(echo -e "$teste" | $MINISHELL_PATH 2> /dev/null | $REMOVE_COLORS | grep -vF "$PROMPT" | $REMOVE_EXIT )
++		MINI_OUTPUT=$(echo -e "$teste" | $MINISHELL_PATH 2> /dev/null | $REMOVE_COLORS | strip_prompt | $REMOVE_EXIT )
+@@
+-		MINI_EXIT_CODE=$(echo -e "$MINISHELL_PATH\n$teste\necho \$?\nexit\n" | bash 2> /dev/null | $REMOVE_COLORS | grep -vF "$PROMPT" | $REMOVE_EXIT | tail -n 1)
++		MINI_EXIT_CODE=$(echo -e "$MINISHELL_PATH\n$teste\necho \$?\nexit\n" | bash 2> /dev/null | $REMOVE_COLORS | strip_prompt | $REMOVE_EXIT | tail -n 1)
+```
+
+This patch is needed because this minishell also supports **non-interactive mode**, like Bash. In non-interactive mode, the shell correctly produces **no prompt**, but the tester assumes it can always detect one and then remove it from later output. If the detected prompt is empty, the tester ends up running `grep -vF "$PROMPT"` with an empty pattern, which removes every line of output instead of only prompt lines. The `strip_prompt` helper fixes that by filtering prompt lines only when a non-empty prompt was actually detected.
+
 ## Resources
 
 Useful references for understanding the ideas behind this project:
