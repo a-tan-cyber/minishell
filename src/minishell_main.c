@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/08 11:24:52 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 22:53:19 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static void	ms_process_line(t_ast **ast, t_info *i)
 	if (i->interactive && i->line && i->line[0] != '\0' && i->line[0] != '\n')
 		ms_history_add(i, i->line);
 	if (lex_line(i->line, &i->lexed, i) != 0)
+		return ;
+	if (!lex_valid(i, i->lexed))
 		return ;
 	if (!i->lexed)
 		return ((void)(i->err = 0));

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/08 22:01:52 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 23:02:31 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,9 @@ char	*read_multiline_sigint(char *rslt);
 
 //ms_valid.c
 t_bool	line_valid(t_info *i, char **line);
+
+//ms_valid_lex.c
+t_bool	lex_valid(t_info *i, t_token *lexed);
 
 /* 
 '########:::'########::'########:::'##::::'##:::..######:::

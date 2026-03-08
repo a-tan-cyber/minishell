@@ -67,6 +67,7 @@ SRC = \
 	src/read/ms_quote.c \
 	src/read/ms_signals.c \
 	src/read/ms_valid.c \
+	src/read/ms_valid_lex.c \
 	src/var/ms_var_bootstrap.c \
 	src/var/ms_var_edit.c \
 	src/var/ms_var_list.c

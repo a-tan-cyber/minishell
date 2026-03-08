@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:13:43 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 12:15:38 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 22:51:50 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,26 @@ int	open_has_close(char *line, char open, char close)
 	return (0);
 }
 
-static t_bool	line_ends_in_open_op(char *s, size_t len)
+static char	line_prev_sig(char *s, size_t len)
 {
+	while (len > 0)
+	{
+		len--;
+		if (!ft_is_white_space(s[len]))
+			return (s[len]);
+	}
+	return (0);
+}
+
+static t_bool	line_can_continue(char *s, size_t len)
+{
+	char	c;
+
 	if (len >= 2 && (!ft_strcmp(s + len - 2, "&&")
-			|| !ft_strcmp(s + len - 2, "||")
-			|| !ft_strcmp(s + len - 2, "<<")
-			|| !ft_strcmp(s + len - 2, ">>")))
-		return (TRUE);
-	if (len >= 1 && (s[len - 1] == '|'
-			|| s[len - 1] == '<'
-			|| s[len - 1] == '>'))
-		return (TRUE);
+			|| !ft_strcmp(s + len - 2, "||")))
+		return ((c = line_prev_sig(s, len - 2)) && !ft_strchr("|&<>()", c));
+	if (len >= 1 && s[len - 1] == '|')
+		return ((c = line_prev_sig(s, len - 1)) && !ft_strchr("|&<>()", c));
 	return (FALSE);
 }
 
@@ -75,7 +84,7 @@ t_bool	line_is_complete(char *line)
 	if (!temp)
 		return (FALSE);
 	len = ft_strlen(temp);
-	if (line_ends_in_open_op(temp, len))
+	if (line_can_continue(temp, len))
 		return (ft_sfree((void **)&temp), FALSE);
 	return (ft_sfree((void **)&temp), TRUE);
 }
