@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 10:00:33 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/01 14:15:09 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/08 11:06:01 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,15 @@ char	*extract_line(t_gnl **head, t_gnl **curr)
 int	get_newlinechar(t_gnl *curr, char *buf)
 {
 	int		gt;
+	int		rd_size;
 	char	*tmp;
 
 	if (!curr)
 		return (-1);
-	gt = read(curr->fd, buf, LIBFT_GNL_BUFFER_SIZE);
+	rd_size = LIBFT_GNL_BUFFER_SIZE;
+	if (curr->fd == STDIN_FILENO)
+		rd_size = 1;
+	gt = read(curr->fd, buf, rd_size);
 	while (gt > 0)
 	{
 		tmp = curr->s;
@@ -95,7 +99,7 @@ int	get_newlinechar(t_gnl *curr, char *buf)
 			return (-1);
 		if (check_newline(curr) > 0)
 			return (gt);
-		gt = read(curr->fd, buf, LIBFT_GNL_BUFFER_SIZE);
+		gt = read(curr->fd, buf, rd_size);
 	}
 	return (gt);
 }
