@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/08 12:20:25 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/09 12:15:27 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ struct	s_info
 	char			**my_env;
 	t_var			*vars;
 	char			*input_buf;
+	t_bool			from_arg;
 	char			*line;
 	int				line_no;
 	int				cmd_line_no;

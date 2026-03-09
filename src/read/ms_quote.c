@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:40:44 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/08 12:25:58 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/09 12:16:14 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ char	*ms_input_next_line(t_info *i, const char *prompt)
 
 	if (i && i->input_buf)
 		return (ms_input_pop(&i->input_buf));
+	if (i && i->from_arg)
+		return (NULL);
 	if (i && i->interactive)
 	{
 		rl_done = 0;

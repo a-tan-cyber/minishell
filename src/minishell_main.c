@@ -6,18 +6,29 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/08 22:53:19 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/09 12:31:45 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ms_setup(t_ast **ast, t_info *i, int argc, char **envp)
+static int	ms_setup(t_ast **ast, t_info *i, char **argv, char **envp)
 {
 	init_ms_var(ast, i);
-	if (argc != 1 || ms_var_bootstrap(i, envp) != 0)
+	if (ms_var_bootstrap(i, envp) != 0)
 		return (2);
-	i->interactive = isatty(STDIN_FILENO);
+	if (argv[1]
+		&& (!argv[2] || argv[3] || ft_strcmp(argv[1], "-c")))
+		return (ft_putendl_fd("usage: ./minishell [-c command]",
+				STDERR_FILENO), 2);
+	if (argv[1])
+	{
+		i->from_arg = TRUE;
+		i->input_buf = ft_strdup(argv[2]);
+		if (!i->input_buf)
+			return (2);
+	}
+	i->interactive = (!argv[1] && isatty(STDIN_FILENO));
 	g_sig = 0;
 	if (i->interactive)
 	{
@@ -57,6 +68,8 @@ static int	ms_should_exit(t_info *i)
 // don't forget to uncomment the prototype in minishell.h
 static void	ms_process_line(t_ast **ast, t_info *i)
 {
+	t_bool	arg_mode;
+
 	if (!line_valid(i, &i->line))
 		return ;
 	if (i->interactive && i->line && i->line[0] != '\0' && i->line[0] != '\n')
@@ -75,7 +88,10 @@ static void	ms_process_line(t_ast **ast, t_info *i)
 		i->err = 2;
 		return ;
 	}
+	arg_mode = i->from_arg;
+	i->from_arg = FALSE;
 	ms_exec_ast(i, *ast);
+	i->from_arg = arg_mode;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -84,8 +100,8 @@ int	main(int argc, char **argv, char **envp)
 	t_info	i;
 	int		ret;
 
-	(void)argv;
-	ret = ms_setup(&astree, &i, argc, envp);
+	(void)argc;
+	ret = ms_setup(&astree, &i, argv, envp);
 	if (ret != 0)
 		return (free_ms_var(&astree, &i, "all"), ret);
 	while (TRUE)
