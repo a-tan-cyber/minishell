@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 17:19:43 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 17:19:48 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 23:06:40 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static int	ms_assign_cd_apply(t_info *i, const char *target, int print_pwd)
 	char	*oldpwd;
 	char	*newpwd;
 
+	if (!target[0])
+		return (0);
 	oldpwd = getcwd(NULL, 0);
 	if (chdir(target) != 0)
 		return (ms_assign_cd_fail(target, &oldpwd));
