@@ -1,4 +1,5 @@
 NAME = minishell
+BONUS_NAME = minishell_bonus
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 CPPFLAGS = -I./src -I./libft/include
@@ -85,8 +86,10 @@ DEPS = $(OBJS:.o=.d)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) $(LDLIBS) -o $(NAME)
+bonus: $(BONUS_NAME)
+
+$(NAME) $(BONUS_NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) $(LDLIBS) -o $@
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -104,10 +107,10 @@ clean:
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -f $(NAME)
+	rm -f $(NAME) $(BONUS_NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re debug
+.PHONY: all bonus clean fclean re debug
 
 -include $(DEPS)
