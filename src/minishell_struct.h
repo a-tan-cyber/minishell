@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/09 12:15:27 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 15:21:09 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ struct	s_redir
 	int				line_no;
 	t_bool			is_hd_tmp;
 	t_bool			hd_expand;
+	t_bool			ambig;
 	struct s_redir	*next;
 };
 

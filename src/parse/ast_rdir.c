@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:09:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 17:18:55 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 15:29:00 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_redir	*crea_rdir_node(t_token *oper, t_token *file)
 	new->line_no = oper->line_no;
 	new->is_hd_tmp = FALSE;
 	new->hd_expand = (oper->type == HEREDOC && file->quoted == FALSE);
+	new->ambig = FALSE;
 	new->file = ft_strdup(file->text);
 	if (!new->file)
 		return (ft_sfree((void **)&new), NULL);
@@ -43,4 +44,20 @@ t_redir	*goto_rdir_last(t_redir *curr)
 		curr = curr->next;
 	}
 	return (temp);
+}
+
+t_bool	ms_redir_is_ambig(t_token *oper, t_token *file, t_token *end)
+{
+	if (!oper || !file || oper->type == HEREDOC)
+		return (FALSE);
+	if (file->next && file->next != end && file->next->type == TEXT)
+		return (TRUE);
+	return (FALSE);
+}
+
+t_token	*ms_redir_skip_word(t_token *file, t_token *end)
+{
+	while (file && file != end && file->type == TEXT)
+		file = file->next;
+	return (file);
 }

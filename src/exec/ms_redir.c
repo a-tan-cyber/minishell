@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 10:32:12 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 10:33:10 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 15:26:35 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	ms_redir_dup(t_redir *r)
 
 	if (!r || !r->file)
 		return (1);
+	if (r->ambig)
+		return (ms_ambiguous_redirect(r->file));
 	target = STDOUT_FILENO;
 	if (r->type == REDI_IN)
 	{
@@ -45,8 +47,7 @@ static int	ms_redir_dup(t_redir *r)
 		return (ms_redir_err(r->file));
 	if (dup2(fd, target) < 0)
 		return (close(fd), ms_redir_err(r->file));
-	close(fd);
-	return (0);
+	return (close(fd), 0);
 }
 
 int	ms_redir_apply(t_redir *rdir)

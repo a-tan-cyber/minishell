@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/08 23:02:31 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 15:23:44 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int		ms_wait_status(int status, t_bool interactive, t_bool print_msg);
 //ms_exec_utils.c
 void	ms_exec_child_fail(const char *name, const char *path);
 void	ms_cmd_not_found(const char *cmd);
+int		ms_ambiguous_redirect(const char *file);
 int		ms_restore_signals_ret(t_info *i, int ret);
 int		ms_exec_redir_only(t_ast *ast);
 
@@ -230,6 +231,8 @@ void	free_ast_one(t_ast **one);
 // ast_rdir.c
 t_redir	*crea_rdir_node(t_token *oper, t_token *file);
 t_redir	*goto_rdir_last(t_redir *curr);
+t_bool	ms_redir_is_ambig(t_token *oper, t_token *file, t_token *end);
+t_token	*ms_redir_skip_word(t_token *file, t_token *end);
 
 // ast_util.c
 int		count_ast_arg(t_token *head, t_token *tail);

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:10:02 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/05 18:25:45 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 15:29:22 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_token	*ast_skip_redir(t_token *tok, t_token *end)
 	tok = tok->next;
 	tok = ast_skip_spaces(tok, end);
 	if (tok && tok != end && tok->type == TEXT)
-		tok = tok->next;
+		tok = ms_redir_skip_word(tok, end);
 	return (tok);
 }
 

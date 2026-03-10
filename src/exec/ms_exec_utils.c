@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:39:35 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/08 22:00:45 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 15:24:31 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@ void	ms_cmd_not_found(const char *cmd)
 	ft_putstr_fd("moonshell: ", STDERR_FILENO);
 	ft_putstr_fd((char *)cmd, STDERR_FILENO);
 	ft_putendl_fd(": command not found", STDERR_FILENO);
+}
+
+int	ms_ambiguous_redirect(const char *file)
+{
+	ft_putstr_fd("moonshell: ", STDERR_FILENO);
+	ft_putstr_fd((char *)file, STDERR_FILENO);
+	ft_putendl_fd(": ambiguous redirect", STDERR_FILENO);
+	return (1);
 }
 
 void	ms_exec_child_fail(const char *name, const char *path)
