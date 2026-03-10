@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 13:28:07 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/01 13:28:11 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 19:59:43 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	hist_append(t_hist **head, const char *line)
 	return (0);
 }
 
-static void	hist_rebuild(t_hist *head)
+void	ms_history_sync_readline(t_hist *head)
 {
 	rl_clear_history();
 	while (head)
@@ -84,7 +84,7 @@ void	ms_history_add(t_info *i, const char *line)
 	}
 	hist_remove_all(&i->hist, line);
 	if (hist_append(&i->hist, line) == 0)
-		hist_rebuild(i->hist);
+		ms_history_sync_readline(i->hist);
 }
 
 void	ms_history_clear(t_info *i)

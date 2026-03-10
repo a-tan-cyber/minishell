@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:40:44 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/09 12:16:14 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 19:57:11 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ char	*ms_input_next_line(t_info *i, const char *prompt)
 		return (NULL);
 	if (i && i->interactive)
 	{
-		rl_done = 0;
-		line = readline(prompt);
+		line = ms_readline_forked(i, prompt);
 		if (!line)
 			return (NULL);
 		return (ms_input_split_store(i, line));

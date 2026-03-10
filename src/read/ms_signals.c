@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 05:56:54 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 11:00:19 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 19:58:52 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	handle_sigint(int sig)
 {
 	(void)sig;
 	g_sig = SIGINT;
-	write(STDOUT_FILENO, "^C", 2);
+	write(STDOUT_FILENO, "\n", 1);
 }
 
 static int	ms_sigaction(int sig, void (*handler)(int))
@@ -52,13 +52,8 @@ char	*read_multiline_sigint(char *rslt)
 	return (ft_strdup(""));
 }
 
-int	rl_check_sigint(void)
+void	set_reader_signals(void)
 {
-	if (g_sig == SIGINT)
-	{
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_done = 1;
-	}
-	return (0);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }

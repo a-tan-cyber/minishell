@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/09 12:31:45 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 19:56:48 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,8 @@ static int	ms_setup(t_ast **ast, t_info *i, char **argv, char **envp)
 	}
 	i->interactive = (!argv[1] && isatty(STDIN_FILENO));
 	g_sig = 0;
-	if (i->interactive)
-	{
-		rl_catch_signals = 0;
-		rl_event_hook = rl_check_sigint;
-		if (set_signals() != 0)
-			return (2);
-	}
+	if (i->interactive && set_signals() != 0)
+		return (2);
 	return (0);
 }
 

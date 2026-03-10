@@ -65,6 +65,8 @@ SRC = \
 	src/read/minishell_read.c \
 	src/read/ms_history.c \
 	src/read/ms_quote.c \
+	src/read/ms_reader_fork.c \
+	src/read/ms_reader_pipe.c \
 	src/read/ms_signals.c \
 	src/read/ms_valid.c \
 	src/read/ms_valid_lex.c \

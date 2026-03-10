@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/10 15:23:44 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/10 20:01:20 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,14 +270,20 @@ char	*read_multiline(t_info *i, const char *msg);
 //ms_history.c
 void	ms_history_add(t_info *i, const char *line);
 void	ms_history_clear(t_info *i);
+void	ms_history_sync_readline(t_hist *head);
 
 //ms_quote.c
 char	*ms_input_next_line(t_info *i, const char *prompt);
+char	*ms_readline_forked(t_info *i, const char *prompt);
 char	ms_quote_next(char q, char c);
+
+//ms_reader_pipe.c
+int		ms_reader_recv_line(int fd, char **line);
+void	ms_reader_child_run(t_info *i, const char *prompt, int fd);
 
 //ms_signals.c
 int		set_signals(void);
-int		rl_check_sigint(void);
+void	set_reader_signals(void);
 char	*read_multiline_sigint(char *rslt);
 
 //ms_valid.c
