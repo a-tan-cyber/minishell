@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/10 20:01:20 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/12 23:25:39 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int		ms_try_builtin(t_info *i, t_ast *cmd);
 int		ms_builtin_echo(char **argv);
 int		ms_builtin_pwd(void);
 int		ms_builtin_env(t_info *i);
+
+//ms_builtin_unset.c
 int		ms_builtin_unset(t_info *i, char **argv);
 
 //ms_builtin_cd.c
@@ -147,6 +149,8 @@ t_var	*ms_var_dup(t_var *vars);
 //ms_var_bootstrap.c 
 char	**ms_var_build_env(t_var *vars);
 int		ms_var_bootstrap(t_info *i, char **envp);
+
+//ms_var_edit.c
 char	*ms_var_get(t_var *vars, const char *name);
 int		ms_var_set(t_var **vars, const char *name, const char *value,
 			t_bool exported);
@@ -274,8 +278,10 @@ void	ms_history_sync_readline(t_hist *head);
 
 //ms_quote.c
 char	*ms_input_next_line(t_info *i, const char *prompt);
-char	*ms_readline_forked(t_info *i, const char *prompt);
 char	ms_quote_next(char q, char c);
+
+//ms_reader_fork.c
+char	*ms_readline_forked(t_info *i, const char *prompt);
 
 //ms_reader_pipe.c
 int		ms_reader_recv_line(int fd, char **line);
