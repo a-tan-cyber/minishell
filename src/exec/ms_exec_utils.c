@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:39:35 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/10 15:24:31 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 14:57:29 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ms_ambiguous_redirect(const char *file)
 	return (1);
 }
 
-void	ms_exec_child_fail(const char *name, const char *path)
+int	ms_exec_child_fail(const char *name, const char *path)
 {
 	struct stat	st;
 
@@ -39,8 +39,8 @@ void	ms_exec_child_fail(const char *name, const char *path)
 	else
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 	if (errno == ENOENT)
-		exit(127);
-	exit(126);
+		return (127);
+	return (126);
 }
 
 int	ms_restore_signals_ret(t_info *i, int ret)

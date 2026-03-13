@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 09:57:27 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/08 12:25:35 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 15:01:46 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ static void	free_null_var(t_ast **ast, char ***env, char **line,
 void	free_ms_var(t_ast **astree, t_info *i, char *cmd)
 {
 	if (ft_strcmp(cmd, "tmp") == 0)
-	{
 		free_null_var(astree, NULL, &i->line, &i->lexed);
-	}
 	else if (ft_strcmp(cmd, "all") == 0)
 	{
 		free_null_var(astree, &i->my_env, &i->line, &i->lexed);
@@ -74,4 +72,11 @@ void	free_ms_var(t_ast **astree, t_info *i, char *cmd)
 		ms_var_clear(&i->vars);
 		ms_history_clear(i);
 	}
+	i->ast = NULL;
+}
+
+void	ms_exit_child(t_info *i, int code)
+{
+	free_ms_var(&i->ast, i, "all");
+	exit(code);
 }

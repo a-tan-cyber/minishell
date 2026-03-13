@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:30:41 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/08 22:03:32 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 14:56:09 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	ms_wait_exit_status(t_info *i, pid_t pid, t_bool print_msg)
 int	ms_exec_cmd_path(t_info *i, t_ast *cmd, const char *name, const char *path)
 {
 	pid_t	pid;
+	int		code;
 
 	if (i->interactive && set_wait_signals())
 		return (1);
@@ -44,9 +45,10 @@ int	ms_exec_cmd_path(t_info *i, t_ast *cmd, const char *name, const char *path)
 	{
 		set_child_signals();
 		if (cmd->rdir && ms_redir_apply(cmd->rdir))
-			exit(1);
+			ms_exit_child(i, 1);
 		execve(path, cmd->args, i->my_env);
-		ms_exec_child_fail(name, path);
+		code = ms_exec_child_fail(name, path);
+		ms_exit_child(i, code);
 	}
 	return (ms_wait_exit_status(i, pid, TRUE));
 }

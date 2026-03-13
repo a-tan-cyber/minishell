@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/12 23:25:39 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 14:59:47 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int		ms_wait_pid(pid_t pid, int *status, int options);
 int		ms_wait_status(int status, t_bool interactive, t_bool print_msg);
 
 //ms_exec_utils.c
-void	ms_exec_child_fail(const char *name, const char *path);
+int		ms_exec_child_fail(const char *name, const char *path);
 void	ms_cmd_not_found(const char *cmd);
 int		ms_ambiguous_redirect(const char *file);
 int		ms_restore_signals_ret(t_info *i, int ret);
@@ -260,6 +260,7 @@ t_ast	*build_ast_rec(t_token *head, t_token *tail);
 void	free_token_one(t_token **lst);
 void	free_token_lst(t_token **lst);
 void	free_ms_var(t_ast **astree, t_info *i, char *cmd);
+void	ms_exit_child(t_info *i, int code);
 
 //minishell_init.c
 void	init_ms_var(t_ast **astree, t_info *i);

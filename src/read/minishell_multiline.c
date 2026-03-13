@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 19:56:29 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/08 13:57:39 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 14:26:10 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ static char	*ml_handle_eof(t_info *i, const char *first,
 
 	if (prompt == first)
 		return (ft_sfree((void **)&rslt), NULL);
-	q = ml_unclosed_quote(rslt);
+	q = 0;
+	if (rslt)
+		q = ml_unclosed_quote(rslt);
 	if (q != 0)
 	{
 		ft_putstr_fd("moonshell: unexpected EOF while looking for matching `",
@@ -53,6 +55,12 @@ static char	*ml_append_line(t_info *i, char *rslt, char *line)
 	char	*tmp;
 	size_t	len;
 
+	if (!rslt)
+	{
+		rslt = ft_strdup("");
+		if (!rslt)
+			return (ft_sfree((void **)&line), NULL);
+	}
 	len = ft_strlen(line);
 	if (i->interactive || len == 0 || line[len - 1] != '\n')
 	{
@@ -67,7 +75,7 @@ static char	*ml_append_line(t_info *i, char *rslt, char *line)
 
 static const char	*ml_curr_prompt(const char *msg, char *rslt)
 {
-	if (*rslt)
+	if (rslt && *rslt)
 		return ("> ");
 	return (msg);
 }
@@ -78,9 +86,7 @@ char	*read_multiline(t_info *i, const char *msg)
 	char		*line;
 
 	i->cmd_line_no = i->line_no;
-	rslt = ft_strdup("");
-	if (!rslt)
-		return (NULL);
+	rslt = NULL;
 	while (TRUE)
 	{
 		line = ms_input_next_line(i, ml_curr_prompt(msg, rslt));

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 20:02:25 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/10 20:02:28 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 15:00:07 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,9 @@ void	ms_reader_child_run(t_info *i, const char *prompt, int fd)
 	{
 		free(line);
 		close(fd);
-		exit(1);
+		ms_exit_child(i, 1);
 	}
 	free(line);
 	close(fd);
-	exit(0);
+	ms_exit_child(i, 0);
 }

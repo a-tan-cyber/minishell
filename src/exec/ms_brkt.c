@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:19:29 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/07 10:33:37 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 14:54:22 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ms_exec_brkt(t_info *i, t_ast *ast)
 	{
 		set_child_signals();
 		ms_exec_ast(i, ast->left);
-		exit(i->err);
+		ms_exit_child(i, i->err);
 	}
 	return (ms_brkt_wait_parent(i, pid));
 }

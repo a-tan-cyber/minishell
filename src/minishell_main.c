@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/10 19:56:48 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 15:02:26 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void	ms_process_line(t_ast **ast, t_info *i)
 	if (!i->lexed)
 		return ((void)(i->err = 0));
 	*ast = build_ast_rec(i->lexed, token_last(i->lexed));
+	i->ast = *ast;
 	if (!*ast)
 	{
 		ft_putendl_fd("moonshell: syntax error near unexpected token `newline'",
