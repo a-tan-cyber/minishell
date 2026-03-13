@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 20:02:25 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/13 15:00:07 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 16:11:49 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void	ms_reader_child_run(t_info *i, const char *prompt, int fd)
 	char	*line;
 
 	set_reader_signals();
-	ms_history_sync_readline(i->hist);
 	line = readline(prompt);
 	if (ms_reader_send_line(fd, line))
 	{

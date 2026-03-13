@@ -6,11 +6,36 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 20:01:59 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/10 20:02:02 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 16:46:28 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	ms_reader_prune_child(t_info *i)
+{
+	t_hist	*cur;
+	t_hist	*next;
+
+	free_ast(i->ast);
+	i->ast = NULL;
+	free_arr(i->my_env);
+	i->my_env = NULL;
+	ft_sfree((void **)&i->line);
+	free_token_lst(&i->lexed);
+	ft_sfree((void **)&i->input_buf);
+	ft_sfree((void **)&i->hd_delim);
+	ms_var_clear(&i->vars);
+	cur = i->hist;
+	while (cur)
+	{
+		next = cur->next;
+		ft_sfree((void **)&cur->line);
+		ft_sfree((void **)&cur);
+		cur = next;
+	}
+	i->hist = NULL;
+}
 
 static int	ms_reader_open(int pfd[2])
 {
@@ -27,6 +52,7 @@ static pid_t	ms_reader_spawn(t_info *i, const char *prompt, int pfd[2])
 	if (pid != 0)
 		return (pid);
 	close(pfd[0]);
+	ms_reader_prune_child(i);
 	ms_reader_child_run(i, prompt, pfd[1]);
 	exit(1);
 }
@@ -61,6 +87,7 @@ char	*ms_readline_forked(t_info *i, const char *prompt)
 
 	if (ms_reader_open(pfd))
 		return (i->err = 1, NULL);
+	ms_history_sync_readline(i->hist);
 	pid = ms_reader_spawn(i, prompt, pfd);
 	if (pid < 0)
 	{

@@ -6,13 +6,13 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:26:56 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/08 13:15:39 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 16:51:30 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ms_hd_read_to_fd(t_info *i, t_redir *r, int fd)
+static int	ms_hd_read_to_fd(t_info *i, t_redir *r, int fd, char *delim)
 {
 	char	*line;
 
@@ -22,9 +22,9 @@ static int	ms_hd_read_to_fd(t_info *i, t_redir *r, int fd)
 		if (g_sig == SIGINT)
 			return (ft_sfree((void **)&i->input_buf), free(line), 1);
 		if (!line)
-			return (ms_hd_warn_eof(r), 0);
+			return (ms_hd_warn_eof(r->line_no, delim), 0);
 		i->line_no++;
-		if (ms_hd_is_delim(line, r->file))
+		if (ms_hd_is_delim(line, delim))
 			return (free(line), 0);
 		if (!ms_hd_write_line(i, fd, line, r->hd_expand))
 			return (free(line), i->err = 1, 1);
@@ -36,6 +36,7 @@ static int	ms_hd_one(t_info *i, t_redir *r, int *idx)
 {
 	int		fd;
 	char	*path;
+	char	*delim;
 
 	path = ms_hd_path((*idx)++);
 	if (!path)
@@ -48,14 +49,15 @@ static int	ms_hd_one(t_info *i, t_redir *r, int *idx)
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (ft_sfree((void **)&path), i->err = 1, 1);
 	}
-	if (ms_hd_read_to_fd(i, r, fd))
-		return (ms_hd_fail_one(i, &path, fd));
-	close(fd);
-	ft_sfree((void **)&r->file);
+	delim = r->file;
 	r->file = path;
-	r->type = REDI_IN;
-	r->is_hd_tmp = TRUE;
-	return (0);
+	i->hd_delim = delim;
+	if (ms_hd_read_to_fd(i, r, fd, delim))
+	{
+		i->hd_delim = NULL;
+		return (ms_hd_fail_one(i, r, &delim, fd));
+	}
+	return (ms_hd_finish_ok(i, r, &delim, fd));
 }
 
 static int	ms_hd_prepare_list(t_info *i, t_redir *r, int *idx)

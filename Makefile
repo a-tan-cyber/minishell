@@ -1,7 +1,7 @@
 NAME = minishell
 BONUS_NAME = minishell_bonus
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 CPPFLAGS = -I./src -I./libft/include
 LDFLAGS =
 LDLIBS = -lreadline

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 09:58:07 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/09 12:15:47 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 16:46:10 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@ void	init_ms_var(t_ast **astree, t_info *i)
 	i->lexed = NULL;
 	i->ast = *astree;
 	i->exit_req = FALSE;
+	i->hd_delim = NULL;
 }

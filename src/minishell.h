@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/13 14:59:47 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 16:50:50 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,12 @@ int		ms_heredoc_prepare_ast(t_info *i, t_ast *ast);
 char	*ms_hd_path(int idx);
 t_bool	ms_hd_is_delim(char *line, const char *delim);
 int		ms_hd_write_line(t_info *i, int fd, char *line, t_bool expand);
-int		ms_hd_fail_one(t_info *i, char **path, int fd);
+int		ms_hd_fail_one(t_info *i, t_redir *r, char **delim, int fd);
 
 //ms_hd_cleanup.c
-void	ms_hd_warn_eof(t_redir *r);
+void	ms_hd_warn_eof(int line_no, const char *delim);
 void	ms_heredoc_cleanup_ast(t_ast *ast);
+int		ms_hd_finish_ok(t_info *i, t_redir *r, char **delim, int fd);
 
 //ms_pipe.c
 int		ms_exec_pipe(t_info *i, t_ast *ast);

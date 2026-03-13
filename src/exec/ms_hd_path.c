@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:47:11 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/08 13:14:13 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 16:33:14 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,15 @@ int	ms_hd_write_line(t_info *i, int fd, char *line, t_bool expand)
 	return (1);
 }
 
-int	ms_hd_fail_one(t_info *i, char **path, int fd)
+int	ms_hd_fail_one(t_info *i, t_redir *r, char **delim, int fd)
 {
 	close(fd);
-	unlink(*path);
-	ft_sfree((void **)path);
+	if (r->file)
+		unlink(r->file);
+	ft_sfree((void **)&r->file);
+	r->file = *delim;
 	if (g_sig == SIGINT)
 		return (g_sig = 0, i->err = 130, 1);
+	i->err = 1;
 	return (1);
 }

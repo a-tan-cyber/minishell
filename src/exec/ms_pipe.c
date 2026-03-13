@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:01:34 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/13 15:07:24 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 15:50:39 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,26 @@ static int	ms_wait_exit_status(t_info *i, pid_t pid, t_bool print_msg)
 	return (ms_wait_status(status, i->interactive, print_msg));
 }
 
- static void	ms_exec_cmd_child(t_info *i, t_ast *cmd)
- {
- 	char	*path;
+static void	ms_exec_cmd_child(t_info *i, t_ast *cmd)
+{
+	char	*path;
 	int		code;
- 
- 	set_child_signals();
- 	if (ms_try_assign_exec(i, cmd))
-		ms_exit_child(i, i->err);
-	if (ms_try_assign_builtin(i, cmd))
-		ms_exit_child(i, i->err);
-	if (ms_try_assign_export(i, cmd))
-		ms_exit_child(i, i->err);
-	if (ms_try_builtin(i, cmd))
+
+	set_child_signals();
+	if (ms_try_assign_exec(i, cmd) || ms_try_assign_builtin(i, cmd)
+		|| ms_try_assign_export(i, cmd) || ms_try_builtin(i, cmd))
 		ms_exit_child(i, i->err);
 	if (cmd->rdir && ms_redir_apply(cmd->rdir))
 		ms_exit_child(i, 1);
 	if (ft_strchr(cmd->args[0], '/'))
- 		execve(cmd->args[0], cmd->args, i->my_env);
- 	path = ms_resolve_path(i, cmd->args[0]);
- 	if (!path)
+		execve(cmd->args[0], cmd->args, i->my_env);
+	path = ms_resolve_path(i, cmd->args[0]);
+	if (!path)
 	{
 		ms_cmd_not_found(cmd->args[0]);
 		ms_exit_child(i, 127);
 	}
- 	execve(path, cmd->args, i->my_env);
+	execve(path, cmd->args, i->my_env);
 	code = ms_exec_child_fail(cmd->args[0], path);
 	ft_sfree((void **)&path);
 	ms_exit_child(i, code);

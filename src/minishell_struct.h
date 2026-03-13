@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/10 15:21:09 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/13 16:45:59 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ struct	s_info
 	struct s_token	*lexed;
 	struct s_ast	*ast;
 	t_bool			exit_req;
+	char			*hd_delim;
 };
 
 typedef struct s_info	t_info;
