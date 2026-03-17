@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 20:01:59 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/13 16:46:28 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 21:50:22 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ms_reader_prune_child(t_info *i)
 	ft_sfree((void **)&i->line);
 	free_token_lst(&i->lexed);
 	ft_sfree((void **)&i->input_buf);
-	ft_sfree((void **)&i->hd_delim);
+	i->hd_delim = NULL;
 	ms_var_clear(&i->vars);
 	cur = i->hist;
 	while (cur)

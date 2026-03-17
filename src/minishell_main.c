@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:15:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/13 15:02:26 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:06:51 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ static int	ms_setup(t_ast **ast, t_info *i, char **argv, char **envp)
 	init_ms_var(ast, i);
 	if (ms_var_bootstrap(i, envp) != 0)
 		return (2);
-	if (argv[1]
-		&& (!argv[2] || argv[3] || ft_strcmp(argv[1], "-c")))
-		return (ft_putendl_fd("usage: ./minishell [-c command]",
-				STDERR_FILENO), 2);
 	if (argv[1])
 	{
 		i->from_arg = TRUE;
@@ -53,7 +49,7 @@ static int	ms_should_exit(t_info *i)
 	if (!i->line)
 	{
 		if (i->interactive)
-			write(1, "exit\n", 5);
+			ft_putendl_fd("exit", STDOUT_FILENO);
 		return (1);
 	}
 	return (0);
@@ -96,7 +92,9 @@ int	main(int argc, char **argv, char **envp)
 	t_info	i;
 	int		ret;
 
-	(void)argc;
+	if (argc > 1 && (argc != 3 || ft_strcmp(argv[1], "-c") != 0))
+		return (ft_putendl_fd("usage: ./minishell or ./minishell -c command",
+				STDERR_FILENO), 2);
 	ret = ms_setup(&astree, &i, argv, envp);
 	if (ret != 0)
 		return (free_ms_var(&astree, &i, "all"), ret);

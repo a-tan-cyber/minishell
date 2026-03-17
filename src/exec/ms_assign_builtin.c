@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 17:06:09 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 17:59:54 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:42:56 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ static void	ms_assign_builtin_run(t_info *tmp, t_ast *cmd, int id)
 		tmp->err = ms_builtin_pwd();
 	else
 		tmp->err = ms_builtin_env(tmp);
-	ms_redir_parent_end(save_in, save_out);
+	if (ms_redir_parent_end(save_in, save_out))
+		tmp->err = 1;
 }
 
 int	ms_try_assign_builtin(t_info *i, t_ast *cmd)

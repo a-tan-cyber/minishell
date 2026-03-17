@@ -37,6 +37,7 @@ SRC = \
 	src/exec/ms_exec_cmd.c \
 	src/exec/ms_exec_utils.c \
 	src/exec/ms_export_print.c \
+	src/exec/ms_export_quote.c \
 	src/exec/ms_hd_cleanup.c \
 	src/exec/ms_hd_path.c \
 	src/exec/ms_heredoc.c \
@@ -48,6 +49,8 @@ SRC = \
 	src/lex/lex_expand.c \
 	src/lex/lex_expand_star.c \
 	src/lex/lex_main.c \
+	src/lex/lex_split_utils.c \
+	src/lex/lex_token_utils.c \
 	src/lex/lex_tokenise.c \
 	src/lex/lex_tokenise_oper.c \
 	src/lex/lex_tokenise_oper_rdir.c \

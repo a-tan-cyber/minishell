@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 18:40:38 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/08 11:24:17 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:19:19 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,26 @@ static size_t	tokenise_text(const char *line, t_token **lexed, t_info *info,
 		t_bool hd_delim)
 {
 	size_t	r;
+	char	*raw;
 	char	*text;
 	t_token	*tok;
 
-	r = 0;
-	while (line[r] && !is_operator(line[r]) && !ft_is_white_space(line[r])
-		&& line[r] != '\'' && line[r] != '\"' && !is_bracket(line[r]))
-		r++;
+	r = ms_find_text_end(line);
 	text = ft_strndup(line, r);
 	if (!text)
 		return (0);
-	if (!hd_delim)
-	{
-		if (expand_dollar(&text, info) == 0)
-			return (ft_sfree((void **)&text), 0);
-		ft_str_replace_chr(text, '*', 127);
-	}
-	if (!text[0])
-		return (ft_sfree((void **)&text), r);
-	tok = token_push_back(lexed, TEXT, text);
-	if (!tok)
+	raw = ms_dup_raw(line, r);
+	if (!raw)
 		return (ft_sfree((void **)&text), 0);
+	if (!hd_delim && expand_dollar(&text, info) == 0)
+		return (ft_sfree((void **)&raw), ft_sfree((void **)&text), 0);
+	if (!hd_delim)
+		ft_str_replace_chr(text, '*', 127);
+	if (!text[0])
+		return (ft_sfree((void **)&raw), ft_sfree((void **)&text), r);
+	tok = ms_push_text_token(lexed, text, raw);
+	if (!tok)
+		return (0);
 	tok->hd_delim = hd_delim;
 	return (r);
 }

@@ -3,41 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_string_p.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunguo <yunguo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 07:32:52 by yunguo            #+#    #+#             */
-/*   Updated: 2025/12/09 12:02:38 by yunguo           ###   ########.fr       */
+/*   Updated: 2026/03/18 00:37:43 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "../../include/libft.h"
 
 void	ft_putchar(char c)
 {
-	write(1, &c, 1);
+	ft_write_all(STDOUT_FILENO, &c, 1);
 }
 
 void	ft_putstr(const char *str)
 {
-	while (*str)
-	{
-		write(1, &(*str), 1);
-		str++;
-	}
+	ft_write_all(STDOUT_FILENO, str, ft_strlen(str));
 }
 
 void	ft_puterr(char *str)
 {
-	while (*str)
-	{
-		write(2, &(*str), 1);
-		str++;
-	}
+	ft_write_all(STDERR_FILENO, str, ft_strlen(str));
 }
 
 void	ft_putnstr(char *str, int n)
 {
-	write(1, &(*str), n);
+	ft_write_all(STDOUT_FILENO, str, (size_t)n);
 }
 
 void	ft_putnbr(int nb)
@@ -48,7 +40,7 @@ void	ft_putnbr(int nb)
 	negative = 1;
 	if (nb < 0)
 	{
-		write(1, "-", 1);
+		ft_write_all(STDOUT_FILENO, "-", 1);
 		negative = -1;
 	}
 	if (-10 < nb && nb < 10)
@@ -63,5 +55,5 @@ void	ft_putnbr(int nb)
 		digit = digit + '0';
 		ft_putnbr((int)(negative * (nb / 10)));
 	}
-	write(1, &digit, 1);
+	ft_write_all(STDOUT_FILENO, &digit, 1);
 }

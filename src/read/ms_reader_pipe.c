@@ -6,33 +6,11 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 20:02:25 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/13 16:11:49 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:01:06 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static int	ms_reader_write_all(int fd, const void *buf, size_t len)
-{
-	size_t			off;
-	ssize_t			wr;
-	const char		*ptr;
-
-	off = 0;
-	ptr = (const char *)buf;
-	while (off < len)
-	{
-		wr = write(fd, ptr + off, len - off);
-		if (wr < 0)
-		{
-			if (errno == EINTR)
-				continue ;
-			return (1);
-		}
-		off += (size_t)wr;
-	}
-	return (0);
-}
 
 static int	ms_reader_read_all(int fd, void *buf, size_t len)
 {
@@ -64,11 +42,11 @@ static int	ms_reader_send_line(int fd, char *line)
 		len = -1;
 	else
 		len = (int)ft_strlen(line);
-	if (ms_reader_write_all(fd, &len, sizeof(len)))
+	if (ft_write_all(fd, &len, sizeof(len)))
 		return (1);
 	if (len <= 0)
 		return (0);
-	return (ms_reader_write_all(fd, line, (size_t)len));
+	return (ft_write_all(fd, line, (size_t)len));
 }
 
 int	ms_reader_recv_line(int fd, char **line)

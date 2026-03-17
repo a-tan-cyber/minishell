@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 05:56:54 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/10 19:58:52 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/18 00:36:12 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,19 @@ volatile sig_atomic_t	g_sig;
 
 static void	handle_sigint(int sig)
 {
+	int		saved_errno;
+	ssize_t	wr;
+
 	(void)sig;
+	saved_errno = errno;
 	g_sig = SIGINT;
-	write(STDOUT_FILENO, "\n", 1);
+	while (1)
+	{
+		wr = write(STDOUT_FILENO, "\n", 1);
+		if (wr >= 0 || errno != EINTR)
+			break ;
+	}
+	errno = saved_errno;
 }
 
 static int	ms_sigaction(int sig, void (*handler)(int))

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 10:32:12 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/10 15:26:35 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:52:06 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,14 @@ static int	ms_redir_err(const char *file)
 static int	ms_redir_dup(t_redir *r)
 {
 	int	fd;
-	int	target;
+	int	ret;
 
 	if (!r || !r->file)
 		return (1);
 	if (r->ambig)
-		return (ms_ambiguous_redirect(r->file));
-	target = STDOUT_FILENO;
+		return (ms_ambiguous_redirect(r->word));
 	if (r->type == REDI_IN)
-	{
 		fd = open(r->file, O_RDONLY);
-		target = STDIN_FILENO;
-	}
 	else if (r->type == REDI_OT)
 		fd = open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (r->type == APPEND)
@@ -45,9 +41,13 @@ static int	ms_redir_dup(t_redir *r)
 				STDERR_FILENO), 1);
 	if (fd < 0)
 		return (ms_redir_err(r->file));
-	if (dup2(fd, target) < 0)
-		return (close(fd), ms_redir_err(r->file));
-	return (close(fd), 0);
+	if (r->type == REDI_IN)
+		ret = dup2(fd, STDIN_FILENO);
+	else
+		ret = dup2(fd, STDOUT_FILENO);
+	if (close(fd) < 0 || ret < 0)
+		return (ms_redir_err(r->file));
+	return (0);
 }
 
 int	ms_redir_apply(t_redir *rdir)
@@ -61,18 +61,25 @@ int	ms_redir_apply(t_redir *rdir)
 	return (0);
 }
 
-void	ms_redir_parent_end(int save_in, int save_out)
+int	ms_redir_parent_end(int save_in, int save_out)
 {
+	int	err;
+	int	ret;
+
+	err = 0;
 	if (save_in >= 0)
 	{
-		dup2(save_in, STDIN_FILENO);
-		close(save_in);
+		ret = dup2(save_in, STDIN_FILENO);
+		if (close(save_in) < 0 || ret < 0)
+			err = 1;
 	}
 	if (save_out >= 0)
 	{
-		dup2(save_out, STDOUT_FILENO);
-		close(save_out);
+		ret = dup2(save_out, STDOUT_FILENO);
+		if (close(save_out) < 0 || ret < 0)
+			err = 1;
 	}
+	return (err);
 }
 
 int	ms_redir_parent_begin(t_redir *rdir, int *save_in, int *save_out)

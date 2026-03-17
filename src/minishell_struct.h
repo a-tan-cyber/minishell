@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/13 16:45:59 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 22:44:03 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ struct	s_redir
 {
 	enum e_oper		type;
 	char			*file;
+	char			*word;
 	int				line_no;
 	t_bool			is_hd_tmp;
 	t_bool			hd_expand;
@@ -116,6 +117,7 @@ struct	s_token
 {
 	enum e_oper		type;
 	char			*text;
+	char			*raw;
 	t_bool			quoted;
 	t_bool			hd_delim;
 	int				line_no;

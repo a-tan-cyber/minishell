@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 23:39:35 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/13 14:57:29 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:42:17 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	ms_exec_redir_only(t_ast *ast)
 		return (0);
 	if (ms_redir_parent_begin(ast->rdir, &save_in, &save_out))
 		return (1);
-	ms_redir_parent_end(save_in, save_out);
+	if (ms_redir_parent_end(save_in, save_out))
+		return (1);
 	return (0);
 }

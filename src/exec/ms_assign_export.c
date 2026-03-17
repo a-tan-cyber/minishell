@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 17:59:11 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 18:50:48 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:41:51 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ static void	ms_assign_export_run(t_info *i, t_ast *cmd, int n)
 		return ;
 	}
 	i->err = ms_builtin_export(i, fake.args);
-	ms_redir_parent_end(save_in, save_out);
+	if (ms_redir_parent_end(save_in, save_out))
+		i->err = 1;
 }
 
 int	ms_try_assign_export(t_info *i, t_ast *cmd)

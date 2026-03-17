@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:01:34 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/13 15:50:39 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:43:23 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,21 @@ static void	ms_exec_cmd_child(t_info *i, t_ast *cmd)
 static pid_t	ms_pipe_fork_side(t_info *i, t_ast *sub, int fd[2], int is_left)
 {
 	pid_t	pid;
+	int		c0;
+	int		c1;
 
 	pid = fork();
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
 	{
-		if (is_left)
-			dup2(fd[1], STDOUT_FILENO);
-		else
-			dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		close(fd[1]);
+		if ((is_left && dup2(fd[1], STDOUT_FILENO) < 0)
+			|| (!is_left && dup2(fd[0], STDIN_FILENO) < 0))
+			ms_exit_child(i, 1);
+		c0 = close(fd[0]);
+		c1 = close(fd[1]);
+		if (c0 < 0 || c1 < 0)
+			ms_exit_child(i, 1);
 		if (sub && sub->type == AST_CMD && sub->args && sub->args[0])
 			ms_exec_cmd_child(i, sub);
 		set_child_signals();

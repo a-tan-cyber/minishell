@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 01:24:04 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 23:14:13 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:06:16 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	ms_exit_print(t_info *i)
 {
 	if (i && i->interactive)
-		write(STDOUT_FILENO, "exit\n", 5);
+		ft_putendl_fd("exit", STDOUT_FILENO);
 }
 
 static int	ms_exit_init(t_exitnum *n, const char *s)

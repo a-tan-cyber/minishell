@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:43:24 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/13 16:52:03 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:43:46 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	ms_heredoc_cleanup_ast(t_ast *ast)
 
 int	ms_hd_finish_ok(t_info *i, t_redir *r, char **delim, int fd)
 {
-	close(fd);
+	if (close(fd) < 0)
+		return (ms_hd_fail_one(i, r, delim, -1));
 	ft_sfree((void **)delim);
 	i->hd_delim = NULL;
 	r->type = REDI_IN;

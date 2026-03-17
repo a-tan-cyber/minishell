@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:09:11 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/10 15:29:00 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 22:47:53 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ t_redir	*crea_rdir_node(t_token *oper, t_token *file)
 	new->file = ft_strdup(file->text);
 	if (!new->file)
 		return (ft_sfree((void **)&new), NULL);
+	if (file->raw)
+		new->word = ft_strdup(file->raw);
+	else
+		new->word = ft_strdup(file->text);
+	if (!new->word)
+		return (ft_sfree((void **)&new->file), ft_sfree((void **)&new), NULL);
 	return (new);
 }
 

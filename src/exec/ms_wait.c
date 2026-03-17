@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 10:09:23 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/07 10:32:46 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:09:59 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ int	ms_wait_status(int status, t_bool interactive, t_bool print_msg)
 	if (print_msg && interactive && WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGINT)
-			write(STDOUT_FILENO, "\n", 1);
+			ft_putchar_fd('\n', STDOUT_FILENO);
 		else if (WTERMSIG(status) == SIGQUIT && WCOREDUMP(status))
-			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+			ft_putendl_fd("Quit (core dumped)", STDERR_FILENO);
 		else if (WTERMSIG(status) == SIGQUIT)
-			write(STDERR_FILENO, "Quit\n", 5);
+			ft_putendl_fd("Quit", STDERR_FILENO);
 	}
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));

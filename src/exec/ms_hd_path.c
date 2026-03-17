@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:47:11 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/13 16:33:14 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:44:07 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,13 @@ int	ms_hd_write_line(t_info *i, int fd, char *line, t_bool expand)
 		if (!out || !expand_dollar(&out, i))
 			return (0);
 	}
-	write(fd, out, ft_strlen(out));
-	if (i && i->interactive)
-		write(fd, "\n", 1);
+	if (ft_write_all(fd, out, ft_strlen(out))
+		|| (i && i->interactive && ft_write_all(fd, "\n", 1)))
+	{
+		if (expand)
+			free(out);
+		return (0);
+	}
 	if (expand)
 		free(out);
 	return (1);
@@ -60,7 +64,8 @@ int	ms_hd_write_line(t_info *i, int fd, char *line, t_bool expand)
 
 int	ms_hd_fail_one(t_info *i, t_redir *r, char **delim, int fd)
 {
-	close(fd);
+	if (fd >= 0 && close(fd) < 0 && g_sig != SIGINT)
+		i->err = 1;
 	if (r->file)
 		unlink(r->file);
 	ft_sfree((void **)&r->file);

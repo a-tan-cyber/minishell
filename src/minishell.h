@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/13 16:50:50 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/18 00:26:04 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <stdio.h>
 # include <string.h>
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -43,7 +44,7 @@ extern volatile sig_atomic_t	g_sig;
 //ms_exec.c
 void	ms_exec_ast(t_info *i, t_ast *ast);
 int		ms_exec_cmd_path(t_info *i, t_ast *cmd, const char *name,
-			const char *path);
+				char *path);
 
 //ms_exec_cmd.c
 void	ms_exec_cmd(t_info *i, t_ast *ast);
@@ -95,7 +96,7 @@ int		ms_exec_brkt(t_info *i, t_ast *ast);
 //ms_redir.c
 int		ms_redir_apply(t_redir *rdir);
 int		ms_redir_parent_begin(t_redir *rdir, int *save_in, int *save_out);
-void	ms_redir_parent_end(int save_in, int save_out);
+int		ms_redir_parent_end(int save_in, int save_out);
 
 //ms_heredoc.c
 int		ms_heredoc_prepare_ast(t_info *i, t_ast *ast);
@@ -116,6 +117,9 @@ int		ms_exec_pipe(t_info *i, t_ast *ast);
 
 //ms_export_print.c
 void	ms_export_print_all(t_var *vars);
+
+//ms_export_quote.c
+char	*ms_export_quote_value(const char *value);
 
 //ms_wait.c
 int		set_wait_signals(void);
@@ -172,6 +176,15 @@ int		expand_dollar(char **text, t_info *info);
 
 //lex_expand_star.c
 int		expand_star(const char *line, t_token **lexed);
+
+//lex_split_utils.c
+int		split_unquoted_tokens(t_token **lexed);
+
+//lex_token_utils.c
+size_t	ms_find_text_end(const char *line);
+size_t	ms_find_quote_end(const char *line, char quote);
+char	*ms_dup_raw(const char *line, size_t len);
+t_token	*ms_push_text_token(t_token **lexed, char *text, char *raw);
 
 //lex_wc_match.c
 t_bool	cmp_wc(const char *wc, const char *thing, int c);

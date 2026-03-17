@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:55:01 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 15:14:52 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:57:18 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static char	*ms_export_line(t_var *var)
 {
 	char	*tmp;
+	char	*suffix;
 	char	*line;
 
 	tmp = ft_strjoin2("declare -x ", var->name);
@@ -22,16 +23,12 @@ static char	*ms_export_line(t_var *var)
 		return (NULL);
 	if (!var->value)
 		return (tmp);
-	line = ft_strjoin2(tmp, "=\"");
+	suffix = ms_export_quote_value(var->value);
+	if (!suffix)
+		return (ft_sfree((void **)&tmp), NULL);
+	line = ft_strjoin2(tmp, suffix);
 	ft_sfree((void **)&tmp);
-	if (!line)
-		return (NULL);
-	tmp = ft_strjoin2(line, var->value);
-	ft_sfree((void **)&line);
-	if (!tmp)
-		return (NULL);
-	line = ft_strjoin2(tmp, "\"");
-	ft_sfree((void **)&tmp);
+	ft_sfree((void **)&suffix);
 	return (line);
 }
 

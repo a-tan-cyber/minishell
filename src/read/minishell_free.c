@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 09:57:27 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/13 15:01:46 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 22:44:38 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	free_token_one(t_token **lst)
 		node->next->prev = node->prev;
 	*lst = next;
 	ft_sfree((void **)&node->text);
+	ft_sfree((void **)&node->raw);
 	ft_sfree((void **)&node);
 }
 

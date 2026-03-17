@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:11:24 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/07 15:41:37 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 22:46:07 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ static int	expand_tokens(t_token **lexed)
 	return (0);
 }
 
-// *; success returns 0, failure returns -1;
-int	merge_and_expand_tokens(t_token **lexed)
+static int	merge_adjacent_text_tokens(t_token **lexed)
 {
 	t_token	*cur;
+	char	*new_raw;
 	char	*new_text;
-	int		err;
 
 	cur = *lexed;
 	while (cur)
@@ -48,6 +47,10 @@ int	merge_and_expand_tokens(t_token **lexed)
 			if (!new_text)
 				return (free_token_lst(lexed), 1);
 			cur->text = new_text;
+			new_raw = ft_str_append(cur->raw, cur->next->raw);
+			if (!new_raw)
+				return (free_token_lst(lexed), 1);
+			cur->raw = new_raw;
 			cur->quoted = (cur->quoted || cur->next->quoted);
 			cur->hd_delim = (cur->hd_delim || cur->next->hd_delim);
 			free_token_one(&cur->next);
@@ -55,6 +58,14 @@ int	merge_and_expand_tokens(t_token **lexed)
 		else
 			cur = cur->next;
 	}
-	err = expand_tokens(lexed);
-	return (err);
+	return (0);
+}
+
+int	merge_and_expand_tokens(t_token **lexed)
+{
+	if (merge_adjacent_text_tokens(lexed))
+		return (1);
+	if (split_unquoted_tokens(lexed))
+		return (free_token_lst(lexed), 1);
+	return (expand_tokens(lexed));
 }

@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 18:32:35 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/06 19:17:56 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 22:48:08 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	free_rdir(t_redir **rdir)
 	{
 		next = curr->next;
 		ft_sfree((void **)&curr->file);
+		ft_sfree((void **)&curr->word);
 		ft_sfree((void **)&curr);
 		curr = next;
 	}

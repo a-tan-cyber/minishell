@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:13:25 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/04 15:51:04 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 22:47:29 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,27 @@ static char	**wc_collect(const char *line, DIR *dir, size_t *n)
 	return (m);
 }
 
-static int	wc_insert_tokens(char **m, size_t n, t_token **lexed)
+static int	wc_insert_tokens(char **m, size_t n, t_token **lexed, char *raw)
 {
 	size_t	i;
+	t_token	*tok;
 
 	i = 0;
 	while (i < n)
 	{
-		if (!ins_token_front(lexed, TEXT, m[i]))
+		tok = ins_token_front(lexed, TEXT, m[i]);
+		if (!tok)
 			return (free(m[i]), 1);
+		if (raw)
+		{
+			tok->raw = ft_strdup(raw);
+			if (!tok->raw)
+			{
+				m[i] = NULL;
+				free_token_one(&tok);
+				return (1);
+			}
+		}
 		m[i++] = NULL;
 	}
 	return (0);
@@ -105,7 +117,7 @@ int	expand_star(const char *line, t_token **lexed)
 	if (n == 0)
 		return (ft_str_replace_chr((*lexed)->text, 127, '*'),
 			wc_free(m, n), closedir(dir), 0);
-	if (wc_insert_tokens(m, n, lexed))
+	if (wc_insert_tokens(m, n, lexed, (*lexed)->raw))
 		return (wc_free(m, n), closedir(dir), 2);
 	tmp = *lexed;
 	return (wc_free(m, n), *lexed = (*lexed)->prev,

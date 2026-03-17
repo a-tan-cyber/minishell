@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 00:23:44 by amtan             #+#    #+#             */
-/*   Updated: 2026/03/06 12:55:05 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/17 23:41:08 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	ms_try_builtin(t_info *i, t_ast *cmd)
 	if (ms_redir_parent_begin(cmd->rdir, &save_in, &save_out))
 		return (i->err = 1, 1);
 	ms_run_builtin(i, cmd, id);
-	ms_redir_parent_end(save_in, save_out);
+	if (ms_redir_parent_end(save_in, save_out))
+		i->err = 1;
 	return (1);
 }
