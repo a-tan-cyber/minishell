@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 18:13:25 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/17 22:47:29 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/18 01:24:10 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ static char	**wc_collect(const char *line, DIR *dir, size_t *n)
 	f = readdir(dir);
 	while (f)
 	{
-		if (((f->d_name[0] == '.' && line[0] == '.') || f->d_name[0] != '.')
+		if (((f->d_name[0] == '.' && line[0] == '.'
+					&& ft_strcmp(f->d_name, ".")
+					&& ft_strcmp(f->d_name, "..")) || f->d_name[0] != '.')
 			&& cmp_wc(line, f->d_name, 127)
 			&& wc_add_sorted(&m, n, &cap, f->d_name))
 			return (wc_free(m, *n), NULL);
