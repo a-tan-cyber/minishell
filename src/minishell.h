@@ -6,7 +6,7 @@
 /*   By: amtan <amtan@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 08:20:45 by yunguo            #+#    #+#             */
-/*   Updated: 2026/03/18 00:26:04 by amtan            ###   ########.fr       */
+/*   Updated: 2026/03/18 10:21:57 by amtan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ extern volatile sig_atomic_t	g_sig;
 //ms_exec.c
 void	ms_exec_ast(t_info *i, t_ast *ast);
 int		ms_exec_cmd_path(t_info *i, t_ast *cmd, const char *name,
-				char *path);
+			char *path);
 
 //ms_exec_cmd.c
 void	ms_exec_cmd(t_info *i, t_ast *ast);
