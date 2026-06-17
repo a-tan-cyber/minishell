@@ -2,9 +2,11 @@
 
 *This project has been created as part of the 42 curriculum by yunguo and amtan.*
 
+[*42*](https://www.42network.org) *is a global tuition-free programming school network built around peer learning and project-based education. This project was completed at *[42 Singapore](https://www.42singapore.sg)*, the Singapore campus of the 42 Network.*
+
 ## Description
 
-Minishell is a 42 core curriculum project ([https://www.42network.org](https://www.42network.org)) in which students build a small Unix shell in C. The objective of the project is to reproduce the core behavior of Bash closely enough to understand how a real shell works under the hood: reading user input, tokenizing and parsing commands, expanding variables, handling redirections and pipes, launching processes, and managing signals.
+Minishell is a 42 core curriculum project in which students build a small Unix shell in C. The objective of the project is to reproduce the core behavior of Bash closely enough to understand how a real shell works under the hood: reading user input, tokenizing and parsing commands, expanding variables, handling redirections and pipes, launching processes, and managing signals.
 
 This project is mainly about **processes, file descriptors, parsing, and shell behavior**. Instead of calling `system()` or relying on an existing shell, the program builds its own execution flow using low-level functions such as `fork`, `execve`, `pipe`, `dup2`, `waitpid`, and `signal`.
 
